@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Finanzberater Lernquiz – Vorsorge</title>
+  <title>Finanzberater Lernquiz</title>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -13,7 +13,7 @@
       color: #1e293b;
     }
     .container {
-      max-width: 950px;
+      max-width: 1050px;
       margin: 0 auto;
       padding: 24px;
     }
@@ -50,7 +50,32 @@
       margin-bottom: 18px;
     }
     .hidden { display: none; }
-
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .topic-card {
+      border: 2px solid #dbeafe;
+      border-radius: 18px;
+      padding: 18px;
+      background: #f8fbff;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    .topic-card:hover {
+      transform: translateY(-2px);
+      border-color: #2563eb;
+    }
+    .topic-card h3 {
+      margin: 0 0 8px;
+    }
+    .topic-card p {
+      margin: 0;
+      color: #475569;
+      font-size: 0.95rem;
+    }
     .topbar {
       display: flex;
       justify-content: space-between;
@@ -59,7 +84,6 @@
       flex-wrap: wrap;
       margin-bottom: 18px;
     }
-
     .progress-wrap {
       width: 100%;
       background: #e2e8f0;
@@ -74,13 +98,11 @@
       background: linear-gradient(90deg, #2563eb, #22c55e);
       transition: width 0.3s ease;
     }
-
     .question-title {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       margin-bottom: 10px;
       line-height: 1.5;
     }
-
     .topic-label {
       display: inline-block;
       margin-bottom: 14px;
@@ -91,13 +113,11 @@
       border-radius: 999px;
       font-weight: bold;
     }
-
     .answers {
       display: grid;
       gap: 12px;
       margin-top: 16px;
     }
-
     .answer-btn {
       width: 100%;
       text-align: left;
@@ -129,7 +149,6 @@
       border-color: #1d4ed8;
       background: #dbeafe;
     }
-
     .feedback {
       margin-top: 18px;
       padding: 14px;
@@ -144,7 +163,6 @@
       background: #fee2e2;
       color: #991b1b;
     }
-
     .explanation {
       margin-top: 12px;
       padding: 14px;
@@ -153,14 +171,12 @@
       border-radius: 10px;
       line-height: 1.5;
     }
-
     .actions {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
       margin-top: 18px;
     }
-
     button.main-btn, button.secondary-btn {
       border: none;
       cursor: pointer;
@@ -177,32 +193,27 @@
       background: #e2e8f0;
       color: #0f172a;
     }
-
     .summary-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
       gap: 14px;
       margin-top: 16px;
     }
-
     .stat-box {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 16px;
       padding: 18px;
     }
-
     .stat-box h3 {
       margin-top: 0;
       margin-bottom: 8px;
     }
-
     .result-big {
       font-size: 2rem;
       font-weight: bold;
       margin: 8px 0;
     }
-
     .review-item {
       border: 1px solid #e2e8f0;
       border-radius: 14px;
@@ -210,17 +221,10 @@
       margin-top: 12px;
       background: #fff;
     }
-
-    .review-item strong {
-      display: block;
-      margin-bottom: 6px;
-    }
-
     .small {
       color: #475569;
       font-size: 0.95rem;
     }
-
     .footer-note {
       margin-top: 14px;
       color: #475569;
@@ -232,20 +236,48 @@
   <div class="container">
     <section class="hero">
       <h1>⚔️ Finanzberater Lernquiz</h1>
-      <p>Ritter-Modul: <strong>Vorsorge</strong></p>
-      <p>Fragen und Antworten werden automatisch gemischt. Direktes Feedback. Am Ende gibt es eine Auswertung.</p>
+      <p>Gemischte Fragen, direktes Feedback, Auswertung am Schluss.</p>
       <span class="badge">🔀 Gemischte Reihenfolge</span>
       <span class="badge">✅ Sofortige Korrektur</span>
-      <span class="badge">📊 Zusammenfassung</span>
+      <span class="badge">📊 Themen-Auswertung</span>
     </section>
 
     <section id="startScreen" class="card">
-      <h2>Start</h2>
-      <p>Dies ist deine erste Lernversion für das Thema <strong>Vorsorge</strong>. Klick auf Start und leg los.</p>
-      <div class="actions">
-        <button class="main-btn" onclick="startQuiz()">Quiz starten</button>
+      <h2>Wähle deinen Ritter</h2>
+      <p>Trainiere ein einzelnes Thema oder später den Mix-Modus über alle Module.</p>
+
+      <div class="topic-grid">
+        <div class="topic-card" onclick="startQuiz('Vorsorge')">
+          <h3>🏰 Vorsorge</h3>
+          <p>Bereits eingebaut</p>
+        </div>
+        <div class="topic-card" onclick="startQuiz('Versicherung')">
+          <h3>🛡️ Versicherung</h3>
+          <p>Erster Block eingebaut</p>
+        </div>
+        <div class="topic-card" onclick="showComingSoon('Vermögen')">
+          <h3>💰 Vermögen</h3>
+          <p>Kommt als Nächstes</p>
+        </div>
+        <div class="topic-card" onclick="showComingSoon('Immobilien')">
+          <h3>🏠 Immobilien</h3>
+          <p>Kommt als Nächstes</p>
+        </div>
+        <div class="topic-card" onclick="showComingSoon('Steuern')">
+          <h3>📊 Steuern</h3>
+          <p>Kommt als Nächstes</p>
+        </div>
+        <div class="topic-card" onclick="showComingSoon('Recht')">
+          <h3>⚖️ Recht</h3>
+          <p>Kommt als Nächstes</p>
+        </div>
       </div>
-      <p class="footer-note">Später kann ich dir weitere Ritter hinzufügen: Vermögen, Immobilien, Steuern, Recht usw.</p>
+
+      <div class="actions">
+        <button class="secondary-btn" onclick="startQuiz('Mix')">🔀 Mix-Modus</button>
+      </div>
+
+      <p class="footer-note">Hinweis: Versicherung enthält jetzt einen ersten sauberen Fragenblock. Die Matrixfragen ergänzen wir im nächsten Schritt.</p>
     </section>
 
     <section id="quizScreen" class="card hidden">
@@ -254,7 +286,7 @@
           <div><strong>Frage <span id="currentQuestionNr">1</span> von <span id="totalQuestions">0</span></strong></div>
           <div class="small">Punkte: <span id="scoreNow">0</span></div>
         </div>
-        <div class="topic-label">🏰 Ritter: <span id="topicName">Vorsorge</span></div>
+        <div class="topic-label"><span id="topicName">Thema</span></div>
       </div>
 
       <div class="progress-wrap">
@@ -267,6 +299,7 @@
 
       <div class="actions">
         <button id="nextBtn" class="main-btn hidden" onclick="nextQuestion()">Nächste Frage</button>
+        <button class="secondary-btn" onclick="goHome()">Zurück</button>
       </div>
     </section>
 
@@ -279,8 +312,8 @@
           <div id="finalScoreText"></div>
         </div>
         <div class="stat-box">
-          <h3>Thema</h3>
-          <div class="result-big">🏰</div>
+          <h3>Modus</h3>
+          <div class="result-big">⚔️</div>
           <div id="topicSummary"></div>
         </div>
         <div class="stat-box">
@@ -296,12 +329,14 @@
 
       <div class="actions">
         <button class="main-btn" onclick="restartQuiz()">Neu gemischt starten</button>
+        <button class="secondary-btn" onclick="goHome()">Zurück zur Auswahl</button>
       </div>
     </section>
   </div>
 
   <script>
     const questions = [
+      // VORSORGE
       {
         topic: "Vorsorge",
         type: "single",
@@ -318,20 +353,6 @@
       {
         topic: "Vorsorge",
         type: "single",
-        question: "Ehepaar CH: Mann, 52-jährig, Einkommen CHF 93'000. Nach Invalidität Teileinkommen CHF 22'000. Auf welche IV-Rente hat der Ehemann Anspruch?",
-        answers: [
-          "Keine Rente",
-          "Ganze Rente",
-          "24% einer ganzen Rente",
-          "75% einer ganzen Rente",
-          "76% einer ganzen Rente"
-        ],
-        correct: [1],
-        explanation: "22'000 sind rund 23.6% von 93'000. Erwerbseinbusse rund 76.4% → ganze Rente."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
         question: "Klaus arbeitet 9 Stunden pro Woche. Auf dem direkten Nachhauseweg verunfallt er. Wie ist der Unfall versichert?",
         answers: [
           "Als Nichtberufsunfall, da ab 8 Stunden pro Woche der Arbeitsweg als NBU gilt.",
@@ -344,17 +365,6 @@
       {
         topic: "Vorsorge",
         type: "single",
-        question: "Rentner Fritz ist 66 und verdient gelegentlich CHF 1'100 netto pro Monat. Ist dieses Einkommen AHV-pflichtig?",
-        answers: [
-          "Nein",
-          "Ja"
-        ],
-        correct: [0],
-        explanation: "Der Freibetrag im Rentenalter ist nicht überschritten."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
         question: "Wie wird eine IV-Rente aus der 1. Säule besteuert?",
         answers: [
           "Zu 100% getrennt vom übrigen Einkommen",
@@ -363,19 +373,6 @@
         ],
         correct: [2],
         explanation: "IV-Renten der 1. Säule werden zu 100% zusammen mit dem übrigen Einkommen besteuert."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Ein 48-jähriger Mann mit einem 15-jährigen Sohn verliert seine Ehegattin. Welche Leistung erhält er aus der 1. Säule?",
-        answers: [
-          "Witwerrente bis Sohn 18-jährig ist oder maximal bis 25-jährig, sofern er noch in Ausbildung ist",
-          "Er erhält keine Leistungen",
-          "Witwerrente bis Sohn 18-jährig ist",
-          "Witwerrente unbefristet"
-        ],
-        correct: [3],
-        explanation: "Gemäss deinem Lernmaterial gilt hier die aktuelle Übergangslösung."
       },
       {
         topic: "Vorsorge",
@@ -416,17 +413,6 @@
       {
         topic: "Vorsorge",
         type: "single",
-        question: "Eine Hilfskraft verdient mehr als CHF 24'000 pro Jahr. Ist sie neben AHV/IV und UVG auch BVG-pflichtig?",
-        answers: [
-          "Ja",
-          "Nein"
-        ],
-        correct: [0],
-        explanation: "Bei Einkommen über der Eintrittsschwelle besteht BVG-Pflicht."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
         question: "Wie hoch ist das versicherte UVG-Taggeld bei Jahreslohn über dem UVG-Maximum?",
         answers: [
           "CHF 324.80",
@@ -435,80 +421,6 @@
         ],
         correct: [0],
         explanation: "UVG-Maximallohn CHF 148'200 × 80% / 365 = CHF 324.80."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Wie wird eine IV-Rente aus der Pensionskasse berechnet?",
-        answers: [
-          "Angespartes Kapital inkl. Zins + künftige Altersgutschriften inkl. Zins verrentet mit dem Umwandlungssatz.",
-          "Angespartes Kapital inkl. Zins + künftige Altersgutschriften ohne Zins verrentet mit dem Umwandlungssatz.",
-          "Zukünftiges Kapital inkl. Zins + vorhandene Altersgutschriften ohne Zins verrentet mit dem Umwandlungssatz."
-        ],
-        correct: [1],
-        explanation: "Wichtig: zukünftige Altersgutschriften ohne zukünftigen Zins."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Sabine wird dieses Jahr 22 und verdient mit einem Nebenjob CHF 3'200 pro Jahr. Ist sie AHV-pflichtig?",
-        answers: [
-          "Ja",
-          "Nein"
-        ],
-        correct: [0],
-        explanation: "Als Nichterwerbstätige ab dem 1.1. nach vollendetem 20. Altersjahr AHV-pflichtig."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Herr Meister hat CHF 55'640 Jahreseinkommen und erhält aus der IV CHF 1'500 pro Monat. Wie hoch ist die UVG-IV-Rente?",
-        answers: [
-          "CHF 2'673",
-          "CHF 4'636",
-          "CHF 2'509",
-          "CHF 3'136"
-        ],
-        correct: [0],
-        explanation: "55'640 × 90% / 12 – 1'500 = CHF 2'673."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Neue Sekretärin sollte per 01.01. starten, verletzt sich aber am 01.01. beim Skifahren. Ist sie über den neuen Arbeitgeber UVG-versichert?",
-        answers: [
-          "Ja, aber es erfolgt erst ab dem 3. Tag ein Unfalltaggeld.",
-          "Ja, ab 1. Januar gemäss Arbeitsvertrag.",
-          "Nein, die Versicherung beginnt erst, wenn sie effektiv arbeitet."
-        ],
-        correct: [0],
-        explanation: "Gemäss UVG-Revision 2017 besteht Deckung bereits ab dem vereinbarten Arbeitsbeginn."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Helga, 32-jährig, verliert ihren Ehemann nach 2 Ehejahren durch einen Unfall. Erhält sie eine Witwenrente?",
-        answers: [
-          "Ja, eine lebenslange Witwenrente gemäss UVG.",
-          "Nein, sie ist noch nicht 45 Jahre alt, erhält aber eine Witwenabfindung.",
-          "Nein, sie ist noch nicht 5 Jahre verheiratet gewesen.",
-          "Ja"
-        ],
-        correct: [1],
-        explanation: "Im UVG gilt Alter 45. Zusätzlich kennt das UVG eine Kapitalabfindung pro Ehejahr."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Herr Meier hat eine gemischte Lebensversicherung in der Säule 3b mit Begünstigung zugunsten seiner Konkubinatspartnerin. Welche Steuer fällt in den meisten Kantonen an?",
-        answers: [
-          "Einkommenssteuer",
-          "Schenkungssteuer",
-          "Vermögenssteuer",
-          "Erbschaftssteuer"
-        ],
-        correct: [3],
-        explanation: "Kapitalbildende Lebensversicherung 3b → in vielen Kantonen Erbschaftssteuer je nach Verwandtschaftsgrad."
       },
       {
         topic: "Vorsorge",
@@ -541,170 +453,6 @@
       {
         topic: "Vorsorge",
         type: "single",
-        question: "Welche Berechnungsgrundlage für eine Invalidenrente gemäss BVG ist korrekt?",
-        answers: [
-          "Die IV-Rente ist analog der ersten Säule vom durchschnittlich massgebenden Einkommen abhängig.",
-          "Das Altersguthaben mit Zins wird mittels Umwandlungssatz verrentet und bildet die IV-Rente.",
-          "Die IV-Rente beträgt 40% von der Altersrente.",
-          "Sie beträgt 60% des aktuellen Freizügigkeitsguthabens.",
-          "Das vorhandene Altersguthaben und zukünftige Beiträge ohne Zins werden mittels aktuellem Umwandlungssatz verrentet."
-        ],
-        correct: [4],
-        explanation: "Entscheidend: vorhandenes Altersguthaben plus zukünftige Beiträge ohne künftigen Zins."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Welche Lücke gehört in den Satz zur fondsgebundenen Lebensversicherung mit Strategie 'balanced'?",
-        answers: [
-          "Sparteil",
-          "Risikoteil",
-          "gezillmertes Deckungskapital",
-          "Rückkaufswert",
-          "Überschussanteil"
-        ],
-        correct: [1],
-        explanation: "Die Jahresprämie besteht u.a. aus dem Risikoteil."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Ein Gipsermeister erkrankt an einem beruflich bedingten Hautekzem. Welche Sozialversicherung hilft ihm finanziell?",
-        answers: [
-          "Keine Leistungen",
-          "Leistungen aus der Krankenkasse gemäss KVG",
-          "Taggelder aus der Unfallversicherung",
-          "Taggelder aus der Kollektiv-Krankenversicherung",
-          "Taggelder von der Arbeitslosenkasse"
-        ],
-        correct: [2],
-        explanation: "Eine Berufskrankheit fällt unter das UVG."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Welche Aussage zu eingetragener Partnerschaft oder Konkubinat stimmt?",
-        answers: [
-          "Eingetragene Partnerschaft: Der überlebende Partner hat Anspruch auf eine Witwenrente aus der ersten Säule.",
-          "Konkubinat: Der überlebende Partner hat Anspruch auf eine Rente aus der ersten Säule, wenn ein Konkubinatsvertrag besteht.",
-          "Konkubinat: Falls die Partnerschaft länger als 5 Jahre besteht, hat ein überlebender Konkubinatspartner Anspruch auf eine Rente aus der zweiten Säule, sofern das PK-Reglement dies vorsieht.",
-          "Eingetragene Partnerschaft: Der überlebende Partner hat Anspruch auf keine Rente aus der ersten oder zweiten Säule.",
-          "Konkubinat: Falls die Partnerschaft länger als 5 Jahre besteht, hat ein überlebender Konkubinatspartner immer Anspruch auf eine Rente aus der zweiten Säule."
-        ],
-        correct: [2],
-        explanation: "In der 2. Säule kann ein Anspruch möglich sein, wenn das Reglement dies vorsieht."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "PK sieht keinen Kapitalbezug vor. Leistungsausweis: BVG-Guthaben CHF 136'000. Welcher Teilbezug ist gemäss BVG-Revision trotzdem möglich?",
-        answers: [
-          "CHF 136'000",
-          "CHF 278'700",
-          "CHF 34'000",
-          "Kein Kapitalbezug",
-          "CHF 115'430"
-        ],
-        correct: [2],
-        explanation: "25% des BVG-Teils von CHF 136'000 = CHF 34'000."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Ihr Kunde verlässt die Schweiz definitiv und zieht nach Deutschland. Welche Aussage zur 2. Säule stimmt?",
-        answers: [
-          "Bei definitivem Verlassen der Schweiz in ein EU-Land bestehen keine Einschränkungen bei der 2. Säule.",
-          "Säule 3a und FZG-Gelder können bei Wegzug in die EU nicht mitgenommen werden.",
-          "Säule 3a und BVG-Gelder dürfen bei Wegzug in ein EU-Land problemlos vollständig mitgenommen werden.",
-          "Bei Wegzug in ein EU-Land kann das BVG-Obligatorium nicht bezogen werden; nur der überobligatorische Teil kann bezogen werden."
-        ],
-        correct: [3],
-        explanation: "Das BVG-Obligatorium bleibt in der Schweiz, der überobligatorische Teil ist beziehbar."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Wie hoch ist die steuerlich maximal abzugsfähige 3a-Limite für Personen mit BVG bzw. ohne BVG?",
-        answers: [
-          "8% respektive 20% vom oberen BVG-Grenzbetrag",
-          "8% respektive 40% vom oberen BVG-Grenzbetrag, max. 20% des AHV-pflichtigen Einkommens ohne BVG",
-          "Wird jeweils vom Bundesrat festgelegt",
-          "Entspricht nur der BVV2-Regelung"
-        ],
-        correct: [1],
-        explanation: "Mit BVG: 8% des oberen BVG-Grenzbetrags. Ohne BVG: 40%, maximal 20% des AHV-pflichtigen Einkommens."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Welche Lebensversicherung darf in der Säule 3a nicht verwendet werden?",
-        answers: [
-          "Erlebensfallversicherungen mit EU-Rente und Prämienbefreiung",
-          "Fondsgebundene Lebensversicherungen",
-          "Temporäre Todesfallversicherungen",
-          "Tarife auf 2 Leben, z.B. gemischte Lebensversicherung",
-          "Aufgeschobene Leibrenten per Jahresprämie"
-        ],
-        correct: [3],
-        explanation: "In der Säule 3a müssen VN, VP und PZ identisch sein. Deshalb keine Tarife auf 2 Leben."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Welche Aussage zum Steuerprivileg klassischer Lebensversicherungen mit Einmalprämie ist korrekt?",
-        answers: [
-          "Ablauf nach dem 65. Geburtstag, Abschluss vor dem 66. Geburtstag und minimale Laufzeit 10 Jahre.",
-          "Abschluss vor dem 66. Geburtstag, minimale Laufzeit 5 Jahre, Ablauf nach dem 60. Geburtstag und angemessene Risikosumme.",
-          "Minimale Laufzeit 10 Jahre, Ablauf nach dem 60. Geburtstag und Abschluss vor dem 66. Geburtstag."
-        ],
-        correct: [1],
-        explanation: "Bei klassischer, nicht fondsgebundener Versicherung gilt insbesondere die minimale Laufzeit von 5 Jahren."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Wie wird die Versicherungssumme aus einer degressiven Risikoversicherung Säule 3b besteuert, wenn die Ehefrau begünstigt ist?",
-        answers: [
-          "Vermögenssteuer",
-          "Erbschaftssteuer",
-          "Einkommenssteuer",
-          "Die Ehefrau ist grundsätzlich von sämtlichen Steuern befreit",
-          "Keine Steuer, weil Ehegatten von der Erbschaftssteuer befreit sind"
-        ],
-        correct: [2],
-        explanation: "In den meisten Kantonen wird diese Leistung einkommenssteuerlich behandelt."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Selbständiger mit Nebenerwerb als Angestellter verdient dort CHF 28'000 und unterliegt damit dem BVG-Obligatorium. Wie hoch ist der BVG-versicherte Verdienst?",
-        answers: [
-          "CHF 3'780",
-          "CHF 26'460",
-          "CHF 22'680",
-          "CHF 7'258",
-          "CHF 1'540"
-        ],
-        correct: [0],
-        explanation: "28'000 minus Koordinationsabzug wäre unter Minimum, daher minimal versicherter Lohn CHF 3'780."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Ihr Kunde verdient CHF 99'000 pro Jahr und ist 42-jährig. Wie hoch sind die jährlichen BVG-Altersgutschriften, welche sein Arbeitgeber bezahlt?",
-        answers: [
-          "CHF 3'213",
-          "CHF 6'426",
-          "CHF 4'950",
-          "CHF 9'900",
-          "CHF 7'258"
-        ],
-        correct: [0],
-        explanation: "Maximaler BVG-Lohn CHF 64'260 × 10% = CHF 6'426 total; hälftiger Arbeitgeberanteil = CHF 3'213."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
         question: "Erfolgt bei einem WEF-Vorbezug aus der Säule 3a ein Eintrag ins Grundbuch?",
         answers: [
           "Falsch",
@@ -715,20 +463,339 @@
         correct: [0],
         explanation: "Der Grundbucheintrag betrifft die 2. Säule, nicht die Säule 3a."
       },
+
+      // VERSICHERUNG – erster sicherer Block
       {
-        topic: "Vorsorge",
-        type: "multi",
-        question: "Welche zusätzlichen Rentenleistungen könnten beim Todesfall von Herrn Meier fällig werden, wenn das Ehepaar ein Kind hätte? (Mehrere Antworten möglich)",
+        topic: "Versicherung",
+        type: "single",
+        question: "Welche Rechtsform können in der Schweiz Versicherungsgesellschaften aufweisen?",
         answers: [
-          "Waisenrente aus der Pensionskasse",
-          "Keine weiteren Rentenleistungen",
-          "Nur Kapitalabfindungen",
-          "Waisenrente aus dem UVG",
-          "Waisenrente aus der ersten Säule",
-          "EU-Rente aus der 3. Säule"
+          "Kommanditgesellschaft",
+          "Aktiengesellschaft",
+          "GmbH",
+          "Einzelfirma",
+          "Genossenschaft"
         ],
-        correct: [0, 3, 4],
-        explanation: "Mit Kind kommen Waisenrenten aus AHV, BVG und UVG hinzu."
+        correct: [1,4],
+        explanation: "In der Schweiz treten Versicherer typischerweise als Aktiengesellschaft oder Genossenschaft auf."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Wie heisst der Wert der versicherten Sache zum Zeitpunkt des Vertragsabschlusses?",
+        answers: [
+          "Neuwert",
+          "Versicherungswert",
+          "Zeitwert",
+          "Versicherungssumme",
+          "Ersatzwert"
+        ],
+        correct: [1],
+        explanation: "Der Wert der Sache zum Zeitpunkt des Vertragsabschlusses heisst Versicherungswert."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Wann spricht man von einer Unterversicherung?",
+        answers: [
+          "Der Ersatzwert ist kleiner als die Versicherungssumme.",
+          "Der Ersatzwert ist grösser als die Versicherungssumme."
+        ],
+        correct: [1],
+        explanation: "Unterversicherung liegt vor, wenn der tatsächliche Wert höher ist als die vereinbarte Versicherungssumme."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Nach einem Brand beträgt der Ersatzwert des Hausrats CHF 100'000, versichert sind aber nur CHF 80'000. Wie hoch ist die Entschädigung für einen Schaden von CHF 15'000?",
+        answers: [
+          "CHF 12'000",
+          "CHF 14'000",
+          "CHF 15'000",
+          "CHF 10'000"
+        ],
+        correct: [0],
+        explanation: "20% Unterversicherung bedeutet Kürzung im gleichen Verhältnis: CHF 15'000 × 80% = CHF 12'000."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Wer ist Fahrzeughalter?",
+        answers: [
+          "Immer der Lenker.",
+          "Der Prämienzahler und Besitzer.",
+          "Der im Fahrzeugausweis eingetragen ist.",
+          "Kann frei bestimmt werden und ist kein Begriff des Gesetzes."
+        ],
+        correct: [2],
+        explanation: "Als Halter gilt im Regelfall die im Fahrzeugausweis eingetragene Person."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "In einigen Kantonen ist nur eine bestimmte Hausratdeckung obligatorisch. Welche?",
+        answers: [
+          "Einbruch-Diebstahl und Beraubung",
+          "Wasser",
+          "Feuer und Elementarschaden",
+          "Glas",
+          "Beraubung",
+          "Einfacher Diebstahl"
+        ],
+        correct: [2],
+        explanation: "Obligatorisch ist in gewissen Kantonen nur Feuer und Elementarschaden."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Wird gestohlenes Bargeld von CHF 1'500 ersetzt, wenn maskierte Männer mit vorgehaltener Waffe ein Ehepaar zwingen, den Tresor zu öffnen?",
+        answers: [
+          "Ja",
+          "Nein"
+        ],
+        correct: [0],
+        explanation: "Das ist Beraubung und damit ein versichertes Risiko."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Für welches Fahrzeug besteht kein Haftpflichtobligatorium?",
+        answers: [
+          "Velo ohne Elektroantrieb",
+          "Helikopter REGA",
+          "Lastwagen auf öffentlicher Strasse",
+          "Personenwagen auf öffentlicher Strasse"
+        ],
+        correct: [0],
+        explanation: "Für ein normales Velo ohne Elektroantrieb besteht kein Haftpflichtobligatorium wie beim Motorfahrzeug."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Wie heisst die Form der Haftung, die sich aus eigenem Verschulden ergibt?",
+        answers: [
+          "Verschuldenshaftung",
+          "Milde Kausalhaftung",
+          "Scharfe Kausalhaftung",
+          "Gefährdungshaftung",
+          "Kausalhaftung"
+        ],
+        correct: [0],
+        explanation: "Eigene Schuld führt zur Verschuldenshaftung."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Gehört ein gemietetes Klavier ebenfalls zum versicherten Hausrat?",
+        answers: [
+          "Ja",
+          "Nein"
+        ],
+        correct: [0],
+        explanation: "Gemietete bewegliche Sachen im Haushalt können zum versicherten Hausrat gehören."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Ein Dieb schlägt das Autofenster ein und stiehlt aus dem abgeschlossenen Handschuhfach eine Uhr. Wie wird das in der Hausratversicherung behandelt?",
+        answers: [
+          "Einfacher Diebstahl",
+          "Einbruch-Diebstahl"
+        ],
+        correct: [1],
+        explanation: "Gewaltsames Eindringen in ein abgeschlossenes Behältnis/Fahrzeug → Einbruch-Diebstahl."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Kann ein Mieter im 3. Stock für rauchbeschädigte Vorhänge nach einem Brand im 2. Stock von seiner Hausratversicherung eine Entschädigung erwarten?",
+        answers: [
+          "Ja",
+          "Nein"
+        ],
+        correct: [0],
+        explanation: "Rauchschäden infolge Brand gehören zu Feuer."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Durch auslaufendes Heizöl werden im Keller gelagerte Kleider verschmutzt. Wird dies durch die Hausratversicherung ersetzt?",
+        answers: [
+          "Nein",
+          "Ja"
+        ],
+        correct: [1],
+        explanation: "Solche Folgeschäden sind in der Regel unter Wasserschaden gedeckt."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Wie hoch ist bei der Hausratversicherung die maximale Entschädigung bei einfachem Diebstahl zu Hause?",
+        answers: [
+          "Bis CHF 20'000",
+          "Bis 50% der Versicherungssumme für den gesamten Hausrat",
+          "Bis zur Versicherungssumme für den gesamten Hausrat",
+          "Bis 20% der Versicherungssumme für den gesamten Hausrat"
+        ],
+        correct: [1],
+        explanation: "Einfacher Diebstahl zu Hause ist üblicherweise auf 50% der Versicherungssumme begrenzt."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Handelt es sich bei der Wertsachenversicherung um eine Vollwertversicherung oder um eine Versicherung auf erstes Risiko?",
+        answers: [
+          "Vollwertversicherung",
+          "Versicherung auf Erstes Risiko"
+        ],
+        correct: [1],
+        explanation: "Die Wertsachenversicherung wird typischerweise auf Erstes Risiko abgeschlossen."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Ein Junglenker kommt von der Strasse ab und kollidiert mit einem Baum. Am Auto entsteht Totalschaden. Welche Aussage ist korrekt?",
+        answers: [
+          "Dieser Schaden wird von der Teilkasko übernommen.",
+          "Damit dieser Schaden bezahlt wird, ist der Abschluss einer Vollkasko nötig."
+        ],
+        correct: [1],
+        explanation: "Selbstverursachte Kollisionen am eigenen Auto benötigen Kollision/Vollkasko."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Wird ein Schaden bezahlt, wenn man nur wegen eines Vogels erschrickt und ohne Kollision mit dem Tier in ein Geländer fährt?",
+        answers: [
+          "Ja, da der Unfall mit einem Tier im Zusammenhang steht.",
+          "Nein, da keine direkte Kollision mit dem Tier stattgefunden hat."
+        ],
+        correct: [1],
+        explanation: "Teilkasko deckt in diesem Zusammenhang die direkte Kollision mit Tieren, nicht das blosse Ausweichmanöver."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Wenn Diebe von einem in der Tiefgarage abgestellten Auto alle vier Räder stehlen: Bezahlt die Teilkaskoversicherung?",
+        answers: [
+          "Nein",
+          "Ja"
+        ],
+        correct: [1],
+        explanation: "Diebstahl von Fahrzeugteilen ist in der Teilkasko gedeckt."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Trunkenheit am Steuer, Führerausweis entzogen, trotzdem weitergefahren und Kaskoschaden verursacht. Wie entscheidet der Versicherer?",
+        answers: [
+          "Der Versicherer lehnt den Schaden ab.",
+          "Der Versicherer bezahlt die Garagenrechnung und regressiert auf den Autobesitzer."
+        ],
+        correct: [1],
+        explanation: "Der Versicherer kann leisten und anschliessend Regress nehmen."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Unbekannte zerstachen bei mehreren Autos die Reifen. Wird die Teilkasko diesen Schaden übernehmen?",
+        answers: [
+          "Nein, der Halter benötigt eine Vollkaskoversicherung.",
+          "Nein, der Halter muss sich an den Nationalen Garantiefonds wenden.",
+          "Nein, der Halter muss hoffen, dass der Unbekannte gefasst wird.",
+          "Ja"
+        ],
+        correct: [3],
+        explanation: "Böswillige Beschädigung ist typischerweise über die Teilkasko gedeckt."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Durch eine irrtümlich ausgelöste Sprinkleranlage wurde der Keller unter Wasser gesetzt. Werden die beschädigten Sachen durch die Wasserversicherung bezahlt?",
+        answers: [
+          "Nein",
+          "Ja"
+        ],
+        correct: [1],
+        explanation: "Wasseraustritt aus Installationen bzw. Anlagen ist versichert."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Kann ein Restaurant die an den Wänden angebrachten Spiegel in der Geschäftsversicherung unter Glas versichern?",
+        answers: [
+          "Nein",
+          "Ja"
+        ],
+        correct: [1],
+        explanation: "Fest montierte Spiegel können in der Glasdeckung versichert werden."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Kann ein Ladenbesitzer das Risiko Ladendiebstahl in die bestehende Geschäftsversicherung einschliessen?",
+        answers: [
+          "Nein",
+          "Ja"
+        ],
+        correct: [0],
+        explanation: "Ladendiebstahl ist in der klassischen Geschäftsversicherung in der Regel nicht versicherbar."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Welche Werte werden durch die Geschäftsversicherung versichert?",
+        answers: [
+          "Die Werte der Erfolgsrechnung.",
+          "Die Werte der Bilanz."
+        ],
+        correct: [1],
+        explanation: "Versichert werden Bilanzwerte, nicht Erfolgsrechnungswerte."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Handelt es sich bei der Maschinenversicherung um eine Pauschalversicherung?",
+        answers: [
+          "Pauschalversicherung",
+          "Jede Maschine muss einzeln aufgeführt werden."
+        ],
+        correct: [1],
+        explanation: "Maschinen werden üblicherweise einzeln deklariert."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Handelt es sich bei der Maschinenversicherung um eine Vollwertversicherung?",
+        answers: [
+          "Ja",
+          "Nein"
+        ],
+        correct: [0],
+        explanation: "Die Maschinenversicherung ist grundsätzlich eine Vollwertversicherung."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Welche Schäden werden durch die Maschinenversicherung gedeckt?",
+        answers: [
+          "Nur innere Schäden",
+          "Nur äussere Schäden",
+          "Innere und äussere Schäden"
+        ],
+        correct: [2],
+        explanation: "Sie deckt typischerweise innere und äussere Schäden."
+      },
+      {
+        topic: "Versicherung",
+        type: "single",
+        question: "Manipulation an einer Druckmaschine durch eine gekündigte Person, aber nicht nachweisbar. Ist dies durch die Maschinenversicherung gedeckt?",
+        answers: [
+          "Ja",
+          "Nein"
+        ],
+        correct: [0],
+        explanation: "Bei unklarer Ursache kann der plötzliche, unvorhergesehene Sachschaden gedeckt sein."
       }
     ];
 
@@ -737,6 +804,7 @@
     let score = 0;
     let selectedForMulti = [];
     let userResults = [];
+    let currentMode = "Vorsorge";
 
     function shuffle(array) {
       const arr = [...array];
@@ -747,8 +815,15 @@
       return arr;
     }
 
-    function prepareQuestions() {
-      quizQuestions = shuffle(questions).map(q => {
+    function prepareQuestions(mode) {
+      let selected = [];
+      if (mode === "Mix") {
+        selected = questions;
+      } else {
+        selected = questions.filter(q => q.topic === mode);
+      }
+
+      quizQuestions = shuffle(selected).map(q => {
         const shuffledAnswers = q.answers.map((text, index) => ({ text, originalIndex: index }));
         const mixedAnswers = shuffle(shuffledAnswers);
         const newCorrect = mixedAnswers
@@ -763,8 +838,9 @@
       });
     }
 
-    function startQuiz() {
-      prepareQuestions();
+    function startQuiz(mode) {
+      currentMode = mode;
+      prepareQuestions(mode);
       currentIndex = 0;
       score = 0;
       selectedForMulti = [];
@@ -800,7 +876,7 @@
         btn.className = "answer-btn";
         btn.textContent = answer.text;
 
-        if (q.type === "single") {
+        if (q.type === "single" && q.correct.length === 1) {
           btn.onclick = () => handleSingleAnswer(idx);
         } else {
           btn.onclick = () => toggleMultiAnswer(btn, idx);
@@ -809,7 +885,7 @@
         answersBox.appendChild(btn);
       });
 
-      if (q.type === "multi") {
+      if (!(q.type === "single" && q.correct.length === 1)) {
         const checkBtn = document.createElement("button");
         checkBtn.className = "main-btn";
         checkBtn.textContent = "Antwort prüfen";
@@ -843,12 +919,8 @@
       const isCorrect = q.shuffledCorrect[0] === selectedIndex;
 
       buttons.forEach((btn, idx) => {
-        if (q.shuffledCorrect.includes(idx)) {
-          btn.classList.add("correct");
-        }
-        if (idx === selectedIndex && !q.shuffledCorrect.includes(idx)) {
-          btn.classList.add("wrong");
-        }
+        if (q.shuffledCorrect.includes(idx)) btn.classList.add("correct");
+        if (idx === selectedIndex && !q.shuffledCorrect.includes(idx)) btn.classList.add("wrong");
       });
 
       if (isCorrect) score++;
@@ -870,12 +942,8 @@
 
       buttons.forEach((btn, idx) => {
         btn.disabled = true;
-        if (q.shuffledCorrect.includes(idx)) {
-          btn.classList.add("correct");
-        }
-        if (selectedForMulti.includes(idx) && !q.shuffledCorrect.includes(idx)) {
-          btn.classList.add("wrong");
-        }
+        if (q.shuffledCorrect.includes(idx)) btn.classList.add("correct");
+        if (selectedForMulti.includes(idx) && !q.shuffledCorrect.includes(idx)) btn.classList.add("wrong");
       });
 
       if (isCorrect) score++;
@@ -918,7 +986,7 @@
       const percent = Math.round((score / quizQuestions.length) * 100);
       document.getElementById("finalPercent").textContent = percent + "%";
       document.getElementById("finalScoreText").textContent = `${score} von ${quizQuestions.length} richtig`;
-      document.getElementById("topicSummary").textContent = `Ritter Vorsorge: ${score}/${quizQuestions.length} richtig`;
+      document.getElementById("topicSummary").textContent = currentMode === "Mix" ? "Mix-Modus über mehrere Themen" : `Ritter ${currentMode}`;
 
       let tip = "";
       if (percent >= 85) {
@@ -938,7 +1006,7 @@
         reviewSection.classList.remove("hidden");
         reviewList.innerHTML = wrongAnswers.map(item => `
           <div class="review-item">
-            <strong>Frage:</strong> ${item.question}
+            <div><strong>Frage:</strong> ${item.question}</div>
             <div><strong>Thema:</strong> ${item.topic}</div>
             <div class="small" style="margin-top: 8px;"><strong>Lösungshinweis:</strong> ${item.explanation}</div>
           </div>
@@ -952,7 +1020,17 @@
     }
 
     function restartQuiz() {
-      startQuiz();
+      startQuiz(currentMode);
+    }
+
+    function goHome() {
+      document.getElementById("quizScreen").classList.add("hidden");
+      document.getElementById("summaryScreen").classList.add("hidden");
+      document.getElementById("startScreen").classList.remove("hidden");
+    }
+
+    function showComingSoon(topic) {
+      alert(topic + " kommt als nächstes rein.");
     }
   </script>
 </body>
