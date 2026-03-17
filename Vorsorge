@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finanzberater Lernquiz – Vorsorge</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7fb;
+      color: #1e293b;
+    }
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #0f172a, #1d4ed8);
+      color: white;
+      padding: 28px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    }
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+    }
+    .hero p {
+      margin: 6px 0;
+      opacity: 0.95;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      padding: 8px 12px;
+      border-radius: 999px;
+      margin-right: 8px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 8px 24px rgba(15,23,42,0.08);
+      margin-bottom: 18px;
+    }
+    .hidden { display: none; }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .progress-wrap {
+      width: 100%;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      height: 14px;
+      margin-top: 10px;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #2563eb, #22c55e);
+      transition: width 0.3s ease;
+    }
+
+    .question-title {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .topic-label {
+      display: inline-block;
+      margin-bottom: 14px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: bold;
+    }
+
+    .answers {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .answer-btn {
+      width: 100%;
+      text-align: left;
+      border: 2px solid #cbd5e1;
+      background: #fff;
+      padding: 14px 16px;
+      border-radius: 14px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    .answer-btn:hover {
+      border-color: #2563eb;
+      transform: translateY(-1px);
+    }
+    .answer-btn.correct {
+      background: #dcfce7;
+      border-color: #22c55e;
+      color: #166534;
+      font-weight: bold;
+    }
+    .answer-btn.wrong {
+      background: #fee2e2;
+      border-color: #ef4444;
+      color: #991b1b;
+      font-weight: bold;
+    }
+    .answer-btn.selected {
+      border-color: #1d4ed8;
+      background: #dbeafe;
+    }
+
+    .feedback {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 14px;
+      font-weight: bold;
+    }
+    .feedback.good {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .feedback.bad {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .explanation {
+      margin-top: 12px;
+      padding: 14px;
+      background: #f8fafc;
+      border-left: 4px solid #2563eb;
+      border-radius: 10px;
+      line-height: 1.5;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    button.main-btn, button.secondary-btn {
+      border: none;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+    button.main-btn {
+      background: #2563eb;
+      color: white;
+    }
+    button.secondary-btn {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .stat-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .stat-box h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .result-big {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+
+    .review-item {
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 12px;
+      background: #fff;
+    }
+
+    .review-item strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .small {
+      color: #475569;
+      font-size: 0.95rem;
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      color: #475569;
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>⚔️ Finanzberater Lernquiz</h1>
+      <p>Ritter-Modul: <strong>Vorsorge</strong></p>
+      <p>Fragen und Antworten werden automatisch gemischt. Direktes Feedback. Am Ende gibt es eine Auswertung.</p>
+      <span class="badge">🔀 Gemischte Reihenfolge</span>
+      <span class="badge">✅ Sofortige Korrektur</span>
+      <span class="badge">📊 Zusammenfassung</span>
+    </section>
+
+    <section id="startScreen" class="card">
+      <h2>Start</h2>
+      <p>Dies ist deine erste Lernversion für das Thema <strong>Vorsorge</strong>. Klick auf Start und leg los.</p>
+      <div class="actions">
+        <button class="main-btn" onclick="startQuiz()">Quiz starten</button>
+      </div>
+      <p class="footer-note">Später kann ich dir weitere Ritter hinzufügen: Vermögen, Immobilien, Steuern, Recht usw.</p>
+    </section>
+
+    <section id="quizScreen" class="card hidden">
+      <div class="topbar">
+        <div>
+          <div><strong>Frage <span id="currentQuestionNr">1</span> von <span id="totalQuestions">0</span></strong></div>
+          <div class="small">Punkte: <span id="scoreNow">0</span></div>
+        </div>
+        <div class="topic-label">🏰 Ritter: <span id="topicName">Vorsorge</span></div>
+      </div>
+
+      <div class="progress-wrap">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+
+      <div id="questionBox" class="question-title"></div>
+      <div id="answersBox" class="answers"></div>
+      <div id="feedbackBox"></div>
+
+      <div class="actions">
+        <button id="nextBtn" class="main-btn hidden" onclick="nextQuestion()">Nächste Frage</button>
+      </div>
+    </section>
+
+    <section id="summaryScreen" class="card hidden">
+      <h2>📊 Zusammenfassung</h2>
+      <div class="summary-grid">
+        <div class="stat-box">
+          <h3>Gesamtergebnis</h3>
+          <div id="finalPercent" class="result-big">0%</div>
+          <div id="finalScoreText"></div>
+        </div>
+        <div class="stat-box">
+          <h3>Thema</h3>
+          <div class="result-big">🏰</div>
+          <div id="topicSummary"></div>
+        </div>
+        <div class="stat-box">
+          <h3>Lernempfehlung</h3>
+          <div id="studyTip"></div>
+        </div>
+      </div>
+
+      <div id="reviewSection" class="hidden">
+        <h3 style="margin-top: 24px;">Nochmal anschauen</h3>
+        <div id="reviewList"></div>
+      </div>
+
+      <div class="actions">
+        <button class="main-btn" onclick="restartQuiz()">Neu gemischt starten</button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Welche Aussage stimmt zum Thema Witwenrente (AHV)?",
+        answers: [
+          "Die erste Säule kennt nur die Witwenrente, aber keine Witwerrente.",
+          "Witwenrente, wenn Kinder vorhanden oder Frau ist 45 Jahre alt und 5 Jahre verheiratet.",
+          "Die Witwenrente wird auch bei Konkubinat-Paaren erbracht.",
+          "Witwenrente, wenn Kinder vorhanden oder Frau ist 45 Jahre alt oder 5 Jahre verheiratet."
+        ],
+        correct: [1],
+        explanation: "AHV-Witwenrente: wenn Kinder vorhanden sind oder wenn die Frau 45 Jahre alt ist und die Ehe mindestens 5 Jahre gedauert hat."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Ehepaar CH: Mann, 52-jährig, Einkommen CHF 93'000. Nach Invalidität Teileinkommen CHF 22'000. Auf welche IV-Rente hat der Ehemann Anspruch?",
+        answers: [
+          "Keine Rente",
+          "Ganze Rente",
+          "24% einer ganzen Rente",
+          "75% einer ganzen Rente",
+          "76% einer ganzen Rente"
+        ],
+        correct: [1],
+        explanation: "22'000 sind rund 23.6% von 93'000. Erwerbseinbusse rund 76.4% → ganze Rente."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Klaus arbeitet 9 Stunden pro Woche. Auf dem direkten Nachhauseweg verunfallt er. Wie ist der Unfall versichert?",
+        answers: [
+          "Als Nichtberufsunfall, da ab 8 Stunden pro Woche der Arbeitsweg als NBU gilt.",
+          "Als Berufsunfall, da der Arbeitsweg immer als BU gilt.",
+          "Gar nicht über den Arbeitgeber, weil der Arbeitsweg immer über die Krankenkasse läuft."
+        ],
+        correct: [0],
+        explanation: "Ab 8 Stunden pro Woche beim gleichen Arbeitgeber besteht Deckung für NBU. Der Arbeitsweg ist dann NBU."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Rentner Fritz ist 66 und verdient gelegentlich CHF 1'100 netto pro Monat. Ist dieses Einkommen AHV-pflichtig?",
+        answers: [
+          "Nein",
+          "Ja"
+        ],
+        correct: [0],
+        explanation: "Der Freibetrag im Rentenalter ist nicht überschritten."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Wie wird eine IV-Rente aus der 1. Säule besteuert?",
+        answers: [
+          "Zu 100% getrennt vom übrigen Einkommen",
+          "Zu 80% separat vom übrigen Einkommen",
+          "Zu 100% zusammen mit dem übrigen Einkommen"
+        ],
+        correct: [2],
+        explanation: "IV-Renten der 1. Säule werden zu 100% zusammen mit dem übrigen Einkommen besteuert."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Ein 48-jähriger Mann mit einem 15-jährigen Sohn verliert seine Ehegattin. Welche Leistung erhält er aus der 1. Säule?",
+        answers: [
+          "Witwerrente bis Sohn 18-jährig ist oder maximal bis 25-jährig, sofern er noch in Ausbildung ist",
+          "Er erhält keine Leistungen",
+          "Witwerrente bis Sohn 18-jährig ist",
+          "Witwerrente unbefristet"
+        ],
+        correct: [3],
+        explanation: "Gemäss deinem Lernmaterial gilt hier die aktuelle Übergangslösung."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Ab welchem Invaliditätsgrad erhält eine Person in der IV eine ganze Rente?",
+        answers: [
+          "Ab 40%",
+          "Ab 50%",
+          "Ab 60%",
+          "Ab 70%"
+        ],
+        correct: [3],
+        explanation: "Eine ganze IV-Rente gibt es ab einem Invaliditätsgrad von 70%."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Kann ein bestehendes 3a-Konto für einen Einkauf in die Pensionskasse verwendet werden?",
+        answers: [
+          "Ja, das ist steuerlich neutral möglich.",
+          "Nein, das ist nicht möglich.",
+          "Ja, der Einkauf kann zusätzlich vom steuerbaren Einkommen abgezogen werden."
+        ],
+        correct: [0],
+        explanation: "Ein Transfer ist möglich, aber steuerlich neutral."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Muss der Steuerwert einer gemischten Lebensversicherung der Säule 3a in der Steuererklärung als Vermögen deklariert werden?",
+        answers: [
+          "Nein",
+          "Ja"
+        ],
+        correct: [0],
+        explanation: "Säule 3a wird nicht als Vermögen deklariert."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Eine Hilfskraft verdient mehr als CHF 24'000 pro Jahr. Ist sie neben AHV/IV und UVG auch BVG-pflichtig?",
+        answers: [
+          "Ja",
+          "Nein"
+        ],
+        correct: [0],
+        explanation: "Bei Einkommen über der Eintrittsschwelle besteht BVG-Pflicht."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Wie hoch ist das versicherte UVG-Taggeld bei Jahreslohn über dem UVG-Maximum?",
+        answers: [
+          "CHF 324.80",
+          "CHF 330.15",
+          "CHF 297.60"
+        ],
+        correct: [0],
+        explanation: "UVG-Maximallohn CHF 148'200 × 80% / 365 = CHF 324.80."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Wie wird eine IV-Rente aus der Pensionskasse berechnet?",
+        answers: [
+          "Angespartes Kapital inkl. Zins + künftige Altersgutschriften inkl. Zins verrentet mit dem Umwandlungssatz.",
+          "Angespartes Kapital inkl. Zins + künftige Altersgutschriften ohne Zins verrentet mit dem Umwandlungssatz.",
+          "Zukünftiges Kapital inkl. Zins + vorhandene Altersgutschriften ohne Zins verrentet mit dem Umwandlungssatz."
+        ],
+        correct: [1],
+        explanation: "Wichtig: zukünftige Altersgutschriften ohne zukünftigen Zins."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Sabine wird dieses Jahr 22 und verdient mit einem Nebenjob CHF 3'200 pro Jahr. Ist sie AHV-pflichtig?",
+        answers: [
+          "Ja",
+          "Nein"
+        ],
+        correct: [0],
+        explanation: "Als Nichterwerbstätige ab dem 1.1. nach vollendetem 20. Altersjahr AHV-pflichtig."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Herr Meister hat CHF 55'640 Jahreseinkommen und erhält aus der IV CHF 1'500 pro Monat. Wie hoch ist die UVG-IV-Rente?",
+        answers: [
+          "CHF 2'673",
+          "CHF 4'636",
+          "CHF 2'509",
+          "CHF 3'136"
+        ],
+        correct: [0],
+        explanation: "55'640 × 90% / 12 – 1'500 = CHF 2'673."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Neue Sekretärin sollte per 01.01. starten, verletzt sich aber am 01.01. beim Skifahren. Ist sie über den neuen Arbeitgeber UVG-versichert?",
+        answers: [
+          "Ja, aber es erfolgt erst ab dem 3. Tag ein Unfalltaggeld.",
+          "Ja, ab 1. Januar gemäss Arbeitsvertrag.",
+          "Nein, die Versicherung beginnt erst, wenn sie effektiv arbeitet."
+        ],
+        correct: [0],
+        explanation: "Gemäss UVG-Revision 2017 besteht Deckung bereits ab dem vereinbarten Arbeitsbeginn."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Helga, 32-jährig, verliert ihren Ehemann nach 2 Ehejahren durch einen Unfall. Erhält sie eine Witwenrente?",
+        answers: [
+          "Ja, eine lebenslange Witwenrente gemäss UVG.",
+          "Nein, sie ist noch nicht 45 Jahre alt, erhält aber eine Witwenabfindung.",
+          "Nein, sie ist noch nicht 5 Jahre verheiratet gewesen.",
+          "Ja"
+        ],
+        correct: [1],
+        explanation: "Im UVG gilt Alter 45. Zusätzlich kennt das UVG eine Kapitalabfindung pro Ehejahr."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Herr Meier hat eine gemischte Lebensversicherung in der Säule 3b mit Begünstigung zugunsten seiner Konkubinatspartnerin. Welche Steuer fällt in den meisten Kantonen an?",
+        answers: [
+          "Einkommenssteuer",
+          "Schenkungssteuer",
+          "Vermögenssteuer",
+          "Erbschaftssteuer"
+        ],
+        correct: [3],
+        explanation: "Kapitalbildende Lebensversicherung 3b → in vielen Kantonen Erbschaftssteuer je nach Verwandtschaftsgrad."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Ein 14-jähriger Schüler verunfallt schwer auf dem Heimweg von der Schule. Welche Leistung aus der 1. Säule wird fällig?",
+        answers: [
+          "Eine minimale IV-Rente",
+          "Eine Rente von der Schulversicherung",
+          "Wiedereingliederungsmassnahmen",
+          "Minimale IV-Rente plus 133 1/3%",
+          "Eine maximale IV-Rente"
+        ],
+        correct: [2],
+        explanation: "Bei Minderjährigen zuerst Eingliederungsmassnahmen, IV-Rente erst ab 18."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Wie lauten die Altersgutschriften nach BVG-Revision für eine Frau?",
+        answers: [
+          "7%, 10%, 15%, 18%",
+          "7%, 10%, 15%, 17%",
+          "5%, 8%, 10%, 12%",
+          "8%, 10%, 16%, 18%",
+          "5%, 7%, 10%, 13%"
+        ],
+        correct: [0],
+        explanation: "Seit 01.01.2014 gelten bei Mann und Frau dieselben Sätze: 7%, 10%, 15%, 18%."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Welche Berechnungsgrundlage für eine Invalidenrente gemäss BVG ist korrekt?",
+        answers: [
+          "Die IV-Rente ist analog der ersten Säule vom durchschnittlich massgebenden Einkommen abhängig.",
+          "Das Altersguthaben mit Zins wird mittels Umwandlungssatz verrentet und bildet die IV-Rente.",
+          "Die IV-Rente beträgt 40% von der Altersrente.",
+          "Sie beträgt 60% des aktuellen Freizügigkeitsguthabens.",
+          "Das vorhandene Altersguthaben und zukünftige Beiträge ohne Zins werden mittels aktuellem Umwandlungssatz verrentet."
+        ],
+        correct: [4],
+        explanation: "Entscheidend: vorhandenes Altersguthaben plus zukünftige Beiträge ohne künftigen Zins."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Welche Lücke gehört in den Satz zur fondsgebundenen Lebensversicherung mit Strategie 'balanced'?",
+        answers: [
+          "Sparteil",
+          "Risikoteil",
+          "gezillmertes Deckungskapital",
+          "Rückkaufswert",
+          "Überschussanteil"
+        ],
+        correct: [1],
+        explanation: "Die Jahresprämie besteht u.a. aus dem Risikoteil."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Ein Gipsermeister erkrankt an einem beruflich bedingten Hautekzem. Welche Sozialversicherung hilft ihm finanziell?",
+        answers: [
+          "Keine Leistungen",
+          "Leistungen aus der Krankenkasse gemäss KVG",
+          "Taggelder aus der Unfallversicherung",
+          "Taggelder aus der Kollektiv-Krankenversicherung",
+          "Taggelder von der Arbeitslosenkasse"
+        ],
+        correct: [2],
+        explanation: "Eine Berufskrankheit fällt unter das UVG."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Welche Aussage zu eingetragener Partnerschaft oder Konkubinat stimmt?",
+        answers: [
+          "Eingetragene Partnerschaft: Der überlebende Partner hat Anspruch auf eine Witwenrente aus der ersten Säule.",
+          "Konkubinat: Der überlebende Partner hat Anspruch auf eine Rente aus der ersten Säule, wenn ein Konkubinatsvertrag besteht.",
+          "Konkubinat: Falls die Partnerschaft länger als 5 Jahre besteht, hat ein überlebender Konkubinatspartner Anspruch auf eine Rente aus der zweiten Säule, sofern das PK-Reglement dies vorsieht.",
+          "Eingetragene Partnerschaft: Der überlebende Partner hat Anspruch auf keine Rente aus der ersten oder zweiten Säule.",
+          "Konkubinat: Falls die Partnerschaft länger als 5 Jahre besteht, hat ein überlebender Konkubinatspartner immer Anspruch auf eine Rente aus der zweiten Säule."
+        ],
+        correct: [2],
+        explanation: "In der 2. Säule kann ein Anspruch möglich sein, wenn das Reglement dies vorsieht."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "PK sieht keinen Kapitalbezug vor. Leistungsausweis: BVG-Guthaben CHF 136'000. Welcher Teilbezug ist gemäss BVG-Revision trotzdem möglich?",
+        answers: [
+          "CHF 136'000",
+          "CHF 278'700",
+          "CHF 34'000",
+          "Kein Kapitalbezug",
+          "CHF 115'430"
+        ],
+        correct: [2],
+        explanation: "25% des BVG-Teils von CHF 136'000 = CHF 34'000."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Ihr Kunde verlässt die Schweiz definitiv und zieht nach Deutschland. Welche Aussage zur 2. Säule stimmt?",
+        answers: [
+          "Bei definitivem Verlassen der Schweiz in ein EU-Land bestehen keine Einschränkungen bei der 2. Säule.",
+          "Säule 3a und FZG-Gelder können bei Wegzug in die EU nicht mitgenommen werden.",
+          "Säule 3a und BVG-Gelder dürfen bei Wegzug in ein EU-Land problemlos vollständig mitgenommen werden.",
+          "Bei Wegzug in ein EU-Land kann das BVG-Obligatorium nicht bezogen werden; nur der überobligatorische Teil kann bezogen werden."
+        ],
+        correct: [3],
+        explanation: "Das BVG-Obligatorium bleibt in der Schweiz, der überobligatorische Teil ist beziehbar."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Wie hoch ist die steuerlich maximal abzugsfähige 3a-Limite für Personen mit BVG bzw. ohne BVG?",
+        answers: [
+          "8% respektive 20% vom oberen BVG-Grenzbetrag",
+          "8% respektive 40% vom oberen BVG-Grenzbetrag, max. 20% des AHV-pflichtigen Einkommens ohne BVG",
+          "Wird jeweils vom Bundesrat festgelegt",
+          "Entspricht nur der BVV2-Regelung"
+        ],
+        correct: [1],
+        explanation: "Mit BVG: 8% des oberen BVG-Grenzbetrags. Ohne BVG: 40%, maximal 20% des AHV-pflichtigen Einkommens."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Welche Lebensversicherung darf in der Säule 3a nicht verwendet werden?",
+        answers: [
+          "Erlebensfallversicherungen mit EU-Rente und Prämienbefreiung",
+          "Fondsgebundene Lebensversicherungen",
+          "Temporäre Todesfallversicherungen",
+          "Tarife auf 2 Leben, z.B. gemischte Lebensversicherung",
+          "Aufgeschobene Leibrenten per Jahresprämie"
+        ],
+        correct: [3],
+        explanation: "In der Säule 3a müssen VN, VP und PZ identisch sein. Deshalb keine Tarife auf 2 Leben."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Welche Aussage zum Steuerprivileg klassischer Lebensversicherungen mit Einmalprämie ist korrekt?",
+        answers: [
+          "Ablauf nach dem 65. Geburtstag, Abschluss vor dem 66. Geburtstag und minimale Laufzeit 10 Jahre.",
+          "Abschluss vor dem 66. Geburtstag, minimale Laufzeit 5 Jahre, Ablauf nach dem 60. Geburtstag und angemessene Risikosumme.",
+          "Minimale Laufzeit 10 Jahre, Ablauf nach dem 60. Geburtstag und Abschluss vor dem 66. Geburtstag."
+        ],
+        correct: [1],
+        explanation: "Bei klassischer, nicht fondsgebundener Versicherung gilt insbesondere die minimale Laufzeit von 5 Jahren."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Wie wird die Versicherungssumme aus einer degressiven Risikoversicherung Säule 3b besteuert, wenn die Ehefrau begünstigt ist?",
+        answers: [
+          "Vermögenssteuer",
+          "Erbschaftssteuer",
+          "Einkommenssteuer",
+          "Die Ehefrau ist grundsätzlich von sämtlichen Steuern befreit",
+          "Keine Steuer, weil Ehegatten von der Erbschaftssteuer befreit sind"
+        ],
+        correct: [2],
+        explanation: "In den meisten Kantonen wird diese Leistung einkommenssteuerlich behandelt."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Selbständiger mit Nebenerwerb als Angestellter verdient dort CHF 28'000 und unterliegt damit dem BVG-Obligatorium. Wie hoch ist der BVG-versicherte Verdienst?",
+        answers: [
+          "CHF 3'780",
+          "CHF 26'460",
+          "CHF 22'680",
+          "CHF 7'258",
+          "CHF 1'540"
+        ],
+        correct: [0],
+        explanation: "28'000 minus Koordinationsabzug wäre unter Minimum, daher minimal versicherter Lohn CHF 3'780."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Ihr Kunde verdient CHF 99'000 pro Jahr und ist 42-jährig. Wie hoch sind die jährlichen BVG-Altersgutschriften, welche sein Arbeitgeber bezahlt?",
+        answers: [
+          "CHF 3'213",
+          "CHF 6'426",
+          "CHF 4'950",
+          "CHF 9'900",
+          "CHF 7'258"
+        ],
+        correct: [0],
+        explanation: "Maximaler BVG-Lohn CHF 64'260 × 10% = CHF 6'426 total; hälftiger Arbeitgeberanteil = CHF 3'213."
+      },
+      {
+        topic: "Vorsorge",
+        type: "single",
+        question: "Erfolgt bei einem WEF-Vorbezug aus der Säule 3a ein Eintrag ins Grundbuch?",
+        answers: [
+          "Falsch",
+          "WEF-Vorbezug hat immer einen Eintrag ins Grundbuch zur Folge",
+          "Richtig",
+          "Ist abhängig vom finanzierenden Institut"
+        ],
+        correct: [0],
+        explanation: "Der Grundbucheintrag betrifft die 2. Säule, nicht die Säule 3a."
+      },
+      {
+        topic: "Vorsorge",
+        type: "multi",
+        question: "Welche zusätzlichen Rentenleistungen könnten beim Todesfall von Herrn Meier fällig werden, wenn das Ehepaar ein Kind hätte? (Mehrere Antworten möglich)",
+        answers: [
+          "Waisenrente aus der Pensionskasse",
+          "Keine weiteren Rentenleistungen",
+          "Nur Kapitalabfindungen",
+          "Waisenrente aus dem UVG",
+          "Waisenrente aus der ersten Säule",
+          "EU-Rente aus der 3. Säule"
+        ],
+        correct: [0, 3, 4],
+        explanation: "Mit Kind kommen Waisenrenten aus AHV, BVG und UVG hinzu."
+      }
+    ];
+
+    let quizQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let selectedForMulti = [];
+    let userResults = [];
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function prepareQuestions() {
+      quizQuestions = shuffle(questions).map(q => {
+        const shuffledAnswers = q.answers.map((text, index) => ({ text, originalIndex: index }));
+        const mixedAnswers = shuffle(shuffledAnswers);
+        const newCorrect = mixedAnswers
+          .map((a, idx) => q.correct.includes(a.originalIndex) ? idx : null)
+          .filter(v => v !== null);
+
+        return {
+          ...q,
+          shuffledAnswers: mixedAnswers,
+          shuffledCorrect: newCorrect
+        };
+      });
+    }
+
+    function startQuiz() {
+      prepareQuestions();
+      currentIndex = 0;
+      score = 0;
+      selectedForMulti = [];
+      userResults = [];
+
+      document.getElementById("startScreen").classList.add("hidden");
+      document.getElementById("summaryScreen").classList.add("hidden");
+      document.getElementById("quizScreen").classList.remove("hidden");
+      document.getElementById("totalQuestions").textContent = quizQuestions.length;
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = quizQuestions[currentIndex];
+      selectedForMulti = [];
+
+      document.getElementById("currentQuestionNr").textContent = currentIndex + 1;
+      document.getElementById("scoreNow").textContent = score;
+      document.getElementById("topicName").textContent = q.topic;
+      document.getElementById("questionBox").textContent = q.question;
+      document.getElementById("feedbackBox").innerHTML = "";
+      document.getElementById("nextBtn").classList.add("hidden");
+
+      const progress = ((currentIndex) / quizQuestions.length) * 100;
+      document.getElementById("progressBar").style.width = progress + "%";
+
+      const answersBox = document.getElementById("answersBox");
+      answersBox.innerHTML = "";
+
+      q.shuffledAnswers.forEach((answer, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "answer-btn";
+        btn.textContent = answer.text;
+
+        if (q.type === "single") {
+          btn.onclick = () => handleSingleAnswer(idx);
+        } else {
+          btn.onclick = () => toggleMultiAnswer(btn, idx);
+        }
+
+        answersBox.appendChild(btn);
+      });
+
+      if (q.type === "multi") {
+        const checkBtn = document.createElement("button");
+        checkBtn.className = "main-btn";
+        checkBtn.textContent = "Antwort prüfen";
+        checkBtn.style.marginTop = "14px";
+        checkBtn.onclick = checkMultiAnswer;
+        answersBox.appendChild(checkBtn);
+      }
+    }
+
+    function toggleMultiAnswer(btn, idx) {
+      if (selectedForMulti.includes(idx)) {
+        selectedForMulti = selectedForMulti.filter(i => i !== idx);
+        btn.classList.remove("selected");
+      } else {
+        selectedForMulti.push(idx);
+        btn.classList.add("selected");
+      }
+    }
+
+    function arraysEqual(a, b) {
+      const x = [...a].sort((m, n) => m - n);
+      const y = [...b].sort((m, n) => m - n);
+      return JSON.stringify(x) === JSON.stringify(y);
+    }
+
+    function handleSingleAnswer(selectedIndex) {
+      const q = quizQuestions[currentIndex];
+      const buttons = document.querySelectorAll(".answer-btn");
+      buttons.forEach(btn => btn.disabled = true);
+
+      const isCorrect = q.shuffledCorrect[0] === selectedIndex;
+
+      buttons.forEach((btn, idx) => {
+        if (q.shuffledCorrect.includes(idx)) {
+          btn.classList.add("correct");
+        }
+        if (idx === selectedIndex && !q.shuffledCorrect.includes(idx)) {
+          btn.classList.add("wrong");
+        }
+      });
+
+      if (isCorrect) score++;
+
+      userResults.push({
+        question: q.question,
+        topic: q.topic,
+        correct: isCorrect,
+        explanation: q.explanation
+      });
+
+      showFeedback(isCorrect, q.explanation);
+    }
+
+    function checkMultiAnswer() {
+      const q = quizQuestions[currentIndex];
+      const buttons = document.querySelectorAll(".answer-btn");
+      const isCorrect = arraysEqual(selectedForMulti, q.shuffledCorrect);
+
+      buttons.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (q.shuffledCorrect.includes(idx)) {
+          btn.classList.add("correct");
+        }
+        if (selectedForMulti.includes(idx) && !q.shuffledCorrect.includes(idx)) {
+          btn.classList.add("wrong");
+        }
+      });
+
+      if (isCorrect) score++;
+
+      userResults.push({
+        question: q.question,
+        topic: q.topic,
+        correct: isCorrect,
+        explanation: q.explanation
+      });
+
+      showFeedback(isCorrect, q.explanation);
+    }
+
+    function showFeedback(isCorrect, explanation) {
+      const box = document.getElementById("feedbackBox");
+      box.innerHTML = `
+        <div class="feedback ${isCorrect ? "good" : "bad"}">
+          ${isCorrect ? "✅ Richtig!" : "❌ Nicht ganz."}
+        </div>
+        <div class="explanation"><strong>Lösungshinweis:</strong> ${explanation}</div>
+      `;
+      document.getElementById("scoreNow").textContent = score;
+      document.getElementById("nextBtn").classList.remove("hidden");
+    }
+
+    function nextQuestion() {
+      currentIndex++;
+      if (currentIndex < quizQuestions.length) {
+        renderQuestion();
+      } else {
+        showSummary();
+      }
+    }
+
+    function showSummary() {
+      document.getElementById("quizScreen").classList.add("hidden");
+      document.getElementById("summaryScreen").classList.remove("hidden");
+
+      const percent = Math.round((score / quizQuestions.length) * 100);
+      document.getElementById("finalPercent").textContent = percent + "%";
+      document.getElementById("finalScoreText").textContent = `${score} von ${quizQuestions.length} richtig`;
+      document.getElementById("topicSummary").textContent = `Ritter Vorsorge: ${score}/${quizQuestions.length} richtig`;
+
+      let tip = "";
+      if (percent >= 85) {
+        tip = "Sehr stark. Du bist in diesem Thema schon ziemlich sattelfest. 🛡️";
+      } else if (percent >= 65) {
+        tip = "Gute Basis. Schau dir die falschen Fragen nochmals gezielt an.";
+      } else {
+        tip = "Hier steckt noch Potenzial drin. Fokus auf Lücken, dann wird der Ritter stärker. ⚔️";
+      }
+      document.getElementById("studyTip").textContent = tip;
+
+      const wrongAnswers = userResults.filter(r => !r.correct);
+      const reviewSection = document.getElementById("reviewSection");
+      const reviewList = document.getElementById("reviewList");
+
+      if (wrongAnswers.length > 0) {
+        reviewSection.classList.remove("hidden");
+        reviewList.innerHTML = wrongAnswers.map(item => `
+          <div class="review-item">
+            <strong>Frage:</strong> ${item.question}
+            <div><strong>Thema:</strong> ${item.topic}</div>
+            <div class="small" style="margin-top: 8px;"><strong>Lösungshinweis:</strong> ${item.explanation}</div>
+          </div>
+        `).join("");
+      } else {
+        reviewSection.classList.add("hidden");
+        reviewList.innerHTML = "";
+      }
+
+      document.getElementById("progressBar").style.width = "100%";
+    }
+
+    function restartQuiz() {
+      startQuiz();
+    }
+  </script>
+</body>
+</html>
