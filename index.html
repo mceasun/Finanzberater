@@ -3,794 +3,1361 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Finanzberater Lernquiz</title>
+  <title>Finanzberater Lernquiz Pro</title>
   <style>
+    :root {
+      --bg: #0b1220;
+      --bg-soft: #111b2e;
+      --card: rgba(17, 27, 46, 0.88);
+      --card-2: rgba(24, 37, 61, 0.92);
+      --text: #e8eefc;
+      --muted: #9db0d3;
+      --primary: #60a5fa;
+      --primary-2: #3b82f6;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --border: rgba(148, 163, 184, 0.2);
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      --radius: 20px;
+    }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f7fb;
-      color: #1e293b;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(59,130,246,0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(34,197,94,0.12), transparent 22%),
+        linear-gradient(180deg, #08101d 0%, #0b1220 100%);
+      color: var(--text);
+      min-height: 100vh;
     }
+
     .container {
-      max-width: 1050px;
+      max-width: 1220px;
       margin: 0 auto;
       padding: 24px;
     }
+
     .hero {
-      background: linear-gradient(135deg, #0f172a, #1d4ed8);
-      color: white;
+      background: linear-gradient(135deg, rgba(30,41,59,0.95), rgba(29,78,216,0.92));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
       padding: 28px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      box-shadow: var(--shadow);
+      margin-bottom: 22px;
     }
+
     .hero h1 {
       margin: 0 0 10px;
-      font-size: 2rem;
+      font-size: 2.15rem;
+      line-height: 1.1;
     }
+
     .hero p {
-      margin: 6px 0;
-      opacity: 0.95;
+      margin: 8px 0;
+      color: #dbe7ff;
+      line-height: 1.55;
     }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
     .badge {
-      display: inline-block;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: white;
       padding: 8px 12px;
       border-radius: 999px;
-      margin-right: 8px;
-      margin-top: 10px;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
     }
+
     .card {
-      background: white;
-      border-radius: 18px;
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
       padding: 22px;
-      box-shadow: 0 8px 24px rgba(15,23,42,0.08);
+      box-shadow: var(--shadow);
       margin-bottom: 18px;
     }
+
     .hidden { display: none; }
 
-    .topic-grid {
+    .section-title {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+    }
+
+    .subtle {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .mode-grid, .topic-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 14px;
       margin-top: 18px;
     }
-    .topic-card {
-      border: 2px solid #dbeafe;
+
+    .select-card {
+      background: linear-gradient(180deg, rgba(20,33,54,0.95), rgba(14,24,41,0.95));
+      border: 1px solid rgba(96,165,250,0.15);
       border-radius: 18px;
       padding: 18px;
-      background: #f8fbff;
       cursor: pointer;
-      transition: 0.2s ease;
-    }
-    .topic-card:hover {
-      transform: translateY(-2px);
-      border-color: #2563eb;
-    }
-    .topic-card h3 {
-      margin: 0 0 8px;
-    }
-    .topic-card p {
-      margin: 0;
-      color: #475569;
-      font-size: 0.95rem;
+      transition: .18s ease;
     }
 
-    .topbar {
+    .select-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(96,165,250,0.45);
+      box-shadow: 0 14px 30px rgba(59,130,246,0.16);
+    }
+
+    .select-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .select-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: .94rem;
+    }
+
+    .toolbar {
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      align-items: center;
       flex-wrap: wrap;
-      margin-bottom: 18px;
+      align-items: center;
+      margin-bottom: 14px;
     }
+
+    .toolbar-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .pill {
+      background: rgba(96,165,250,0.12);
+      color: #cfe2ff;
+      border: 1px solid rgba(96,165,250,0.25);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+
+    .tab-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .tab {
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,0.22);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .tab.active {
+      background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(34,197,94,0.14));
+      border-color: rgba(96,165,250,0.5);
+    }
+
     .progress-wrap {
       width: 100%;
-      background: #e2e8f0;
+      height: 14px;
+      background: rgba(255,255,255,0.08);
       border-radius: 999px;
       overflow: hidden;
-      height: 14px;
-      margin-top: 10px;
+      margin: 10px 0 20px;
     }
+
     .progress-bar {
-      height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #2563eb, #22c55e);
-      transition: width 0.3s ease;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-2), var(--success));
+      transition: width .28s ease;
     }
-    .question-title {
-      font-size: 1.2rem;
+
+    .question-type {
+      color: #c3d6ff;
+      font-size: 0.92rem;
       margin-bottom: 10px;
-      line-height: 1.5;
     }
-    .topic-label {
-      display: inline-block;
+
+    .question-title {
+      font-size: 1.18rem;
+      line-height: 1.6;
       margin-bottom: 14px;
-      background: #eff6ff;
-      color: #1d4ed8;
-      border: 1px solid #bfdbfe;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-weight: bold;
+      white-space: pre-line;
     }
+
     .answers {
       display: grid;
       gap: 12px;
-      margin-top: 16px;
     }
+
     .answer-btn {
       width: 100%;
       text-align: left;
-      border: 2px solid #cbd5e1;
-      background: #fff;
+      background: rgba(255,255,255,0.04);
+      border: 2px solid rgba(148,163,184,0.18);
+      border-radius: 16px;
+      color: var(--text);
       padding: 14px 16px;
-      border-radius: 14px;
-      font-size: 1rem;
       cursor: pointer;
-      transition: 0.2s ease;
-    }
-    .answer-btn:hover {
-      border-color: #2563eb;
-      transform: translateY(-1px);
-    }
-    .answer-btn.correct {
-      background: #dcfce7;
-      border-color: #22c55e;
-      color: #166534;
-      font-weight: bold;
-    }
-    .answer-btn.wrong {
-      background: #fee2e2;
-      border-color: #ef4444;
-      color: #991b1b;
-      font-weight: bold;
-    }
-    .answer-btn.selected {
-      border-color: #1d4ed8;
-      background: #dbeafe;
-    }
-    .feedback {
-      margin-top: 18px;
-      padding: 14px;
-      border-radius: 14px;
-      font-weight: bold;
-    }
-    .feedback.good {
-      background: #dcfce7;
-      color: #166534;
-    }
-    .feedback.bad {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-    .explanation {
-      margin-top: 12px;
-      padding: 14px;
-      background: #f8fafc;
-      border-left: 4px solid #2563eb;
-      border-radius: 10px;
+      transition: .18s ease;
+      font-size: 1rem;
       line-height: 1.5;
     }
+
+    .answer-btn:hover {
+      border-color: rgba(96,165,250,0.45);
+      transform: translateY(-1px);
+    }
+
+    .answer-btn.selected {
+      border-color: rgba(96,165,250,0.7);
+      background: rgba(59,130,246,0.16);
+    }
+
+    .answer-btn.correct {
+      background: rgba(34,197,94,0.16);
+      border-color: rgba(34,197,94,0.8);
+      color: #d9ffe7;
+    }
+
+    .answer-btn.wrong {
+      background: rgba(239,68,68,0.14);
+      border-color: rgba(239,68,68,0.85);
+      color: #ffd6d6;
+    }
+
+    .feedback {
+      margin-top: 18px;
+      border-radius: 16px;
+      padding: 14px;
+      font-weight: 700;
+    }
+
+    .feedback.good {
+      background: rgba(34,197,94,0.14);
+      color: #d9ffe7;
+      border: 1px solid rgba(34,197,94,0.35);
+    }
+
+    .feedback.bad {
+      background: rgba(239,68,68,0.14);
+      color: #ffd9d9;
+      border: 1px solid rgba(239,68,68,0.35);
+    }
+
+    .feedback.info {
+      background: rgba(245,158,11,0.14);
+      color: #ffe8b7;
+      border: 1px solid rgba(245,158,11,0.35);
+    }
+
+    .explanation {
+      margin-top: 12px;
+      border-radius: 16px;
+      padding: 14px;
+      line-height: 1.55;
+      white-space: pre-line;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(148,163,184,0.16);
+      color: #dbe7ff;
+    }
+
     .actions {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
       margin-top: 18px;
     }
-    button.main-btn, button.secondary-btn {
+
+    button.main-btn,
+    button.secondary-btn,
+    button.warning-btn {
       border: none;
-      cursor: pointer;
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 12px 16px;
       font-size: 1rem;
-      font-weight: bold;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .18s ease;
     }
+
     button.main-btn {
-      background: #2563eb;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
       color: white;
     }
+
     button.secondary-btn {
-      background: #e2e8f0;
-      color: #0f172a;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border: 1px solid rgba(148,163,184,0.2);
     }
+
+    button.warning-btn {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #101826;
+    }
+
+    button.main-btn:hover,
+    button.secondary-btn:hover,
+    button.warning-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
     .summary-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 14px;
       margin-top: 16px;
     }
+
     .stat-box {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
+      background: var(--card-2);
+      border: 1px solid rgba(148,163,184,0.14);
+      border-radius: 18px;
       padding: 18px;
     }
+
     .stat-box h3 {
-      margin-top: 0;
-      margin-bottom: 8px;
+      margin: 0 0 8px;
+      font-size: 1rem;
+      color: #dce8ff;
     }
+
     .result-big {
       font-size: 2rem;
-      font-weight: bold;
+      font-weight: 900;
       margin: 8px 0;
     }
+
     .review-item {
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(148,163,184,0.14);
+      border-radius: 16px;
       padding: 14px;
       margin-top: 12px;
-      background: #fff;
     }
-    .small {
-      color: #475569;
-      font-size: 0.95rem;
+
+    .review-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
     }
-    .footer-note {
-      margin-top: 14px;
-      color: #475569;
-      font-size: 0.92rem;
+
+    .review-tag {
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      background: rgba(96,165,250,0.12);
+      border: 1px solid rgba(96,165,250,0.18);
+      color: #d1e5ff;
+    }
+
+    .topic-stats {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .topic-stat {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(148,163,184,0.14);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .topic-stat strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .tiny {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 720px) {
+      .container { padding: 14px; }
+      .hero { padding: 20px; }
+      .hero h1 { font-size: 1.7rem; }
+      .question-title { font-size: 1.06rem; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <section class="hero">
-      <h1>⚔️ Finanzberater Lernquiz</h1>
-      <p>Wähle dein Thema, trainiere gemischt und prüfe deine Lücken gezielt.</p>
-      <span class="badge">🔀 Gemischte Reihenfolge</span>
-      <span class="badge">✅ Sofortige Korrektur</span>
-      <span class="badge">📊 Themen-Auswertung</span>
+      <h1>⚔️ Finanzberater Lernquiz Pro</h1>
+      <p>Saubere Quiz-App mit Lernmodus, Prüfungsmodus, Themenstatistik, Wiederholung falscher Fragen und moderner Datenstruktur.</p>
+      <p>Die Fragen sind so organisiert, dass du neue Aufgaben sehr leicht ergänzen kannst.</p>
+      <div class="badge-row">
+        <span class="badge">✅ Lernmodus</span>
+        <span class="badge">🧠 Prüfungsmodus</span>
+        <span class="badge">📊 % pro Thema</span>
+        <span class="badge">🔁 Falsche wiederholen</span>
+        <span class="badge">🧩 Erweiterbar</span>
+      </div>
     </section>
 
     <section id="startScreen" class="card">
-      <h2>Wähle deinen Ritter</h2>
-      <p>Trainiere ein einzelnes Thema oder den Mix-Modus.</p>
+      <h2 class="section-title">Modus wählen</h2>
+      <p class="subtle">Zuerst den Modus, danach das gewünschte Thema oder den Mix starten.</p>
 
-      <div class="topic-grid">
-        <div class="topic-card" onclick="startQuiz('Vorsorge')">
-          <h3>🏰 Vorsorge</h3>
-          <p>Sozialversicherungen, BVG, 3a, UVG & mehr</p>
+      <div class="mode-grid">
+        <div class="select-card" onclick="selectMode('learn')">
+          <h3>📘 Lernmodus</h3>
+          <p>Sofortige Korrektur, Erklärung direkt nach jeder Frage.</p>
         </div>
-        <div class="topic-card" onclick="startQuiz('Versicherung')">
-          <h3>🛡️ Versicherung</h3>
-          <p>Hausrat, Haftpflicht, Kasko, Gebäude & mehr</p>
-        </div>
-        <div class="topic-card" onclick="startQuiz('Mix')">
-          <h3>🔀 Mix-Modus</h3>
-          <p>Alle eingebauten Themen bunt gemischt</p>
+        <div class="select-card" onclick="selectMode('exam')">
+          <h3>📝 Prüfungsmodus</h3>
+          <p>Keine Sofortkorrektur. Auswertung erst am Schluss – näher an der echten Prüfung.</p>
         </div>
       </div>
 
-      <p class="footer-note">Weitere Ritter wie Vermögen, Immobilien, Steuern und Recht können wir danach ergänzen.</p>
+      <div id="topicChooser" class="hidden">
+        <h2 class="section-title" style="margin-top:24px;">Thema wählen</h2>
+        <div class="topic-grid" id="topicGrid"></div>
+      </div>
     </section>
 
     <section id="quizScreen" class="card hidden">
-      <div class="topbar">
-        <div>
-          <div><strong>Frage <span id="currentQuestionNr">1</span> von <span id="totalQuestions">0</span></strong></div>
-          <div class="small">Punkte: <span id="scoreNow">0</span></div>
+      <div class="toolbar">
+        <div class="toolbar-group">
+          <div class="pill">Frage <span id="currentQuestionNr">1</span> / <span id="totalQuestions">0</span></div>
+          <div class="pill">Punkte <span id="scoreNow">0</span></div>
+          <div class="pill" id="currentModeLabel">Modus</div>
         </div>
-        <div class="topic-label"><span id="topicName">Thema</span></div>
+        <div class="toolbar-group">
+          <div class="pill" id="topicName">Thema</div>
+        </div>
       </div>
+
+      <div class="tab-row" id="tabRow"></div>
 
       <div class="progress-wrap">
         <div id="progressBar" class="progress-bar"></div>
       </div>
 
+      <div id="questionTypeHint" class="question-type"></div>
       <div id="questionBox" class="question-title"></div>
       <div id="answersBox" class="answers"></div>
       <div id="feedbackBox"></div>
 
       <div class="actions">
+        <button id="checkBtn" class="warning-btn hidden" onclick="checkCurrentQuestion()">Antwort prüfen</button>
         <button id="nextBtn" class="main-btn hidden" onclick="nextQuestion()">Nächste Frage</button>
         <button class="secondary-btn" onclick="goHome()">Zurück</button>
       </div>
     </section>
 
     <section id="summaryScreen" class="card hidden">
-      <h2>📊 Zusammenfassung</h2>
+      <h2 class="section-title">📊 Zusammenfassung</h2>
+
       <div class="summary-grid">
         <div class="stat-box">
           <h3>Gesamtergebnis</h3>
           <div id="finalPercent" class="result-big">0%</div>
-          <div id="finalScoreText"></div>
+          <div id="finalScoreText" class="tiny"></div>
         </div>
+
         <div class="stat-box">
           <h3>Modus</h3>
           <div class="result-big">⚔️</div>
-          <div id="topicSummary"></div>
+          <div id="modeSummary" class="tiny"></div>
         </div>
+
+        <div class="stat-box">
+          <h3>Thema</h3>
+          <div class="result-big">📚</div>
+          <div id="topicSummary" class="tiny"></div>
+        </div>
+
         <div class="stat-box">
           <h3>Lernempfehlung</h3>
-          <div id="studyTip"></div>
+          <div id="studyTip" class="tiny"></div>
         </div>
       </div>
 
+      <div class="card" style="margin-top:18px; padding:18px;">
+        <h3 style="margin-top:0;">Themenstatistik</h3>
+        <div id="topicStats" class="topic-stats"></div>
+      </div>
+
       <div id="reviewSection" class="hidden">
-        <h3 style="margin-top: 24px;">Nochmal anschauen</h3>
+        <h3 style="margin-top:24px;">Nochmal anschauen</h3>
         <div id="reviewList"></div>
       </div>
 
       <div class="actions">
-        <button class="main-btn" onclick="restartQuiz()">Neu gemischt starten</button>
+        <button class="main-btn" onclick="restartQuiz()">Neu starten</button>
+        <button id="wrongRepeatBtn" class="warning-btn hidden" onclick="repeatWrongQuestions()">Nur falsche Fragen wiederholen</button>
         <button class="secondary-btn" onclick="goHome()">Zurück zur Auswahl</button>
       </div>
     </section>
   </div>
 
   <script>
-    const questions = [
-      // VORSORGE
+    const QUESTION_BANK = [
       {
         topic: "Vorsorge",
-        type: "single",
-        question: "Welche Aussage stimmt zum Thema Witwenrente (AHV)?",
-        answers: [
-          "Die erste Säule kennt nur die Witwenrente, aber keine Witwerrente.",
-          "Witwenrente, wenn Kinder vorhanden oder Frau ist 45 Jahre alt und 5 Jahre verheiratet.",
-          "Die Witwenrente wird auch bei Konkubinat-Paaren erbracht.",
-          "Witwenrente, wenn Kinder vorhanden oder Frau ist 45 Jahre alt oder 5 Jahre verheiratet."
-        ],
-        correct: [1],
-        explanation: "AHV-Witwenrente: wenn Kinder vorhanden sind oder wenn die Frau 45 Jahre alt ist und die Ehe mindestens 5 Jahre gedauert hat."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Klaus arbeitet 9 Stunden pro Woche. Auf dem direkten Nachhauseweg verunfallt er. Wie ist der Unfall versichert?",
-        answers: [
-          "Als Nichtberufsunfall, da ab 8 Stunden pro Woche der Arbeitsweg als NBU gilt.",
-          "Als Berufsunfall, da der Arbeitsweg immer als BU gilt.",
-          "Gar nicht über den Arbeitgeber, weil der Arbeitsweg immer über die Krankenkasse läuft."
-        ],
-        correct: [0],
-        explanation: "Ab 8 Stunden pro Woche beim gleichen Arbeitgeber besteht Deckung für NBU. Der Arbeitsweg ist dann NBU."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Wie wird eine IV-Rente aus der 1. Säule besteuert?",
-        answers: [
-          "Zu 100% getrennt vom übrigen Einkommen",
-          "Zu 80% separat vom übrigen Einkommen",
-          "Zu 100% zusammen mit dem übrigen Einkommen"
-        ],
-        correct: [2],
-        explanation: "IV-Renten der 1. Säule werden zu 100% zusammen mit dem übrigen Einkommen besteuert."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Ab welchem Invaliditätsgrad erhält eine Person in der IV eine ganze Rente?",
-        answers: [
-          "Ab 40%",
-          "Ab 50%",
-          "Ab 60%",
-          "Ab 70%"
-        ],
-        correct: [3],
-        explanation: "Eine ganze IV-Rente gibt es ab einem Invaliditätsgrad von 70%."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Kann ein bestehendes 3a-Konto für einen Einkauf in die Pensionskasse verwendet werden?",
-        answers: [
-          "Ja, das ist steuerlich neutral möglich.",
-          "Nein, das ist nicht möglich.",
-          "Ja, der Einkauf kann zusätzlich vom steuerbaren Einkommen abgezogen werden."
-        ],
-        correct: [0],
-        explanation: "Ein Transfer ist möglich, aber steuerlich neutral."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Muss der Steuerwert einer gemischten Lebensversicherung der Säule 3a in der Steuererklärung als Vermögen deklariert werden?",
-        answers: [
-          "Nein",
-          "Ja"
-        ],
-        correct: [0],
-        explanation: "Säule 3a wird nicht als Vermögen deklariert."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Wie hoch ist das versicherte UVG-Taggeld bei Jahreslohn über dem UVG-Maximum?",
-        answers: [
-          "CHF 324.80",
-          "CHF 330.15",
-          "CHF 297.60"
-        ],
-        correct: [0],
-        explanation: "UVG-Maximallohn CHF 148'200 × 80% / 365 = CHF 324.80."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Ein 14-jähriger Schüler verunfallt schwer auf dem Heimweg von der Schule. Welche Leistung aus der 1. Säule wird fällig?",
-        answers: [
-          "Eine minimale IV-Rente",
-          "Eine Rente von der Schulversicherung",
-          "Wiedereingliederungsmassnahmen",
-          "Minimale IV-Rente plus 133 1/3%",
-          "Eine maximale IV-Rente"
-        ],
-        correct: [2],
-        explanation: "Bei Minderjährigen zuerst Eingliederungsmassnahmen, IV-Rente erst ab 18."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Wie lauten die Altersgutschriften nach BVG-Revision für eine Frau?",
-        answers: [
-          "7%, 10%, 15%, 18%",
-          "7%, 10%, 15%, 17%",
-          "5%, 8%, 10%, 12%",
-          "8%, 10%, 16%, 18%",
-          "5%, 7%, 10%, 13%"
-        ],
-        correct: [0],
-        explanation: "Seit 01.01.2014 gelten bei Mann und Frau dieselben Sätze: 7%, 10%, 15%, 18%."
-      },
-      {
-        topic: "Vorsorge",
-        type: "single",
-        question: "Erfolgt bei einem WEF-Vorbezug aus der Säule 3a ein Eintrag ins Grundbuch?",
-        answers: [
-          "Falsch",
-          "WEF-Vorbezug hat immer einen Eintrag ins Grundbuch zur Folge",
-          "Richtig",
-          "Ist abhängig vom finanzierenden Institut"
-        ],
-        correct: [0],
-        explanation: "Der Grundbucheintrag betrifft die 2. Säule, nicht die Säule 3a."
+        icon: "🏰",
+        description: "AHV, IV, BVG, UVG, Säule 3a",
+        questions: [
+          {
+            id: "VO-01",
+            type: "single",
+            question: "Welche Aussage stimmt zum Thema Witwenrente (AHV)?",
+            answers: [
+              "Die erste Säule kennt nur die Witwenrente, aber keine Witwerrente.",
+              "Witwenrente, wenn Kinder vorhanden oder Frau ist 45 Jahre alt und 5 Jahre verheiratet.",
+              "Die Witwenrente wird auch bei Konkubinat-Paaren erbracht.",
+              "Witwenrente, wenn Kinder vorhanden oder Frau ist 45 Jahre alt oder 5 Jahre verheiratet."
+            ],
+            correct: [1],
+            explanation: "AHV-Witwenrente: wenn Kinder vorhanden sind oder wenn die Frau 45 Jahre alt ist und die Ehe mindestens 5 Jahre gedauert hat."
+          },
+          {
+            id: "VO-02",
+            type: "single",
+            question: "Wie wird eine IV-Rente aus der 1. Säule besteuert?",
+            answers: [
+              "Zu 100% getrennt vom übrigen Einkommen",
+              "Zu 80% separat vom übrigen Einkommen",
+              "Zu 100% zusammen mit dem übrigen Einkommen"
+            ],
+            correct: [2],
+            explanation: "IV-Renten der 1. Säule werden zu 100% zusammen mit dem übrigen Einkommen besteuert."
+          },
+          {
+            id: "VO-03",
+            type: "single",
+            question: "Ab welchem Invaliditätsgrad erhält eine Person in der IV eine ganze Rente?",
+            answers: [
+              "Ab 40%",
+              "Ab 50%",
+              "Ab 60%",
+              "Ab 70%"
+            ],
+            correct: [3],
+            explanation: "Eine ganze IV-Rente gibt es ab einem Invaliditätsgrad von 70%."
+          },
+          {
+            id: "VO-04",
+            type: "single",
+            question: "Kann ein bestehendes 3a-Konto für einen Einkauf in die Pensionskasse verwendet werden?",
+            answers: [
+              "Ja, das ist steuerlich neutral möglich.",
+              "Nein, das ist nicht möglich.",
+              "Ja, der Einkauf kann zusätzlich vom steuerbaren Einkommen abgezogen werden."
+            ],
+            correct: [0],
+            explanation: "Ein Transfer ist möglich, aber steuerlich neutral."
+          },
+          {
+            id: "VO-05",
+            type: "single",
+            question: "Muss der Steuerwert einer gemischten Lebensversicherung der Säule 3a in der Steuererklärung als Vermögen deklariert werden?",
+            answers: [
+              "Nein",
+              "Ja"
+            ],
+            correct: [0],
+            explanation: "Säule 3a wird nicht als Vermögen deklariert."
+          },
+          {
+            id: "VO-06",
+            type: "single",
+            question: "Wie hoch ist das versicherte UVG-Taggeld bei Jahreslohn über dem UVG-Maximum?",
+            answers: [
+              "CHF 324.80",
+              "CHF 330.15",
+              "CHF 297.60"
+            ],
+            correct: [0],
+            explanation: "UVG-Maximallohn CHF 148'200 × 80% / 365 = CHF 324.80."
+          },
+          {
+            id: "VO-07",
+            type: "single",
+            question: "Ein 14-jähriger Schüler verunfallt schwer auf dem Heimweg von der Schule. Welche Leistung aus der 1. Säule wird fällig?",
+            answers: [
+              "Eine minimale IV-Rente",
+              "Eine Rente von der Schulversicherung",
+              "Wiedereingliederungsmassnahmen",
+              "Minimale IV-Rente plus 133 1/3%",
+              "Eine maximale IV-Rente"
+            ],
+            correct: [2],
+            explanation: "Bei Minderjährigen zuerst Eingliederungsmassnahmen, IV-Rente erst ab 18."
+          },
+          {
+            id: "VO-08",
+            type: "single",
+            question: "Wie lauten die Altersgutschriften nach BVG-Revision für eine Frau?",
+            answers: [
+              "7%, 10%, 15%, 18%",
+              "7%, 10%, 15%, 17%",
+              "5%, 8%, 10%, 12%",
+              "8%, 10%, 16%, 18%",
+              "5%, 7%, 10%, 13%"
+            ],
+            correct: [0],
+            explanation: "Seit 01.01.2014 gelten bei Mann und Frau dieselben Sätze: 7%, 10%, 15%, 18%."
+          },
+          {
+            id: "VO-09",
+            type: "single",
+            question: "Erfolgt bei einem WEF-Vorbezug aus der Säule 3a ein Eintrag ins Grundbuch?",
+            answers: [
+              "Falsch",
+              "WEF-Vorbezug hat immer einen Eintrag ins Grundbuch zur Folge",
+              "Richtig",
+              "Ist abhängig vom finanzierenden Institut"
+            ],
+            correct: [0],
+            explanation: "Der Grundbucheintrag betrifft die 2. Säule, nicht die Säule 3a."
+          },
+          {
+            id: "VO-10",
+            type: "single",
+            question: "Klaus arbeitet 9 Stunden pro Woche. Auf dem direkten Nachhauseweg verunfallt er. Wie ist der Unfall versichert?",
+            answers: [
+              "Als Nichtberufsunfall, da ab 8 Stunden pro Woche der Arbeitsweg als NBU gilt.",
+              "Als Berufsunfall, da der Arbeitsweg immer als BU gilt.",
+              "Gar nicht über den Arbeitgeber, weil der Arbeitsweg immer über die Krankenkasse läuft."
+            ],
+            correct: [0],
+            explanation: "Ab 8 Stunden pro Woche beim gleichen Arbeitgeber besteht Deckung für NBU."
+          }
+        ]
       },
 
-      // VERSICHERUNG
       {
         topic: "Versicherung",
-        type: "multi",
-        question: "Welche Rechtsformen können in der Schweiz Versicherungsgesellschaften aufweisen? (Mehrere Antworten möglich)",
-        answers: [
-          "Kommanditgesellschaft",
-          "Aktiengesellschaft",
-          "GmbH",
-          "Einzelfirma",
-          "Genossenschaft"
-        ],
-        correct: [1, 4],
-        explanation: "Typisch sind Aktiengesellschaft und Genossenschaft."
+        icon: "🛡️",
+        description: "Hausrat, Haftpflicht, Kasko, Gebäude",
+        questions: [
+          {
+            id: "VE-01",
+            type: "multi",
+            question: "Welche Rechtsformen können in der Schweiz Versicherungsgesellschaften aufweisen?",
+            answers: [
+              "Kommanditgesellschaft",
+              "Aktiengesellschaft",
+              "GmbH",
+              "Einzelfirma",
+              "Genossenschaft"
+            ],
+            correct: [1, 4],
+            explanation: "Typisch sind Aktiengesellschaft und Genossenschaft."
+          },
+          {
+            id: "VE-02",
+            type: "single",
+            question: "Wie heisst der Wert der versicherten Sache zum Zeitpunkt des Vertragsabschlusses?",
+            answers: [
+              "Neuwert",
+              "Versicherungswert",
+              "Zeitwert",
+              "Versicherungssumme",
+              "Ersatzwert"
+            ],
+            correct: [1],
+            explanation: "Der Wert der Sache beim Vertragsabschluss heisst Versicherungswert."
+          },
+          {
+            id: "VE-03",
+            type: "single",
+            question: "Wann spricht man von einer Unterversicherung?",
+            answers: [
+              "Der Ersatzwert ist kleiner als die Versicherungssumme.",
+              "Der Ersatzwert ist grösser als die Versicherungssumme."
+            ],
+            correct: [1],
+            explanation: "Unterversicherung liegt vor, wenn der tatsächliche Wert höher ist als die vereinbarte Versicherungssumme."
+          },
+          {
+            id: "VE-04",
+            type: "single",
+            question: "Nach einem Brand beträgt der Ersatzwert des Hausrats CHF 100'000, versichert sind aber nur CHF 80'000. Wie hoch ist die Entschädigung für einen Schaden von CHF 15'000?",
+            answers: [
+              "CHF 12'000",
+              "CHF 14'000",
+              "CHF 15'000",
+              "CHF 10'000"
+            ],
+            correct: [0],
+            explanation: "20% Unterversicherung bedeutet Kürzung im gleichen Verhältnis: CHF 15'000 × 80% = CHF 12'000."
+          },
+          {
+            id: "VE-05",
+            type: "single",
+            question: "Wer ist Fahrzeughalter?",
+            answers: [
+              "Immer der Lenker.",
+              "Der Prämienzahler und Besitzer.",
+              "Der im Fahrzeugausweis eingetragen ist.",
+              "Kann frei bestimmt werden und ist kein Begriff des Gesetzes."
+            ],
+            correct: [2],
+            explanation: "Als Halter gilt im Regelfall die im Fahrzeugausweis eingetragene Person."
+          },
+          {
+            id: "VE-06",
+            type: "single",
+            question: "In einigen Kantonen ist nur eine bestimmte Hausratdeckung obligatorisch. Welche?",
+            answers: [
+              "Einbruch-Diebstahl und Beraubung",
+              "Wasser",
+              "Feuer und Elementarschaden",
+              "Glas",
+              "Beraubung",
+              "Einfacher Diebstahl"
+            ],
+            correct: [2],
+            explanation: "Obligatorisch ist in gewissen Kantonen nur Feuer und Elementarschaden."
+          },
+          {
+            id: "VE-07",
+            type: "single",
+            question: "Wird gestohlenes Bargeld von CHF 1'500 ersetzt, wenn maskierte Männer mit vorgehaltener Waffe ein Ehepaar zwingen, den Tresor zu öffnen?",
+            answers: [
+              "Ja",
+              "Nein"
+            ],
+            correct: [0],
+            explanation: "Das ist Beraubung und damit ein versichertes Risiko."
+          },
+          {
+            id: "VE-08",
+            type: "single",
+            question: "Für welches Fahrzeug besteht kein Haftpflichtobligatorium?",
+            answers: [
+              "Velo ohne Elektroantrieb",
+              "Helikopter REGA",
+              "Lastwagen auf öffentlicher Strasse",
+              "Personenwagen auf öffentlicher Strasse"
+            ],
+            correct: [0],
+            explanation: "Für ein normales Velo ohne Elektroantrieb besteht kein Haftpflichtobligatorium wie beim Motorfahrzeug."
+          },
+          {
+            id: "VE-09",
+            type: "single",
+            question: "Wie heisst die Form der Haftung, die sich aus eigenem Verschulden ergibt?",
+            answers: [
+              "Verschuldenshaftung",
+              "Milde Kausalhaftung",
+              "Scharfe Kausalhaftung",
+              "Gefährdungshaftung",
+              "Kausalhaftung"
+            ],
+            correct: [0],
+            explanation: "Eigene Schuld führt zur Verschuldenshaftung."
+          },
+          {
+            id: "VE-10",
+            type: "single",
+            question: "Handelt es sich bei der Wertsachenversicherung um eine Vollwertversicherung oder um eine Versicherung auf Erstes Risiko?",
+            answers: [
+              "Vollwertversicherung",
+              "Versicherung auf Erstes Risiko"
+            ],
+            correct: [1],
+            explanation: "Die Wertsachenversicherung wird typischerweise auf Erstes Risiko abgeschlossen."
+          }
+        ]
       },
+
       {
-        topic: "Versicherung",
-        type: "single",
-        question: "Wie heisst der Wert der versicherten Sache zum Zeitpunkt des Vertragsabschlusses?",
-        answers: [
-          "Neuwert",
-          "Versicherungswert",
-          "Zeitwert",
-          "Versicherungssumme",
-          "Ersatzwert"
-        ],
-        correct: [1],
-        explanation: "Der Wert der Sache beim Vertragsabschluss heisst Versicherungswert."
+        topic: "Immobilien",
+        icon: "🏠",
+        description: "Eigentum, Hypotheken, Tragbarkeit, Realwert",
+        questions: [
+          {
+            id: "IM-01",
+            type: "single",
+            question: "Ihre Kunden sind Eigentümer eines Grundstückes. Können sowohl die Eigentümer als auch Drittpersonen Rechte an dieser Sache besitzen?",
+            answers: [
+              "Nein",
+              "Ja"
+            ],
+            correct: [1],
+            explanation: "Ja, neben dem Eigentum können auch Drittpersonen dingliche oder obligatorische Rechte haben."
+          },
+          {
+            id: "IM-02",
+            type: "single",
+            question: "Rechte an Sachen sind dingliche Rechte, die nur unter den direkt beteiligten Personen eine Wirkung erzielen. Ist diese Aussage korrekt?",
+            answers: [
+              "Nein",
+              "Ja"
+            ],
+            correct: [0],
+            explanation: "Dingliche Rechte wirken grundsätzlich absolut, also gegenüber jedermann."
+          },
+          {
+            id: "IM-03",
+            type: "single",
+            question: "Das Grundstück Ihrer Kunden ist aktuell vermietet. Die aus der Vermietung resultierenden Mieteinnahmen sind natürliche Früchte einer Sache. Ist diese Aussage korrekt?",
+            answers: [
+              "Ja",
+              "Nein"
+            ],
+            correct: [1],
+            explanation: "Mietzinse sind Zivilfrüchte, nicht natürliche Früchte."
+          },
+          {
+            id: "IM-04",
+            type: "single",
+            question: "Das Zugehör in der Immobilie Ihrer Kunden ist bei einem Verkauf immer automatisch im Kaufpreis eingeschlossen. Ist diese Aussage korrekt?",
+            answers: [
+              "Ja",
+              "Nein"
+            ],
+            correct: [1],
+            explanation: "Über den Einbezug des Zugehörs kann auch eine andere Vereinbarung abgeschlossen werden."
+          },
+          {
+            id: "IM-05",
+            type: "single",
+            question: "Wäre eine Liegenschaft im Besitz einer Erbengemeinschaft mit mehreren Personen, würde unter diesen Personen Gesamteigentum bestehen. Ist diese Aussage korrekt?",
+            answers: [
+              "Ja",
+              "Nein"
+            ],
+            correct: [0],
+            explanation: "Erbengemeinschaften stehen im Gesamteigentum."
+          },
+          {
+            id: "IM-06",
+            type: "single",
+            question: "Falls eine Liegenschaft jemandem als Alleineigentümer gehört, kann diese jederzeit und ohne Einschränkung verkauft werden. Ist diese Aussage korrekt?",
+            answers: [
+              "Nein",
+              "Ja"
+            ],
+            correct: [0],
+            explanation: "Nicht bei Familienwohnungen, da es die Einwilligung beider Ehegatten braucht."
+          },
+          {
+            id: "IM-07",
+            type: "single",
+            question: "Ein Einfamilienhaus kostet CHF 800'000. 1. Hypothek 66.67%, 2. Hypothek banküblich, Zinssatz 2.50%, Nebenkosten 1%, Amortisation 15 Jahre. Wie hoch sind die effektiven Wohnkosten?",
+            answers: [
+              "CHF 34'414",
+              "CHF 30'119",
+              "CHF 31'109",
+              "CHF 39'901",
+              "CHF 39'911"
+            ],
+            correct: [2],
+            explanation: "Zinskosten CHF 16'000 + Amortisation CHF 7'109 + Nebenkosten CHF 8'000 = CHF 31'109."
+          },
+          {
+            id: "IM-08",
+            type: "single",
+            question: "Ein Haus kostet CHF 850'000. Wie hoch muss das Einkommen sein, wenn die kalkulatorischen Totallasten einen Drittel des Einkommens nicht übersteigen dürfen?",
+            answers: [
+              "CHF 150'143",
+              "CHF 150'171",
+              "CHF 150'616",
+              "CHF 150'582",
+              "CHF 150'162"
+            ],
+            correct: [4],
+            explanation: "Kalkulatorische Totallasten CHF 50'054 × 3 = CHF 150'162."
+          },
+          {
+            id: "IM-09",
+            type: "single",
+            question: "Bei einem PK-Vorbezug für Wohneigentum reduziert ein Vorbezug normalerweise Risiko- und Alterskapital. Ist diese Aussage korrekt?",
+            answers: [
+              "Richtig",
+              "Falsch"
+            ],
+            correct: [0],
+            explanation: "Ein Vorbezug reduziert in der Regel die Leistungen der beruflichen Vorsorge."
+          },
+          {
+            id: "IM-10",
+            type: "single",
+            question: "Mindestens wie viel echte Eigenmittel müssen gemäss banküblichen Richtlinien aus harten Eigenmitteln stammen?",
+            answers: [
+              "5% des Kaufpreises",
+              "10% des Kaufpreises",
+              "15% des Kaufpreises",
+              "20% des Kaufpreises"
+            ],
+            correct: [1],
+            explanation: "Mindestens 10% des Kaufpreises bzw. Belehnungswerts müssen aus harten Eigenmitteln kommen."
+          }
+        ]
       },
+
       {
-        topic: "Versicherung",
-        type: "single",
-        question: "Wann spricht man von einer Unterversicherung?",
-        answers: [
-          "Der Ersatzwert ist kleiner als die Versicherungssumme.",
-          "Der Ersatzwert ist grösser als die Versicherungssumme."
-        ],
-        correct: [1],
-        explanation: "Unterversicherung liegt vor, wenn der tatsächliche Wert höher ist als die vereinbarte Versicherungssumme."
+        topic: "Vermögen",
+        icon: "📈",
+        description: "Anlagen, Derivate, Fonds, Kennzahlen",
+        questions: [
+          {
+            id: "VM-01",
+            type: "multi",
+            question: "Welche der folgenden Produkte haben ein Emittentenrisiko?",
+            answers: [
+              "Immobilien",
+              "Konto",
+              "gemischte Lebensversicherung",
+              "Goldvreneli",
+              "Aktien",
+              "Strukturierte Produkte"
+            ],
+            correct: [1, 2, 4, 5],
+            explanation: "Konto, Lebensversicherung, Aktien und strukturierte Produkte haben ein Emittenten- bzw. Gegenparteirisiko."
+          },
+          {
+            id: "VM-02",
+            type: "single",
+            question: "Welche Anlage bietet weitgehenden Kapitalschutz und zugleich Gewinnmöglichkeiten bei steigenden Aktienkursen?",
+            answers: [
+              "Call-Optionen",
+              "Wandelobligationen",
+              "Put-Optionen",
+              "Kapitalschutzzertifikat mit Partizipation",
+              "Defensive Aktienanlagen"
+            ],
+            correct: [3],
+            explanation: "Kapitalschutzzertifikate mit Partizipation schützen das Kapital weitgehend und ermöglichen Partizipation an steigenden Kursen."
+          },
+          {
+            id: "VM-03",
+            type: "single",
+            question: "Ein Investor, der eine Option long geht, macht was genau?",
+            answers: [
+              "Er verkauft die Option.",
+              "Er kauft die Option.",
+              "Er emittiert die Option.",
+              "Er hedgt ohne Optionskauf."
+            ],
+            correct: [1],
+            explanation: "Long bei Optionen bedeutet Kauf der Option."
+          },
+          {
+            id: "VM-04",
+            type: "single",
+            question: "Was misst das Beta einer Aktie oder eines Portfolios?",
+            answers: [
+              "Die Überschussrendite pro Risikoeinheit",
+              "Die Sensitivität gegenüber dem Gesamtmarkt",
+              "Die Korrelation zwischen zwei Grössen",
+              "Die Leistung des Fondsmanagers"
+            ],
+            correct: [1],
+            explanation: "Beta misst die Sensitivität gegenüber dem Gesamtmarkt."
+          },
+          {
+            id: "VM-05",
+            type: "single",
+            question: "Was ist die Sharpe Ratio?",
+            answers: [
+              "Mass zur Quantifizierung von Wechselbeziehungen",
+              "Überschussrendite eines Fonds pro Risikoeinheit",
+              "Mass für die Marktsensitivität",
+              "Mass für die Duration"
+            ],
+            correct: [1],
+            explanation: "Die Sharpe Ratio misst die Überschussrendite pro Risikoeinheit."
+          },
+          {
+            id: "VM-06",
+            type: "single",
+            question: "Cost Average ist ein anderer Begriff für welche Methode?",
+            answers: [
+              "Durchschnittsmengenmethode",
+              "Top-down-Methode",
+              "Buy-and-hold-Methode",
+              "Zinseszinseffekt"
+            ],
+            correct: [0],
+            explanation: "Cost Average entspricht der Durchschnittsmengenmethode."
+          },
+          {
+            id: "VM-07",
+            type: "single",
+            question: "Die Einlagensicherung sichert pro Kunde und Konto CHF 100'000. Ist diese Aussage richtig?",
+            answers: [
+              "Nein",
+              "Ja"
+            ],
+            correct: [0],
+            explanation: "Die Einlagensicherung gilt pro Kunde und Bank, nicht pro Konto."
+          },
+          {
+            id: "VM-08",
+            type: "single",
+            question: "Der Geldmarkt ist ...",
+            answers: [
+              "der Markt, an dem alte Banknoten gehandelt werden.",
+              "der Markt, an dem Devisen gehandelt werden.",
+              "der Markt für Bankaktien.",
+              "der Markt für kurzfristige Schuldverschreibungen."
+            ],
+            correct: [3],
+            explanation: "Der Geldmarkt ist der Markt für kurzfristige Schuldverschreibungen."
+          },
+          {
+            id: "VM-09",
+            type: "single",
+            question: "Was sind langfristige Folgen von Inflation für Eigentümer von Sachwerten?",
+            answers: [
+              "Inflation hat keinen Einfluss auf die Wertentwicklung von Sachwerten.",
+              "Sachwerte verlieren infolge der Inflation an Wert.",
+              "Sachwerte sollten langfristig mindestens im Umfang der Inflation steigen."
+            ],
+            correct: [2],
+            explanation: "Sachwerte sollten langfristig mindestens im Umfang der Inflation steigen."
+          },
+          {
+            id: "VM-10",
+            type: "single",
+            question: "Ein ETF ist typischerweise was?",
+            answers: [
+              "Ein börsengehandelter Fonds",
+              "Eine Einzelobligation",
+              "Ein Sparkonto",
+              "Eine Lebensversicherung"
+            ],
+            correct: [0],
+            explanation: "ETF steht für Exchange Traded Fund, also einen börsengehandelten Fonds."
+          }
+        ]
       },
+
       {
-        topic: "Versicherung",
-        type: "single",
-        question: "Nach einem Brand beträgt der Ersatzwert des Hausrats CHF 100'000, versichert sind aber nur CHF 80'000. Wie hoch ist die Entschädigung für einen Schaden von CHF 15'000?",
-        answers: [
-          "CHF 12'000",
-          "CHF 14'000",
-          "CHF 15'000",
-          "CHF 10'000"
-        ],
-        correct: [0],
-        explanation: "20% Unterversicherung bedeutet Kürzung im gleichen Verhältnis: CHF 15'000 × 80% = CHF 12'000."
+        topic: "Steuern",
+        icon: "💰",
+        description: "Einkommen, Vermögen, Vorsorge, Verrechnungssteuer",
+        questions: [
+          {
+            id: "ST-01",
+            type: "multi",
+            question: "Welche der nachfolgenden Steuern sind ausschliesslich eidgenössische Steuern?",
+            answers: [
+              "Mehrwertsteuer",
+              "Umsatzabgabe",
+              "Vermögenssteuer",
+              "Einkommenssteuern",
+              "Verrechnungssteuer",
+              "Grundstückgewinnsteuer",
+              "Erbschaftssteuer"
+            ],
+            correct: [0, 1, 4],
+            explanation: "Mehrwertsteuer, Umsatzabgabe und Verrechnungssteuer sind eidgenössische Steuern."
+          },
+          {
+            id: "ST-02",
+            type: "single",
+            question: "Beat zieht am 1. Oktober für zwei Jahre von Zürich nach Lausanne. Wo bezahlt er im betreffenden Jahr seine Einkommenssteuern?",
+            answers: [
+              "Das ganze Jahr in Zürich",
+              "9 Monate in Zürich und 3 Monate in Lausanne",
+              "Das ganze Jahr in Lausanne"
+            ],
+            correct: [2],
+            explanation: "Massgebend ist der steuerrechtliche Wohnsitz am Ende der Steuerperiode."
+          },
+          {
+            id: "ST-03",
+            type: "multi",
+            question: "Welche zwei Elemente müssen vorliegen, damit Hans in Luzern seinen Wohnsitz hat?",
+            answers: [
+              "Er muss sich dort mindestens 30 Tage aufhalten.",
+              "Er muss die Absicht haben, dauernd in Luzern bleiben zu wollen.",
+              "Er muss dort seinen Schriftenempfangsschein hinterlegt haben.",
+              "Er muss in Luzern arbeiten.",
+              "Er muss sich tatsächlich in Luzern aufhalten.",
+              "Dort müssen Freunde, Eltern oder Geschwister vorhanden sein."
+            ],
+            correct: [1, 4],
+            explanation: "Wohnsitz braucht tatsächlichen Aufenthalt und die Absicht des dauernden Verbleibs."
+          },
+          {
+            id: "ST-04",
+            type: "single",
+            question: "Petra Felder will sich im November in ihre Pensionskasse einkaufen, obwohl die Altersrente bereits ab 1. Januar des Folgejahres beginnt. Ist der Einkauf steuerlich abzugsfähig?",
+            answers: [
+              "Ja",
+              "Nein"
+            ],
+            correct: [1],
+            explanation: "Ein Einkauf kurz vor Rentenbeginn ist in diesem Fall steuerlich nicht abzugsfähig."
+          },
+          {
+            id: "ST-05",
+            type: "single",
+            question: "Darf Peter, wohnhaft in Basel, weiterhin in die Säule 3a einzahlen, wenn er in Deutschland arbeitet?",
+            answers: [
+              "Es hängt davon ab, ob schweizerische oder deutsche AHV-Beiträge bezahlt werden.",
+              "Nein, er hat kein der AHV unterliegendes Einkommen.",
+              "Ja, er wohnt ja in Basel."
+            ],
+            correct: [0],
+            explanation: "Entscheidend ist, ob das Einkommen der schweizerischen AHV unterliegt."
+          },
+          {
+            id: "ST-06",
+            type: "single",
+            question: "Muss eine Wohnung in Madrid in der Schweizer Steuererklärung erwähnt werden?",
+            answers: [
+              "Nein, sie liegt ja im Ausland.",
+              "Nur dann, wenn sie vermietet wurde.",
+              "Ja."
+            ],
+            correct: [2],
+            explanation: "Welteinkommens- bzw. Weltvermögensprinzip mit Progressionsvorbehalt."
+          },
+          {
+            id: "ST-07",
+            type: "single",
+            question: "Was ändert sich steuerlich typischerweise beim Kauf eines Eigenheims?",
+            answers: [
+              "Künftig entfallen rückforderbare Verrechnungssteuern.",
+              "Sie dürfen Hypothekarzinsen abziehen und müssen einen Eigenmietwert versteuern.",
+              "Sie versteuern den vollen Kaufpreis als Einkommen.",
+              "Sie wechseln automatisch in den Ledigentarif."
+            ],
+            correct: [1],
+            explanation: "Typisch sind Hypothekarzinsabzug und Eigenmietwertbesteuerung."
+          },
+          {
+            id: "ST-08",
+            type: "single",
+            question: "Welche Steuerart betrifft typischerweise die Rückkaufswerte rückkaufsfähiger privater Lebensversicherungen?",
+            answers: [
+              "Keine Steuer",
+              "Nur Einkommenssteuer",
+              "Vermögenssteuer",
+              "Nur Grundstückgewinnsteuer"
+            ],
+            correct: [2],
+            explanation: "Rückkaufswerte rückkaufsfähiger Policen unterliegen grundsätzlich der Vermögenssteuer."
+          },
+          {
+            id: "ST-09",
+            type: "single",
+            question: "AHV- und IV-Renten sowie Ergänzungsleistungen unterliegen der Verrechnungssteuer. Richtig oder falsch?",
+            answers: [
+              "Richtig",
+              "Falsch"
+            ],
+            correct: [1],
+            explanation: "AHV- und IV-Renten sowie EL unterliegen nicht der Verrechnungssteuer."
+          },
+          {
+            id: "ST-10",
+            type: "single",
+            question: "Mehrwertsteuer gehört zu welcher Ebene?",
+            answers: [
+              "Bund",
+              "Kanton",
+              "Gemeinde",
+              "Kirche"
+            ],
+            correct: [0],
+            explanation: "Die Mehrwertsteuer ist eine eidgenössische Steuer."
+          }
+        ]
       },
+
       {
-        topic: "Versicherung",
-        type: "single",
-        question: "Wer ist Fahrzeughalter?",
-        answers: [
-          "Immer der Lenker.",
-          "Der Prämienzahler und Besitzer.",
-          "Der im Fahrzeugausweis eingetragen ist.",
-          "Kann frei bestimmt werden und ist kein Begriff des Gesetzes."
-        ],
-        correct: [2],
-        explanation: "Als Halter gilt im Regelfall die im Fahrzeugausweis eingetragene Person."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "In einigen Kantonen ist nur eine bestimmte Hausratdeckung obligatorisch. Welche?",
-        answers: [
-          "Einbruch-Diebstahl und Beraubung",
-          "Wasser",
-          "Feuer und Elementarschaden",
-          "Glas",
-          "Beraubung",
-          "Einfacher Diebstahl"
-        ],
-        correct: [2],
-        explanation: "Obligatorisch ist in gewissen Kantonen nur Feuer und Elementarschaden."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Wird gestohlenes Bargeld von CHF 1'500 ersetzt, wenn maskierte Männer mit vorgehaltener Waffe ein Ehepaar zwingen, den Tresor zu öffnen?",
-        answers: [
-          "Ja",
-          "Nein"
-        ],
-        correct: [0],
-        explanation: "Das ist Beraubung und damit ein versichertes Risiko."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Für welches Fahrzeug besteht kein Haftpflichtobligatorium?",
-        answers: [
-          "Velo ohne Elektroantrieb",
-          "Helikopter REGA",
-          "Lastwagen auf öffentlicher Strasse",
-          "Personenwagen auf öffentlicher Strasse"
-        ],
-        correct: [0],
-        explanation: "Für ein normales Velo ohne Elektroantrieb besteht kein Haftpflichtobligatorium wie beim Motorfahrzeug."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Wie heisst die Form der Haftung, die sich aus eigenem Verschulden ergibt?",
-        answers: [
-          "Verschuldenshaftung",
-          "Milde Kausalhaftung",
-          "Scharfe Kausalhaftung",
-          "Gefährdungshaftung",
-          "Kausalhaftung"
-        ],
-        correct: [0],
-        explanation: "Eigene Schuld führt zur Verschuldenshaftung."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Gehört ein gemietetes Klavier ebenfalls zum versicherten Hausrat?",
-        answers: [
-          "Ja",
-          "Nein"
-        ],
-        correct: [0],
-        explanation: "Gemietete bewegliche Sachen im Haushalt können zum versicherten Hausrat gehören."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Ein Dieb schlägt das Autofenster ein und stiehlt aus dem abgeschlossenen Handschuhfach eine Uhr. Wie wird das in der Hausratversicherung behandelt?",
-        answers: [
-          "Einfacher Diebstahl",
-          "Einbruch-Diebstahl"
-        ],
-        correct: [1],
-        explanation: "Gewaltsames Eindringen in ein abgeschlossenes Behältnis/Fahrzeug gilt als Einbruch-Diebstahl."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Kann ein Mieter im 3. Stock für rauchbeschädigte Vorhänge nach einem Brand im 2. Stock von seiner Hausratversicherung eine Entschädigung erwarten?",
-        answers: [
-          "Ja",
-          "Nein"
-        ],
-        correct: [0],
-        explanation: "Rauchschäden infolge Brand gehören zu den versicherten Feuerschäden."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Durch auslaufendes Heizöl werden im Keller gelagerte Kleider verschmutzt. Wird dies durch die Hausratversicherung ersetzt?",
-        answers: [
-          "Nein",
-          "Ja"
-        ],
-        correct: [1],
-        explanation: "Solche Folgeschäden sind in deinem Lernkontext unter Wasserschaden gedeckt."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Wie hoch ist bei der Hausratversicherung die maximale Entschädigung bei einfachem Diebstahl zu Hause?",
-        answers: [
-          "Bis CHF 20'000",
-          "Bis 50% der Versicherungssumme für den gesamten Hausrat",
-          "Bis zur Versicherungssumme für den gesamten Hausrat",
-          "Bis 20% der Versicherungssumme für den gesamten Hausrat"
-        ],
-        correct: [1],
-        explanation: "Einfacher Diebstahl zu Hause ist üblicherweise auf 50% der Versicherungssumme begrenzt."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Handelt es sich bei der Wertsachenversicherung um eine Vollwertversicherung oder um eine Versicherung auf Erstes Risiko?",
-        answers: [
-          "Vollwertversicherung",
-          "Versicherung auf Erstes Risiko"
-        ],
-        correct: [1],
-        explanation: "Die Wertsachenversicherung wird typischerweise auf Erstes Risiko abgeschlossen."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Ein Junglenker kommt von der Strasse ab und kollidiert mit einem Baum. Am Auto entsteht Totalschaden. Welche Aussage ist korrekt?",
-        answers: [
-          "Dieser Schaden wird von der Teilkasko übernommen.",
-          "Damit dieser Schaden bezahlt wird, ist der Abschluss einer Vollkasko nötig."
-        ],
-        correct: [1],
-        explanation: "Selbstverursachte Kollisionen am eigenen Auto benötigen Kollision/Vollkasko."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Wird ein Schaden bezahlt, wenn man nur wegen eines Vogels erschrickt und ohne Kollision mit dem Tier in ein Geländer fährt?",
-        answers: [
-          "Ja, da der Unfall mit einem Tier im Zusammenhang steht.",
-          "Nein, da keine direkte Kollision mit dem Tier stattgefunden hat."
-        ],
-        correct: [1],
-        explanation: "Teilkasko deckt in diesem Zusammenhang die direkte Kollision mit Tieren, nicht das blosse Ausweichmanöver."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Wenn Diebe von einem in der Tiefgarage abgestellten Auto alle vier Räder stehlen: Bezahlt die Teilkaskoversicherung?",
-        answers: [
-          "Nein",
-          "Ja"
-        ],
-        correct: [1],
-        explanation: "Diebstahl von Fahrzeugteilen ist in der Teilkasko gedeckt."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Trunkenheit am Steuer, Führerausweis entzogen, trotzdem weitergefahren und Kaskoschaden verursacht. Wie entscheidet der Versicherer?",
-        answers: [
-          "Der Versicherer lehnt den Schaden ab.",
-          "Der Versicherer bezahlt die Garagenrechnung und regressiert auf den Autobesitzer."
-        ],
-        correct: [1],
-        explanation: "Der Versicherer kann leisten und anschliessend Regress auf den Versicherten nehmen."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Unbekannte zerstachen bei mehreren Autos die Reifen. Wird die Teilkasko diesen Schaden übernehmen?",
-        answers: [
-          "Nein, der Halter benötigt eine Vollkaskoversicherung.",
-          "Nein, der Halter muss sich an den Nationalen Garantiefonds wenden.",
-          "Nein, der Halter muss hoffen, dass der Unbekannte gefasst wird.",
-          "Ja"
-        ],
-        correct: [3],
-        explanation: "Böswillige Beschädigung ist typischerweise über die Teilkasko gedeckt."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Durch eine irrtümlich ausgelöste Sprinkleranlage wurde der Keller unter Wasser gesetzt. Werden die beschädigten Sachen durch die Wasserversicherung bezahlt?",
-        answers: [
-          "Nein",
-          "Ja"
-        ],
-        correct: [1],
-        explanation: "Wasseraustritt aus Installationen bzw. Anlagen ist versichert."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Kann ein Restaurant die an den Wänden angebrachten Spiegel in der Geschäftsversicherung unter Glas versichern?",
-        answers: [
-          "Nein",
-          "Ja"
-        ],
-        correct: [1],
-        explanation: "Fest montierte Spiegel können in der Glasdeckung versichert werden."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Kann ein Ladenbesitzer das Risiko Ladendiebstahl in die bestehende Geschäftsversicherung einschliessen?",
-        answers: [
-          "Nein",
-          "Ja"
-        ],
-        correct: [0],
-        explanation: "Ladendiebstahl ist in der klassischen Geschäftsversicherung in der Regel nicht versicherbar."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Welche Werte werden durch die Geschäftsversicherung versichert?",
-        answers: [
-          "Die Werte der Erfolgsrechnung.",
-          "Die Werte der Bilanz."
-        ],
-        correct: [1],
-        explanation: "Versichert werden Bilanzwerte, nicht Erfolgsrechnungswerte."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Handelt es sich bei der Maschinenversicherung um eine Pauschalversicherung?",
-        answers: [
-          "Pauschalversicherung",
-          "Jede Maschine muss einzeln aufgeführt werden."
-        ],
-        correct: [1],
-        explanation: "Maschinen werden üblicherweise einzeln deklariert."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Handelt es sich bei der Maschinenversicherung um eine Vollwertversicherung?",
-        answers: [
-          "Ja",
-          "Nein"
-        ],
-        correct: [0],
-        explanation: "Die Maschinenversicherung ist grundsätzlich eine Vollwertversicherung."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Welche Schäden werden durch die Maschinenversicherung gedeckt?",
-        answers: [
-          "Nur innere Schäden",
-          "Nur äussere Schäden",
-          "Innere und äussere Schäden"
-        ],
-        correct: [2],
-        explanation: "Sie deckt typischerweise innere und äussere Schäden."
-      },
-      {
-        topic: "Versicherung",
-        type: "single",
-        question: "Manipulation an einer Druckmaschine durch eine gekündigte Person, aber nicht nachweisbar. Ist dies durch die Maschinenversicherung gedeckt?",
-        answers: [
-          "Ja",
-          "Nein"
-        ],
-        correct: [0],
-        explanation: "Bei unklarer Ursache kann der plötzliche, unvorhergesehene Sachschaden gedeckt sein."
+        topic: "Recht",
+        icon: "⚖️",
+        description: "Erbrecht, Güterrecht, OR, Auftragsrecht",
+        questions: [
+          {
+            id: "RE-01",
+            type: "single",
+            question: "Stirbt ein geschiedener Mann, ist vor der erbrechtlichen Auseinandersetzung stets die güterrechtliche Auseinandersetzung durchzuführen. Ist diese Aussage korrekt?",
+            answers: [
+              "Ja",
+              "Nein"
+            ],
+            correct: [1],
+            explanation: "Bei Geschiedenen wurde die güterrechtliche Auseinandersetzung bereits im Zeitpunkt der Scheidung vorgenommen."
+          },
+          {
+            id: "RE-02",
+            type: "single",
+            question: "Das schweizerische Güterrecht kennt einen gesetzlichen Güterstand sowie zwei vertragliche Güterstände. Ist diese Aussage korrekt?",
+            answers: [
+              "Ja",
+              "Nein"
+            ],
+            correct: [0],
+            explanation: "Gesetzlich: Errungenschaftsbeteiligung. Vertraglich: Gütergemeinschaft und Gütertrennung."
+          },
+          {
+            id: "RE-03",
+            type: "single",
+            question: "Der Güterstand der Errungenschaftsbeteiligung beinhaltet je zwei Gütermassen für jeden Ehegatten. Ist diese Aussage korrekt?",
+            answers: [
+              "Nein",
+              "Ja"
+            ],
+            correct: [1],
+            explanation: "Jeder Ehegatte hat Eigengut und Errungenschaft."
+          },
+          {
+            id: "RE-04",
+            type: "single",
+            question: "Kann ein Vermögenswert einer Gütermasse nicht zugeordnet werden, fällt er in die Errungenschaft. Ist diese Aussage korrekt?",
+            answers: [
+              "Ja",
+              "Nein"
+            ],
+            correct: [0],
+            explanation: "Alles Vermögen gilt bis zum Beweis des Gegenteils als Errungenschaft."
+          },
+          {
+            id: "RE-05",
+            type: "single",
+            question: "Welche Erben sind pflichtteilsgeschützt?",
+            answers: [
+              "Nur Geschwister und Eltern",
+              "Nachkommen und überlebender Ehegatte",
+              "Grosseltern und Gemeinwesen",
+              "Göttikinder und Eltern"
+            ],
+            correct: [1],
+            explanation: "Pflichtteilsgeschützt sind insbesondere Nachkommen und der überlebende Ehegatte."
+          },
+          {
+            id: "RE-06",
+            type: "single",
+            question: "Welche Voraussetzungen sind für ein eigenhändiges Testament notwendig?",
+            answers: [
+              "Computer, Datum, Notar",
+              "Eigenhändige Niederschrift, Datum, Unterschrift",
+              "Mündliche Erklärung vor zwei Zeugen",
+              "Nur die Unterschrift"
+            ],
+            correct: [1],
+            explanation: "Ein eigenhändiges Testament braucht eigenhändige Niederschrift, Datum und Unterschrift."
+          },
+          {
+            id: "RE-07",
+            type: "single",
+            question: "Wie kommt ein Auftragsverhältnis in bestimmten Fällen zustande?",
+            answers: [
+              "Nur mit öffentlicher Beurkundung",
+              "Annahme ohne sofortige Ablehnung in bestimmten Fällen",
+              "Gar nicht ohne schriftlichen Vertrag",
+              "Immer automatisch mit einer Rechnung"
+            ],
+            correct: [1],
+            explanation: "Bei gewerbsmässigem Auftreten kann Annahme ohne sofortige Ablehnung genügen."
+          },
+          {
+            id: "RE-08",
+            type: "single",
+            question: "Der einfache Auftrag beinhaltet eine Erfolgsgarantie. Richtig oder falsch?",
+            answers: [
+              "Richtig",
+              "Falsch"
+            ],
+            correct: [1],
+            explanation: "Beim einfachen Auftrag ist sorgfältiges Tätigwerden geschuldet, keine Erfolgsgarantie."
+          },
+          {
+            id: "RE-09",
+            type: "single",
+            question: "Beim einfachen Auftrag ist immer eine Vergütung geschuldet. Richtig oder falsch?",
+            answers: [
+              "Richtig",
+              "Falsch"
+            ],
+            correct: [1],
+            explanation: "Eine Vergütung ist nur geschuldet, wenn verabredet oder üblich."
+          },
+          {
+            id: "RE-10",
+            type: "single",
+            question: "Welche Aussage zur Handlungsfähigkeit ist korrekt?",
+            answers: [
+              "Wer urteilsfähig, aber nicht volljährig ist, ist voll handlungsfähig.",
+              "Urteilsfähigkeit beinhaltet die Fähigkeit, vernunftgemäss zu handeln.",
+              "Kinder unter 12 sind immer urteilsfähig.",
+              "Wer nicht volljährig ist, kann nie rechtswirksam handeln."
+            ],
+            correct: [1],
+            explanation: "Urteilsfähigkeit bedeutet die Fähigkeit, vernunftgemäss zu handeln."
+          }
+        ]
       }
     ];
 
+    const MIX_TOPIC = {
+      topic: "Mix",
+      icon: "🔀",
+      description: "Alle Themen bunt gemischt"
+    };
+
+    let selectedMode = null;
+    let currentTopic = null;
     let quizQuestions = [];
     let currentIndex = 0;
     let score = 0;
     let selectedForMulti = [];
+    let answeredCurrent = false;
     let userResults = [];
-    let currentMode = "Vorsorge";
+    let topicStats = {};
+    let reviewMode = false;
+
+    const startScreen = document.getElementById("startScreen");
+    const quizScreen = document.getElementById("quizScreen");
+    const summaryScreen = document.getElementById("summaryScreen");
+    const topicChooser = document.getElementById("topicChooser");
+    const topicGrid = document.getElementById("topicGrid");
+    const tabRow = document.getElementById("tabRow");
+    const answersBox = document.getElementById("answersBox");
+    const feedbackBox = document.getElementById("feedbackBox");
+    const questionBox = document.getElementById("questionBox");
+    const questionTypeHint = document.getElementById("questionTypeHint");
+    const nextBtn = document.getElementById("nextBtn");
+    const checkBtn = document.getElementById("checkBtn");
 
     function shuffle(array) {
       const arr = [...array];
@@ -801,41 +1368,120 @@
       return arr;
     }
 
-    function prepareQuestions(mode) {
+    function arraysEqual(a, b) {
+      const x = [...a].sort((m, n) => m - n);
+      const y = [...b].sort((m, n) => m - n);
+      return JSON.stringify(x) === JSON.stringify(y);
+    }
+
+    function initTopicCards() {
+      const allTopics = [...QUESTION_BANK, MIX_TOPIC];
+      topicGrid.innerHTML = "";
+
+      allTopics.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "select-card";
+        div.innerHTML = `
+          <h3>${item.icon} ${item.topic}</h3>
+          <p>${item.description}</p>
+        `;
+        div.onclick = () => startQuiz(item.topic);
+        topicGrid.appendChild(div);
+      });
+    }
+
+    function selectMode(mode) {
+      selectedMode = mode;
+      topicChooser.classList.remove("hidden");
+    }
+
+    function prepareTopicStats(questions) {
+      topicStats = {};
+      questions.forEach(q => {
+        if (!topicStats[q.topic]) {
+          topicStats[q.topic] = {
+            total: 0,
+            correct: 0
+          };
+        }
+        topicStats[q.topic].total += 1;
+      });
+    }
+
+    function prepareQuestions(topicName) {
       let selected = [];
-      if (mode === "Mix") {
-        selected = questions;
+
+      if (topicName === "Mix") {
+        QUESTION_BANK.forEach(topic => {
+          topic.questions.forEach(q => {
+            selected.push({
+              ...q,
+              topic: topic.topic
+            });
+          });
+        });
       } else {
-        selected = questions.filter(q => q.topic === mode);
+        const topic = QUESTION_BANK.find(t => t.topic === topicName);
+        selected = topic.questions.map(q => ({
+          ...q,
+          topic: topic.topic
+        }));
       }
 
-      quizQuestions = shuffle(selected).map(q => {
-        const shuffledAnswers = q.answers.map((text, index) => ({ text, originalIndex: index }));
-        const mixedAnswers = shuffle(shuffledAnswers);
-        const newCorrect = mixedAnswers
-          .map((a, idx) => q.correct.includes(a.originalIndex) ? idx : null)
-          .filter(v => v !== null);
+      return shuffle(selected).map(q => {
+        const shuffledAnswers = q.answers
+          ? shuffle(q.answers.map((text, index) => ({ text, originalIndex: index })))
+          : null;
 
         return {
           ...q,
-          shuffledAnswers: mixedAnswers,
-          shuffledCorrect: newCorrect
+          shuffledAnswers,
+          shuffledCorrect: shuffledAnswers
+            ? shuffledAnswers
+                .map((a, idx) => q.correct.includes(a.originalIndex) ? idx : null)
+                .filter(v => v !== null)
+            : []
         };
       });
     }
 
-    function startQuiz(mode) {
-      currentMode = mode;
-      prepareQuestions(mode);
+    function buildTabs() {
+      const topics = [...QUESTION_BANK.map(t => t.topic), "Mix"];
+      tabRow.innerHTML = "";
+      topics.forEach(topic => {
+        const btn = document.createElement("button");
+        btn.className = "tab" + (topic === currentTopic ? " active" : "");
+        btn.textContent = topic;
+        btn.onclick = () => {
+          if (topic !== currentTopic) {
+            startQuiz(topic);
+          }
+        };
+        tabRow.appendChild(btn);
+      });
+    }
+
+    function startQuiz(topicName) {
+      currentTopic = topicName;
+      quizQuestions = prepareQuestions(topicName);
       currentIndex = 0;
       score = 0;
       selectedForMulti = [];
+      answeredCurrent = false;
       userResults = [];
+      reviewMode = false;
 
-      document.getElementById("startScreen").classList.add("hidden");
-      document.getElementById("summaryScreen").classList.add("hidden");
-      document.getElementById("quizScreen").classList.remove("hidden");
+      prepareTopicStats(quizQuestions);
+
+      startScreen.classList.add("hidden");
+      summaryScreen.classList.add("hidden");
+      quizScreen.classList.remove("hidden");
+
+      buildTabs();
+
       document.getElementById("totalQuestions").textContent = quizQuestions.length;
+      document.getElementById("scoreNow").textContent = score;
+      document.getElementById("currentModeLabel").textContent = selectedMode === "learn" ? "📘 Lernmodus" : "📝 Prüfungsmodus";
 
       renderQuestion();
     }
@@ -843,19 +1489,29 @@
     function renderQuestion() {
       const q = quizQuestions[currentIndex];
       selectedForMulti = [];
+      answeredCurrent = false;
+      feedbackBox.innerHTML = "";
+      nextBtn.classList.add("hidden");
+      checkBtn.classList.add("hidden");
 
       document.getElementById("currentQuestionNr").textContent = currentIndex + 1;
       document.getElementById("scoreNow").textContent = score;
-      document.getElementById("topicName").textContent = currentMode === "Mix" ? `Mix • aktuelle Frage: ${q.topic}` : q.topic;
-      document.getElementById("questionBox").textContent = q.question;
-      document.getElementById("feedbackBox").innerHTML = "";
-      document.getElementById("nextBtn").classList.add("hidden");
+      document.getElementById("topicName").textContent =
+        currentTopic === "Mix"
+          ? `Mix • aktuelle Frage: ${q.topic}`
+          : q.topic;
 
-      const progress = ((currentIndex) / quizQuestions.length) * 100;
-      document.getElementById("progressBar").style.width = progress + "%";
+      document.getElementById("progressBar").style.width =
+        ((currentIndex) / quizQuestions.length) * 100 + "%";
 
-      const answersBox = document.getElementById("answersBox");
+      questionBox.textContent = q.question;
       answersBox.innerHTML = "";
+
+      if (q.type === "single") {
+        questionTypeHint.textContent = "Single Choice • genau eine Antwort";
+      } else {
+        questionTypeHint.textContent = "Multiple Choice • mehrere Antworten möglich";
+      }
 
       q.shuffledAnswers.forEach((answer, idx) => {
         const btn = document.createElement("button");
@@ -872,16 +1528,13 @@
       });
 
       if (q.type === "multi") {
-        const checkBtn = document.createElement("button");
-        checkBtn.className = "main-btn";
-        checkBtn.textContent = "Antwort prüfen";
-        checkBtn.style.marginTop = "14px";
-        checkBtn.onclick = checkMultiAnswer;
-        answersBox.appendChild(checkBtn);
+        checkBtn.classList.remove("hidden");
       }
     }
 
     function toggleMultiAnswer(btn, idx) {
+      if (answeredCurrent) return;
+
       if (selectedForMulti.includes(idx)) {
         selectedForMulti = selectedForMulti.filter(i => i !== idx);
         btn.classList.remove("selected");
@@ -891,13 +1544,10 @@
       }
     }
 
-    function arraysEqual(a, b) {
-      const x = [...a].sort((m, n) => m - n);
-      const y = [...b].sort((m, n) => m - n);
-      return JSON.stringify(x) === JSON.stringify(y);
-    }
-
     function handleSingleAnswer(selectedIndex) {
+      if (answeredCurrent) return;
+      answeredCurrent = true;
+
       const q = quizQuestions[currentIndex];
       const buttons = document.querySelectorAll(".answer-btn");
       buttons.forEach(btn => btn.disabled = true);
@@ -913,19 +1563,19 @@
         }
       });
 
-      if (isCorrect) score++;
+      storeResult(isCorrect);
 
-      userResults.push({
-        question: q.question,
-        topic: q.topic,
-        correct: isCorrect,
-        explanation: q.explanation
-      });
-
-      showFeedback(isCorrect, q.explanation);
+      if (selectedMode === "learn") {
+        showFeedback(isCorrect, q.explanation);
+      } else {
+        nextBtn.classList.remove("hidden");
+      }
     }
 
-    function checkMultiAnswer() {
+    function checkCurrentQuestion() {
+      if (answeredCurrent) return;
+      answeredCurrent = true;
+
       const q = quizQuestions[currentIndex];
       const buttons = document.querySelectorAll(".answer-btn");
       const isCorrect = arraysEqual(selectedForMulti, q.shuffledCorrect);
@@ -940,7 +1590,21 @@
         }
       });
 
-      if (isCorrect) score++;
+      storeResult(isCorrect);
+
+      if (selectedMode === "learn") {
+        showFeedback(isCorrect, q.explanation);
+      } else {
+        nextBtn.classList.remove("hidden");
+      }
+    }
+
+    function storeResult(isCorrect) {
+      const q = quizQuestions[currentIndex];
+      if (isCorrect) {
+        score++;
+        topicStats[q.topic].correct++;
+      }
 
       userResults.push({
         question: q.question,
@@ -949,19 +1613,17 @@
         explanation: q.explanation
       });
 
-      showFeedback(isCorrect, q.explanation);
+      document.getElementById("scoreNow").textContent = score;
     }
 
     function showFeedback(isCorrect, explanation) {
-      const box = document.getElementById("feedbackBox");
-      box.innerHTML = `
+      feedbackBox.innerHTML = `
         <div class="feedback ${isCorrect ? "good" : "bad"}">
           ${isCorrect ? "✅ Richtig!" : "❌ Nicht ganz."}
         </div>
         <div class="explanation"><strong>Lösungshinweis:</strong> ${explanation}</div>
       `;
-      document.getElementById("scoreNow").textContent = score;
-      document.getElementById("nextBtn").classList.remove("hidden");
+      nextBtn.classList.remove("hidden");
     }
 
     function nextQuestion() {
@@ -973,57 +1635,133 @@
       }
     }
 
+    function buildTopicStats() {
+      const el = document.getElementById("topicStats");
+      el.innerHTML = "";
+
+      Object.entries(topicStats).forEach(([topic, data]) => {
+        const percent = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0;
+        const box = document.createElement("div");
+        box.className = "topic-stat";
+        box.innerHTML = `
+          <strong>${topic}</strong>
+          <div>${data.correct} von ${data.total} richtig • ${percent}%</div>
+        `;
+        el.appendChild(box);
+      });
+    }
+
     function showSummary() {
-      document.getElementById("quizScreen").classList.add("hidden");
-      document.getElementById("summaryScreen").classList.remove("hidden");
+      quizScreen.classList.add("hidden");
+      summaryScreen.classList.remove("hidden");
 
       const percent = Math.round((score / quizQuestions.length) * 100);
       document.getElementById("finalPercent").textContent = percent + "%";
       document.getElementById("finalScoreText").textContent = `${score} von ${quizQuestions.length} richtig`;
-      document.getElementById("topicSummary").textContent = currentMode === "Mix"
-        ? "Mix-Modus über alle eingebauten Themen"
-        : `Ritter ${currentMode}`;
+      document.getElementById("modeSummary").textContent = selectedMode === "learn" ? "Lernmodus mit Sofortkorrektur" : "Prüfungsmodus ohne Sofortkorrektur";
+      document.getElementById("topicSummary").textContent = currentTopic === "Mix"
+        ? "Mix-Modus über alle Module"
+        : currentTopic;
 
       let tip = "";
       if (percent >= 85) {
-        tip = "Sehr stark. Du bist in diesem Thema schon ziemlich sattelfest. 🛡️";
+        tip = "Sehr stark. Du bist in diesem Bereich schon ziemlich sattelfest.";
       } else if (percent >= 65) {
         tip = "Gute Basis. Schau dir die falschen Fragen nochmals gezielt an.";
       } else {
-        tip = "Hier steckt noch Potenzial drin. Fokus auf Lücken, dann wird der Ritter stärker. ⚔️";
+        tip = "Hier steckt noch Potenzial drin. Fokus auf die Lücken, dann wird der Ritter stärker.";
       }
       document.getElementById("studyTip").textContent = tip;
+
+      buildTopicStats();
 
       const wrongAnswers = userResults.filter(r => !r.correct);
       const reviewSection = document.getElementById("reviewSection");
       const reviewList = document.getElementById("reviewList");
+      const wrongRepeatBtn = document.getElementById("wrongRepeatBtn");
 
       if (wrongAnswers.length > 0) {
         reviewSection.classList.remove("hidden");
+        wrongRepeatBtn.classList.remove("hidden");
+
         reviewList.innerHTML = wrongAnswers.map(item => `
           <div class="review-item">
             <div><strong>Frage:</strong> ${item.question}</div>
-            <div><strong>Thema:</strong> ${item.topic}</div>
-            <div class="small" style="margin-top: 8px;"><strong>Lösungshinweis:</strong> ${item.explanation}</div>
+            <div class="review-tags">
+              <span class="review-tag">${item.topic}</span>
+              <span class="review-tag">falsch beantwortet</span>
+            </div>
+            <div class="explanation" style="margin-top:10px;">
+              <strong>Lösungshinweis:</strong> ${item.explanation}
+            </div>
           </div>
         `).join("");
       } else {
         reviewSection.classList.add("hidden");
         reviewList.innerHTML = "";
+        wrongRepeatBtn.classList.add("hidden");
       }
 
       document.getElementById("progressBar").style.width = "100%";
     }
 
+    function repeatWrongQuestions() {
+      const wrongQuestions = quizQuestions.filter((q, idx) => !userResults[idx].correct);
+
+      if (!wrongQuestions.length) return;
+
+      quizQuestions = shuffle(wrongQuestions).map(q => {
+        const shuffledAnswers = shuffle(q.answers.map((text, index) => ({ text, originalIndex: index })));
+        return {
+          ...q,
+          shuffledAnswers,
+          shuffledCorrect: shuffledAnswers
+            .map((a, idx) => q.correct.includes(a.originalIndex) ? idx : null)
+            .filter(v => v !== null)
+        };
+      });
+
+      currentIndex = 0;
+      score = 0;
+      selectedForMulti = [];
+      answeredCurrent = false;
+      userResults = [];
+      reviewMode = true;
+
+      prepareTopicStats(quizQuestions);
+
+      summaryScreen.classList.add("hidden");
+      quizScreen.classList.remove("hidden");
+
+      document.getElementById("totalQuestions").textContent = quizQuestions.length;
+      document.getElementById("scoreNow").textContent = score;
+      document.getElementById("currentModeLabel").textContent = "🔁 Wiederholung falscher Fragen";
+
+      renderQuestion();
+    }
+
     function restartQuiz() {
-      startQuiz(currentMode);
+      startQuiz(currentTopic);
     }
 
     function goHome() {
-      document.getElementById("quizScreen").classList.add("hidden");
-      document.getElementById("summaryScreen").classList.add("hidden");
-      document.getElementById("startScreen").classList.remove("hidden");
+      quizScreen.classList.add("hidden");
+      summaryScreen.classList.add("hidden");
+      startScreen.classList.remove("hidden");
+      topicChooser.classList.add("hidden");
+      selectedMode = null;
+      currentTopic = null;
+      quizQuestions = [];
+      currentIndex = 0;
+      score = 0;
+      selectedForMulti = [];
+      answeredCurrent = false;
+      userResults = [];
+      topicStats = {};
+      reviewMode = false;
     }
+
+    initTopicCards();
   </script>
 </body>
 </html>
