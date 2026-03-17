@@ -50,6 +50,7 @@
       margin-bottom: 18px;
     }
     .hidden { display: none; }
+
     .topic-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -76,6 +77,7 @@
       color: #475569;
       font-size: 0.95rem;
     }
+
     .topbar {
       display: flex;
       justify-content: space-between;
@@ -236,7 +238,7 @@
   <div class="container">
     <section class="hero">
       <h1>⚔️ Finanzberater Lernquiz</h1>
-      <p>Gemischte Fragen, direktes Feedback, Auswertung am Schluss.</p>
+      <p>Wähle dein Thema, trainiere gemischt und prüfe deine Lücken gezielt.</p>
       <span class="badge">🔀 Gemischte Reihenfolge</span>
       <span class="badge">✅ Sofortige Korrektur</span>
       <span class="badge">📊 Themen-Auswertung</span>
@@ -244,40 +246,24 @@
 
     <section id="startScreen" class="card">
       <h2>Wähle deinen Ritter</h2>
-      <p>Trainiere ein einzelnes Thema oder später den Mix-Modus über alle Module.</p>
+      <p>Trainiere ein einzelnes Thema oder den Mix-Modus.</p>
 
       <div class="topic-grid">
         <div class="topic-card" onclick="startQuiz('Vorsorge')">
           <h3>🏰 Vorsorge</h3>
-          <p>Bereits eingebaut</p>
+          <p>Sozialversicherungen, BVG, 3a, UVG & mehr</p>
         </div>
         <div class="topic-card" onclick="startQuiz('Versicherung')">
           <h3>🛡️ Versicherung</h3>
-          <p>Erster Block eingebaut</p>
+          <p>Hausrat, Haftpflicht, Kasko, Gebäude & mehr</p>
         </div>
-        <div class="topic-card" onclick="showComingSoon('Vermögen')">
-          <h3>💰 Vermögen</h3>
-          <p>Kommt als Nächstes</p>
-        </div>
-        <div class="topic-card" onclick="showComingSoon('Immobilien')">
-          <h3>🏠 Immobilien</h3>
-          <p>Kommt als Nächstes</p>
-        </div>
-        <div class="topic-card" onclick="showComingSoon('Steuern')">
-          <h3>📊 Steuern</h3>
-          <p>Kommt als Nächstes</p>
-        </div>
-        <div class="topic-card" onclick="showComingSoon('Recht')">
-          <h3>⚖️ Recht</h3>
-          <p>Kommt als Nächstes</p>
+        <div class="topic-card" onclick="startQuiz('Mix')">
+          <h3>🔀 Mix-Modus</h3>
+          <p>Alle eingebauten Themen bunt gemischt</p>
         </div>
       </div>
 
-      <div class="actions">
-        <button class="secondary-btn" onclick="startQuiz('Mix')">🔀 Mix-Modus</button>
-      </div>
-
-      <p class="footer-note">Hinweis: Versicherung enthält jetzt einen ersten sauberen Fragenblock. Die Matrixfragen ergänzen wir im nächsten Schritt.</p>
+      <p class="footer-note">Weitere Ritter wie Vermögen, Immobilien, Steuern und Recht können wir danach ergänzen.</p>
     </section>
 
     <section id="quizScreen" class="card hidden">
@@ -464,11 +450,11 @@
         explanation: "Der Grundbucheintrag betrifft die 2. Säule, nicht die Säule 3a."
       },
 
-      // VERSICHERUNG – erster sicherer Block
+      // VERSICHERUNG
       {
         topic: "Versicherung",
-        type: "single",
-        question: "Welche Rechtsform können in der Schweiz Versicherungsgesellschaften aufweisen?",
+        type: "multi",
+        question: "Welche Rechtsformen können in der Schweiz Versicherungsgesellschaften aufweisen? (Mehrere Antworten möglich)",
         answers: [
           "Kommanditgesellschaft",
           "Aktiengesellschaft",
@@ -476,8 +462,8 @@
           "Einzelfirma",
           "Genossenschaft"
         ],
-        correct: [1,4],
-        explanation: "In der Schweiz treten Versicherer typischerweise als Aktiengesellschaft oder Genossenschaft auf."
+        correct: [1, 4],
+        explanation: "Typisch sind Aktiengesellschaft und Genossenschaft."
       },
       {
         topic: "Versicherung",
@@ -491,7 +477,7 @@
           "Ersatzwert"
         ],
         correct: [1],
-        explanation: "Der Wert der Sache zum Zeitpunkt des Vertragsabschlusses heisst Versicherungswert."
+        explanation: "Der Wert der Sache beim Vertragsabschluss heisst Versicherungswert."
       },
       {
         topic: "Versicherung",
@@ -603,7 +589,7 @@
           "Einbruch-Diebstahl"
         ],
         correct: [1],
-        explanation: "Gewaltsames Eindringen in ein abgeschlossenes Behältnis/Fahrzeug → Einbruch-Diebstahl."
+        explanation: "Gewaltsames Eindringen in ein abgeschlossenes Behältnis/Fahrzeug gilt als Einbruch-Diebstahl."
       },
       {
         topic: "Versicherung",
@@ -614,7 +600,7 @@
           "Nein"
         ],
         correct: [0],
-        explanation: "Rauchschäden infolge Brand gehören zu Feuer."
+        explanation: "Rauchschäden infolge Brand gehören zu den versicherten Feuerschäden."
       },
       {
         topic: "Versicherung",
@@ -625,7 +611,7 @@
           "Ja"
         ],
         correct: [1],
-        explanation: "Solche Folgeschäden sind in der Regel unter Wasserschaden gedeckt."
+        explanation: "Solche Folgeschäden sind in deinem Lernkontext unter Wasserschaden gedeckt."
       },
       {
         topic: "Versicherung",
@@ -643,7 +629,7 @@
       {
         topic: "Versicherung",
         type: "single",
-        question: "Handelt es sich bei der Wertsachenversicherung um eine Vollwertversicherung oder um eine Versicherung auf erstes Risiko?",
+        question: "Handelt es sich bei der Wertsachenversicherung um eine Vollwertversicherung oder um eine Versicherung auf Erstes Risiko?",
         answers: [
           "Vollwertversicherung",
           "Versicherung auf Erstes Risiko"
@@ -693,7 +679,7 @@
           "Der Versicherer bezahlt die Garagenrechnung und regressiert auf den Autobesitzer."
         ],
         correct: [1],
-        explanation: "Der Versicherer kann leisten und anschliessend Regress nehmen."
+        explanation: "Der Versicherer kann leisten und anschliessend Regress auf den Versicherten nehmen."
       },
       {
         topic: "Versicherung",
@@ -860,7 +846,7 @@
 
       document.getElementById("currentQuestionNr").textContent = currentIndex + 1;
       document.getElementById("scoreNow").textContent = score;
-      document.getElementById("topicName").textContent = q.topic;
+      document.getElementById("topicName").textContent = currentMode === "Mix" ? `Mix • aktuelle Frage: ${q.topic}` : q.topic;
       document.getElementById("questionBox").textContent = q.question;
       document.getElementById("feedbackBox").innerHTML = "";
       document.getElementById("nextBtn").classList.add("hidden");
@@ -876,7 +862,7 @@
         btn.className = "answer-btn";
         btn.textContent = answer.text;
 
-        if (q.type === "single" && q.correct.length === 1) {
+        if (q.type === "single") {
           btn.onclick = () => handleSingleAnswer(idx);
         } else {
           btn.onclick = () => toggleMultiAnswer(btn, idx);
@@ -885,7 +871,7 @@
         answersBox.appendChild(btn);
       });
 
-      if (!(q.type === "single" && q.correct.length === 1)) {
+      if (q.type === "multi") {
         const checkBtn = document.createElement("button");
         checkBtn.className = "main-btn";
         checkBtn.textContent = "Antwort prüfen";
@@ -919,8 +905,12 @@
       const isCorrect = q.shuffledCorrect[0] === selectedIndex;
 
       buttons.forEach((btn, idx) => {
-        if (q.shuffledCorrect.includes(idx)) btn.classList.add("correct");
-        if (idx === selectedIndex && !q.shuffledCorrect.includes(idx)) btn.classList.add("wrong");
+        if (q.shuffledCorrect.includes(idx)) {
+          btn.classList.add("correct");
+        }
+        if (idx === selectedIndex && !q.shuffledCorrect.includes(idx)) {
+          btn.classList.add("wrong");
+        }
       });
 
       if (isCorrect) score++;
@@ -942,8 +932,12 @@
 
       buttons.forEach((btn, idx) => {
         btn.disabled = true;
-        if (q.shuffledCorrect.includes(idx)) btn.classList.add("correct");
-        if (selectedForMulti.includes(idx) && !q.shuffledCorrect.includes(idx)) btn.classList.add("wrong");
+        if (q.shuffledCorrect.includes(idx)) {
+          btn.classList.add("correct");
+        }
+        if (selectedForMulti.includes(idx) && !q.shuffledCorrect.includes(idx)) {
+          btn.classList.add("wrong");
+        }
       });
 
       if (isCorrect) score++;
@@ -986,7 +980,9 @@
       const percent = Math.round((score / quizQuestions.length) * 100);
       document.getElementById("finalPercent").textContent = percent + "%";
       document.getElementById("finalScoreText").textContent = `${score} von ${quizQuestions.length} richtig`;
-      document.getElementById("topicSummary").textContent = currentMode === "Mix" ? "Mix-Modus über mehrere Themen" : `Ritter ${currentMode}`;
+      document.getElementById("topicSummary").textContent = currentMode === "Mix"
+        ? "Mix-Modus über alle eingebauten Themen"
+        : `Ritter ${currentMode}`;
 
       let tip = "";
       if (percent >= 85) {
@@ -1027,10 +1023,6 @@
       document.getElementById("quizScreen").classList.add("hidden");
       document.getElementById("summaryScreen").classList.add("hidden");
       document.getElementById("startScreen").classList.remove("hidden");
-    }
-
-    function showComingSoon(topic) {
-      alert(topic + " kommt als nächstes rein.");
     }
   </script>
 </body>
