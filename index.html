@@ -6,106 +6,266 @@
   <title>Finanzberater Lernplattform</title>
   <style>
     :root {
-      --bg: #07111f;
-      --panel: #0f1b2e;
-      --panel-2: #13233c;
+      --bg: #07111e;
+      --bg-soft: #0d1728;
+      --panel: rgba(14, 23, 40, 0.88);
+      --panel-2: rgba(18, 31, 53, 0.92);
       --text: #edf4ff;
-      --muted: #9fb3d4;
-      --primary: #5aa2ff;
+      --muted: #9cb1d5;
+      --primary: #60a5fa;
       --primary-2: #2f7df6;
       --success: #22c55e;
       --danger: #ef4444;
       --warning: #f59e0b;
       --border: rgba(255,255,255,0.09);
       --shadow: 0 18px 42px rgba(0,0,0,.28);
-      --radius: 18px;
+      --radius: 20px;
     }
 
     * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       font-family: Inter, Arial, Helvetica, sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(47,125,246,.15), transparent 25%),
+        radial-gradient(circle at top left, rgba(47,125,246,.16), transparent 24%),
         radial-gradient(circle at top right, rgba(34,197,94,.10), transparent 20%),
-        linear-gradient(180deg, #06101d 0%, #07111f 100%);
+        linear-gradient(180deg, #050c17 0%, #07111e 100%);
       color: var(--text);
       min-height: 100vh;
     }
-    .container { max-width: 1280px; margin: 0 auto; padding: 24px; }
+
+    .container {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 22px;
+    }
+
     .hero {
-      background: linear-gradient(135deg, rgba(15,27,46,.96), rgba(29,78,216,.92));
+      background: linear-gradient(135deg, rgba(15,27,46,.96), rgba(29,78,216,.90));
       border: 1px solid var(--border);
       border-radius: 28px;
       padding: 28px;
       box-shadow: var(--shadow);
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
-    .hero h1 { margin: 0 0 10px; font-size: 2.2rem; }
-    .hero p { margin: 8px 0; color: #dbe8ff; line-height: 1.55; }
-    .chips { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 2.3rem;
+      line-height: 1.08;
+    }
+
+    .hero p {
+      margin: 8px 0;
+      color: #dbe8ff;
+      line-height: 1.55;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
     .chip {
-      border: 1px solid rgba(255,255,255,.13);
+      border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.08);
       padding: 8px 12px;
       border-radius: 999px;
       font-size: .92rem;
+      color: white;
     }
 
-    .layout { display:grid; grid-template-columns: 290px 1fr; gap: 18px; }
-    .sidebar, .main-card {
-      background: rgba(15,27,46,.88);
-      backdrop-filter: blur(14px);
+    .layout {
+      display: grid;
+      grid-template-columns: 310px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .sidebar,
+    .main-card {
+      background: var(--panel);
+      backdrop-filter: blur(16px);
       border: 1px solid var(--border);
       border-radius: 22px;
       box-shadow: var(--shadow);
     }
-    .sidebar { padding: 18px; position: sticky; top: 18px; height: fit-content; }
-    .main-card { padding: 22px; }
 
-    .nav-title { font-size: .82rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 10px; }
-    .nav-group { display:grid; gap: 10px; margin-bottom: 20px; }
-    .nav-btn, .topic-btn, .mode-btn, .answer-btn, .action-btn, .doc-btn {
+    .sidebar {
+      padding: 18px;
+      position: sticky;
+      top: 18px;
+    }
+
+    .main-card {
+      padding: 22px;
+    }
+
+    .nav-title {
+      font-size: .8rem;
+      letter-spacing: .08em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin: 0 0 10px;
+    }
+
+    .nav-group {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .nav-btn,
+    .topic-btn,
+    .mode-btn,
+    .filter-btn,
+    .answer-btn,
+    .action-btn {
       border: 1px solid rgba(255,255,255,.08);
       background: rgba(255,255,255,.04);
       color: var(--text);
       border-radius: 14px;
       cursor: pointer;
       transition: .18s ease;
-      font: inherit;
     }
-    .nav-btn, .topic-btn, .mode-btn, .doc-btn { padding: 12px 14px; text-align: left; }
-    .nav-btn:hover, .topic-btn:hover, .mode-btn:hover, .doc-btn:hover, .action-btn:hover, .answer-btn:hover {
+
+    .nav-btn,
+    .topic-btn,
+    .mode-btn,
+    .filter-btn {
+      padding: 12px 14px;
+      text-align: left;
+      width: 100%;
+    }
+
+    .nav-btn:hover,
+    .topic-btn:hover,
+    .mode-btn:hover,
+    .filter-btn:hover,
+    .answer-btn:hover,
+    .action-btn:hover {
       transform: translateY(-1px);
-      border-color: rgba(90,162,255,.45);
+      border-color: rgba(96,165,250,.45);
     }
-    .nav-btn.active, .topic-btn.active, .mode-btn.active, .doc-btn.active {
+
+    .nav-btn.active,
+    .topic-btn.active,
+    .mode-btn.active,
+    .filter-btn.active {
       background: linear-gradient(135deg, rgba(47,125,246,.24), rgba(34,197,94,.12));
-      border-color: rgba(90,162,255,.55);
+      border-color: rgba(96,165,250,.5);
     }
 
     .section { display: none; }
     .section.active { display: block; }
 
-    .grid-2 { display:grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
-    .select-card {
-      background: linear-gradient(180deg, rgba(19,35,60,.95), rgba(11,20,36,.95));
-      border: 1px solid rgba(90,162,255,.16);
+    .section-title {
+      margin: 0 0 8px;
+      font-size: 1.4rem;
+    }
+
+    .muted {
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .grid-2,
+    .summary-grid,
+    .topic-overview,
+    .stats-grid,
+    .learn-grid,
+    .review-list,
+    .topic-stats,
+    .empty-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid-2,
+    .summary-grid,
+    .stats-grid,
+    .learn-grid,
+    .empty-grid {
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    }
+
+    .select-card,
+    .stat-box,
+    .topic-stat,
+    .doc-card,
+    .review-item,
+    .source-box,
+    .mini-box,
+    .empty {
+      background: var(--panel-2);
+      border: 1px solid rgba(255,255,255,.08);
       border-radius: 18px;
-      padding: 18px;
+      padding: 16px;
+    }
+
+    .select-card {
       cursor: pointer;
       transition: .18s ease;
     }
-    .select-card:hover { transform: translateY(-2px); border-color: rgba(90,162,255,.48); }
-    .select-card h3 { margin: 0 0 8px; font-size: 1.04rem; }
-    .select-card p { margin: 0; color: var(--muted); line-height: 1.45; font-size: .94rem; }
 
-    .toolbar { display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom: 16px; }
-    .toolbar-group { display:flex; gap:10px; flex-wrap:wrap; }
+    .select-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(96,165,250,.5);
+    }
+
+    .select-card h3,
+    .stat-box h3,
+    .doc-card h3,
+    .topic-stat h3,
+    .mini-box h3 {
+      margin: 0 0 8px;
+      font-size: 1.02rem;
+    }
+
+    .select-card p,
+    .stat-box p,
+    .doc-card p,
+    .topic-stat p,
+    .mini-box p,
+    .tiny {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: .94rem;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .toolbar-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
     .pill {
-      background: rgba(90,162,255,.12);
-      border: 1px solid rgba(90,162,255,.25);
-      color: #d6e7ff;
+      background: rgba(96,165,250,.12);
+      border: 1px solid rgba(96,165,250,.25);
+      color: #d7e7ff;
       border-radius: 999px;
       padding: 8px 12px;
       font-size: .92rem;
@@ -113,27 +273,62 @@
     }
 
     .progress-wrap {
-      height: 14px;
       width: 100%;
+      height: 14px;
       background: rgba(255,255,255,.08);
       border-radius: 999px;
       overflow: hidden;
-      margin: 10px 0 20px;
+      margin: 10px 0 18px;
     }
+
     .progress-bar {
-      height: 100%;
       width: 0%;
+      height: 100%;
       background: linear-gradient(90deg, var(--primary-2), var(--success));
       transition: width .28s ease;
     }
 
-    .question-type { color: #c5d8fb; font-size: .92rem; margin-bottom: 8px; }
-    .question-title { font-size: 1.16rem; line-height: 1.6; margin-bottom: 16px; white-space: pre-line; }
-    .answers { display:grid; gap: 12px; }
-    .answer-btn { width: 100%; text-align:left; padding: 14px 16px; line-height: 1.5; }
-    .answer-btn.selected { background: rgba(47,125,246,.18); border-color: rgba(90,162,255,.65); }
-    .answer-btn.correct { background: rgba(34,197,94,.16); border-color: rgba(34,197,94,.75); }
-    .answer-btn.wrong { background: rgba(239,68,68,.16); border-color: rgba(239,68,68,.8); }
+    .question-type {
+      color: #c8dbff;
+      font-size: .92rem;
+      margin-bottom: 8px;
+    }
+
+    .question-title {
+      font-size: 1.18rem;
+      line-height: 1.6;
+      margin-bottom: 16px;
+      white-space: pre-line;
+    }
+
+    .answers {
+      display: grid;
+      gap: 12px;
+    }
+
+    .answer-btn {
+      width: 100%;
+      text-align: left;
+      padding: 14px 16px;
+      line-height: 1.5;
+    }
+
+    .answer-btn.selected {
+      background: rgba(47,125,246,.18);
+      border-color: rgba(96,165,250,.7);
+    }
+
+    .answer-btn.correct {
+      background: rgba(34,197,94,.16);
+      border-color: rgba(34,197,94,.82);
+      color: #e0ffe8;
+    }
+
+    .answer-btn.wrong {
+      background: rgba(239,68,68,.16);
+      border-color: rgba(239,68,68,.86);
+      color: #ffe2e2;
+    }
 
     .feedback {
       margin-top: 18px;
@@ -142,42 +337,140 @@
       font-weight: 800;
       line-height: 1.45;
     }
-    .feedback.good { background: rgba(34,197,94,.14); border: 1px solid rgba(34,197,94,.32); color: #dfffea; }
-    .feedback.bad { background: rgba(239,68,68,.14); border: 1px solid rgba(239,68,68,.35); color: #ffe0e0; }
-    .feedback.info { background: rgba(245,158,11,.14); border: 1px solid rgba(245,158,11,.35); color: #ffe9be; }
 
-    .explanation, .source-box, .review-item, .doc-card, .topic-stat, .empty {
+    .feedback.good {
+      background: rgba(34,197,94,.14);
+      border: 1px solid rgba(34,197,94,.32);
+      color: #dcffe8;
+    }
+
+    .feedback.bad {
+      background: rgba(239,68,68,.14);
+      border: 1px solid rgba(239,68,68,.35);
+      color: #ffe2e2;
+    }
+
+    .feedback.info {
+      background: rgba(245,158,11,.14);
+      border: 1px solid rgba(245,158,11,.34);
+      color: #ffecbe;
+    }
+
+    .explanation {
+      margin-top: 12px;
+      border-radius: 16px;
+      padding: 14px;
+      line-height: 1.55;
+      white-space: pre-line;
       background: rgba(255,255,255,.04);
       border: 1px solid rgba(255,255,255,.08);
-      border-radius: 16px;
     }
-    .explanation, .source-box, .doc-card, .topic-stat, .empty { padding: 14px; }
-    .explanation { margin-top: 12px; line-height: 1.55; white-space: pre-line; }
-    .source-box { margin-top: 12px; }
-    .source-box strong { display:block; margin-bottom: 6px; }
 
-    .actions { display:flex; gap: 12px; flex-wrap:wrap; margin-top: 18px; }
+    .source-box {
+      margin-top: 12px;
+    }
+
+    .source-box strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
     .action-btn {
       padding: 12px 16px;
       font-weight: 800;
       border-radius: 14px;
     }
-    .action-btn.primary { background: linear-gradient(135deg, #3b82f6, #2563eb); }
-    .action-btn.secondary { background: rgba(255,255,255,.08); }
-    .action-btn.warning { background: linear-gradient(135deg, #f59e0b, #d97706); color:#1a1304; }
-    .action-btn:disabled { opacity: .55; cursor: not-allowed; transform:none!important; }
 
-    .summary-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
-    .stat-box { background: rgba(19,35,60,.92); border: 1px solid rgba(255,255,255,.08); border-radius: 18px; padding: 18px; }
-    .stat-box h3 { margin: 0 0 8px; font-size: 1rem; }
-    .result-big { font-size: 2rem; font-weight: 900; margin: 8px 0; }
-    .topic-stats, .review-list, .docs-grid { display:grid; gap: 12px; margin-top: 14px; }
-    .tiny, .muted { color: var(--muted); line-height: 1.5; }
-    .search { width:100%; padding:12px 14px; border-radius: 14px; border:1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.04); color: var(--text); font: inherit; }
+    .action-btn.primary {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+    }
 
-    @media (max-width: 980px) {
+    .action-btn.secondary {
+      background: rgba(255,255,255,.08);
+      color: white;
+    }
+
+    .action-btn.warning {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #1b1406;
+    }
+
+    .action-btn:disabled {
+      opacity: .56;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .result-big {
+      font-size: 2rem;
+      font-weight: 900;
+      margin: 8px 0;
+    }
+
+    .review-item .review-tags,
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .tag {
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 800;
+      background: rgba(96,165,250,.12);
+      border: 1px solid rgba(96,165,250,.18);
+      color: #d6e7ff;
+    }
+
+    .search {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      margin-bottom: 14px;
+    }
+
+    .empty {
+      color: var(--muted);
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 1080px) {
       .layout { grid-template-columns: 1fr; }
       .sidebar { position: static; }
+      .split { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .container { padding: 14px; }
+      .hero { padding: 20px; }
+      .hero h1 { font-size: 1.8rem; }
+      .question-title { font-size: 1.06rem; }
     }
   </style>
 </head>
@@ -185,15 +478,16 @@
   <div class="container">
     <section class="hero">
       <h1>⚔️ Finanzberater Lernplattform</h1>
-      <p>GitHub-ready Ein-Datei-Version mit Quiz, Lernbereich, Quellenhinweisen, Soforterklärungen bei falschen Antworten, Prüfungsmodus und Wiederholung falscher Fragen.</p>
-      <p>Ich habe die Struktur absichtlich so gebaut, dass du die Inhalte aus 1110, 1120 und 1130 sauber in einer zentralen Datenbank pflegen kannst.</p>
-      <div class="chips">
-        <span class="chip">✅ Lernmodus</span>
+      <p>Für 1110, 1120 und 1130 – mit Quiz, Lernbereich, Erklärung bei falschen Antworten, Quellenhinweisen, Prüfungsmodus und Wiederholung falscher Fragen.</p>
+      <p>Die Datei ist bewusst als <strong>eine einzige HTML-Datei</strong> gebaut, damit du sie direkt in GitHub Pages als <code>index.html</code> verwenden kannst.</p>
+      <div class="chip-row">
+        <span class="chip">📘 Lernmodus</span>
         <span class="chip">📝 Prüfungsmodus</span>
         <span class="chip">📚 Lerne-Bereich</span>
-        <span class="chip">🔎 Nachschlagen</span>
-        <span class="chip">📊 % pro Thema</span>
-        <span class="chip">🔁 Falsche wiederholen</span>
+        <span class="chip">🔎 Quellen</span>
+        <span class="chip">📊 Statistik</span>
+        <span class="chip">🔁 Falsche Fragen wiederholen</span>
+        <span class="chip">💾 Fortschritt lokal speichern</span>
       </div>
     </section>
 
@@ -205,6 +499,7 @@
           <button class="nav-btn" data-section="quiz">⚔️ Quiz</button>
           <button class="nav-btn" data-section="learn">📚 Lerne</button>
           <button class="nav-btn" data-section="stats">📊 Statistik</button>
+          <button class="nav-btn" data-section="guide">🛠️ Anleitung</button>
         </div>
 
         <div class="nav-title">Modus</div>
@@ -219,8 +514,9 @@
 
       <main>
         <section id="dashboard" class="main-card section active">
-          <h2 style="margin-top:0;">Start</h2>
-          <p class="muted">Wähle links einen Modus und ein Thema. Im Bereich <strong>Lerne</strong> kannst du Unterlagen, Zusammenfassungen und Quellen nachschlagen. Bei falschen Antworten zeigt dir das Quiz direkt die Erklärung und den Dokumentbezug.</p>
+          <h2 class="section-title">Start</h2>
+          <p class="muted">Wähle links den Modus und das Thema. Im Bereich <strong>Lerne</strong> kannst du Zusammenfassungen und Quellen nachschlagen. Im Lernmodus zeigt dir das Quiz direkt die Erklärung und den Dokumentbezug, wenn eine Antwort falsch ist.</p>
+
           <div class="grid-2" id="dashboardCards"></div>
         </section>
 
@@ -250,47 +546,80 @@
         </section>
 
         <section id="learn" class="main-card section">
-          <h2 style="margin-top:0;">📚 Lerne</h2>
-          <p class="muted">Hier kannst du Unterlagen, Kurz-Zusammenfassungen und Quellenhinweise nachschlagen. Jeder Eintrag kann einem Thema, Kapitel oder Dokument zugewiesen werden.</p>
+          <h2 class="section-title">📚 Lerne</h2>
+          <p class="muted">Hier findest du Zusammenfassungen, Lernkarten, Quellen und Nachschlagewissen pro Thema. Über die Suche kannst du nach Begriffen wie <em>freie Quote</em>, <em>Vorsorgeauftrag</em> oder <em>Errungenschaft</em> filtern.</p>
+
           <input class="search" id="docSearch" placeholder="Nach Thema, Kapitel oder Stichwort suchen ..." />
-          <div class="nav-group" id="docFilterButtons" style="margin-top:14px;"></div>
-          <div class="docs-grid" id="docsGrid"></div>
+          <div class="filter-row" id="docFilters"></div>
+          <div class="learn-grid" id="docsGrid"></div>
         </section>
 
         <section id="stats" class="main-card section">
-          <h2 style="margin-top:0;">📊 Statistik</h2>
+          <h2 class="section-title">📊 Statistik</h2>
+
           <div class="summary-grid">
             <div class="stat-box">
               <h3>Gesamtergebnis</h3>
               <div class="result-big" id="finalPercent">0%</div>
-              <div class="tiny" id="finalScoreText">Noch kein Quiz abgeschlossen</div>
+              <p id="finalScoreText">Noch kein Quiz abgeschlossen</p>
             </div>
             <div class="stat-box">
               <h3>Modus</h3>
               <div class="result-big">⚔️</div>
-              <div class="tiny" id="modeSummary">Lernmodus</div>
+              <p id="modeSummary">Lernmodus</p>
             </div>
             <div class="stat-box">
               <h3>Thema</h3>
               <div class="result-big">📚</div>
-              <div class="tiny" id="topicSummary">Noch keines</div>
+              <p id="topicSummary">Noch keines</p>
             </div>
             <div class="stat-box">
               <h3>Lernempfehlung</h3>
-              <div class="tiny" id="studyTip">Noch keine Daten vorhanden.</div>
+              <p id="studyTip">Noch keine Daten vorhanden.</p>
             </div>
           </div>
 
-          <div style="margin-top:18px;">
-            <h3>Themenstatistik</h3>
-            <div class="topic-stats" id="topicStats"></div>
+          <div class="split" style="margin-top:18px;">
+            <div>
+              <h3 style="margin-top:0;">Themenstatistik</h3>
+              <div class="topic-stats" id="topicStats"></div>
+            </div>
+            <div>
+              <h3 style="margin-top:0;">Falsche Antworten</h3>
+              <div class="review-list" id="reviewList"></div>
+              <div class="actions">
+                <button class="action-btn warning" id="repeatWrongBtn">Nur falsche Fragen wiederholen</button>
+              </div>
+            </div>
           </div>
+        </section>
 
-          <div style="margin-top:22px;">
-            <h3>Falsche Antworten</h3>
-            <div class="review-list" id="reviewList"></div>
-            <div class="actions">
-              <button class="action-btn warning" id="repeatWrongBtn">Nur falsche Fragen wiederholen</button>
+        <section id="guide" class="main-card section">
+          <h2 class="section-title">🛠️ Anleitung für GitHub</h2>
+          <div class="grid-2">
+            <div class="mini-box">
+              <h3>1. Datei speichern</h3>
+              <p>Speichere diese Datei als <code>index.html</code>.</p>
+            </div>
+            <div class="mini-box">
+              <h3>2. Repository erstellen</h3>
+              <p>Erstelle auf GitHub ein neues Repository, z. B. <code>finanzberater-lernen</code>.</p>
+            </div>
+            <div class="mini-box">
+              <h3>3. Datei hochladen</h3>
+              <p>Lade <code>index.html</code> ins Hauptverzeichnis hoch.</p>
+            </div>
+            <div class="mini-box">
+              <h3>4. GitHub Pages aktivieren</h3>
+              <p>Unter <strong>Settings → Pages</strong> wähle <strong>Deploy from branch</strong>, Branch <strong>main</strong>, Ordner <strong>/root</strong>.</p>
+            </div>
+            <div class="mini-box">
+              <h3>5. Fragen ergänzen</h3>
+              <p>Neue Fragen fügst du im JavaScript im Objekt <code>APP_DATA</code> unter dem jeweiligen Thema hinzu.</p>
+            </div>
+            <div class="mini-box">
+              <h3>6. Quellen ergänzen</h3>
+              <p>Pro Frage kannst du <code>source.document</code>, <code>source.section</code> und <code>source.note</code> pflegen.</p>
             </div>
           </div>
         </section>
@@ -299,19 +628,46 @@
   </div>
 
   <script>
-    // =========================
-    // ZENTRALE DATENBANK
-    // =========================
-    // Hier pflegst du später 1110 / 1120 / 1130 und weitere Themen.
-    // Pro Frage kannst du direkt Quelle, Dokument und Erklärung hinterlegen.
+    // ======================================
+    // DATENBANK
+    // ======================================
+    // Aufbau:
+    // theme.docs = Lernunterlagen / Zusammenfassungen / Nachschlagekarten
+    // theme.questions = Quizfragen mit Erklärung + Quelle
 
     const APP_DATA = {
       themes: [
         {
           id: '1110',
-          title: '1110 Güterrecht / Erbrecht',
           short: '1110',
-          description: 'Fragen, Erklärungen und Nachschlagewissen zum Themenblock 1110.',
+          title: '1110 Güterrecht / Erbrecht',
+          description: 'Ordentlicher Güterstand, Eigengut, Errungenschaft, Gesamtgut, Ehevertrag und Reihenfolge Güterrecht vor Erbrecht.',
+          docs: [
+            {
+              id: '1110-doc-1',
+              title: '1110 – Zusammenfassung: Güterrecht im Überblick',
+              tags: ['1110', 'Güterrecht', 'Zusammenfassung'],
+              content: 'Ohne Ehevertrag gilt die Errungenschaftsbeteiligung. Es gibt drei Güterstände: Errungenschaftsbeteiligung, Gütergemeinschaft und Gütertrennung. Nur bei der Gütergemeinschaft gibt es ein Gesamtgut.'
+            },
+            {
+              id: '1110-doc-2',
+              title: '1110 – Eigengut vs. Errungenschaft',
+              tags: ['1110', 'Eigengut', 'Errungenschaft'],
+              content: 'Eigengut: Vermögen vor der Ehe, Erbschaften, Schenkungen, Genugtuung, Ersatzanschaffungen für Eigengut. Errungenschaft: Lohn, Bonus, Renten, Erträge aus Eigengut wie Zinsen, Dividenden und Mietzinse.'
+            },
+            {
+              id: '1110-doc-3',
+              title: '1110 – Prüfungsfalle: Ertrag aus Eigengut vs. Mehrwert',
+              tags: ['1110', 'Prüfungsfalle', 'Mietzinse', 'Mehrwert'],
+              content: 'Mietzinseinnahmen aus einer Liegenschaft im Eigengut gehören zur Errungenschaft. Ein konjunktureller Mehrwert oder reiner Kapitalgewinn auf einer Liegenschaft im Eigengut bleibt dagegen Eigengut.'
+            },
+            {
+              id: '1110-doc-4',
+              title: '1110 – Ehevertrag und Gütertrennung',
+              tags: ['1110', 'Ehevertrag', 'Gütertrennung'],
+              content: 'Ein Ehevertrag kann bereits vor der Heirat abgeschlossen werden und muss öffentlich beurkundet werden. Gütertrennung kann durch Ehevertrag, von Gesetzes wegen oder richterlich angeordnet entstehen.'
+            }
+          ],
           questions: [
             {
               id: '1110-001',
@@ -319,11 +675,11 @@
               question: 'Wie heisst der ordentliche Güterstand?',
               answers: ['Errungenschaftsbeteiligung', 'Gütergemeinschaft', 'Gütertrennung'],
               correct: [0],
-              explanation: 'Der ordentliche gesetzliche Güterstand ist die Errungenschaftsbeteiligung.',
+              explanation: 'Ohne Ehevertrag gilt die Errungenschaftsbeteiligung als gesetzlicher Standard-Güterstand.',
               source: {
-                document: 'Skript 1110',
-                section: 'Güterrecht – Grundlagen',
-                note: 'Ordentlicher Güterstand gemäss ZGB.'
+                document: 'Thema 1110 – Zusammenfassung',
+                section: 'Die drei Güterstände im Überblick',
+                note: 'Merksatz: Ohne Ehevertrag = Errungenschaftsbeteiligung.'
               }
             },
             {
@@ -332,48 +688,222 @@
               question: 'Welchen Güterstand kann ein Richter anordnen?',
               answers: ['Errungenschaftsbeteiligung', 'Gütergemeinschaft', 'Gütertrennung'],
               correct: [2],
-              explanation: 'Der Richter kann Gütertrennung anordnen.',
+              explanation: 'Richterlich angeordnet werden kann die Gütertrennung.',
               source: {
-                document: 'Skript 1110',
-                section: 'Güterstände',
-                note: 'Richterliche Anordnung betrifft Gütertrennung.'
+                document: 'Thema 1110 – Zusammenfassung',
+                section: 'Gütertrennung',
+                note: 'Typische Prüfungsfrage: Richter → Gütertrennung.'
               }
             },
             {
               id: '1110-003',
+              type: 'single',
+              question: 'In welche Vermögensmasse gehört beim Güterstand der Errungenschaftsbeteiligung eine Mietzinseinnahme aus einer Liegenschaft im Eigengut?',
+              answers: ['Eigengut', 'Errungenschaft'],
+              correct: [1],
+              explanation: 'Mietzinse sind Erträge aus Eigengut. Erträge aus Eigengut gehören grundsätzlich zur Errungenschaft.',
+              source: {
+                document: 'Thema 1110 – Zusammenfassung',
+                section: 'Ertrag aus Eigengut vs. Kapitalgewinn im Eigengut',
+                note: 'Merksatz: Frucht = Errungenschaft, Baumwachstum = Eigengut.'
+              }
+            },
+            {
+              id: '1110-004',
               type: 'single',
               question: 'Bei welchem Güterstand gibt es ein Gesamtgut?',
               answers: ['Errungenschaftsbeteiligung', 'Gütergemeinschaft', 'Gütertrennung'],
               correct: [1],
               explanation: 'Ein Gesamtgut gibt es nur bei der Gütergemeinschaft.',
               source: {
-                document: 'Skript 1110',
+                document: 'Thema 1110 – Zusammenfassung',
                 section: 'Gütergemeinschaft',
-                note: 'Begriff Gesamtgut gehört zur Gütergemeinschaft.'
+                note: 'Merksatz: Gesamtgut gibt es nur bei der Gütergemeinschaft.'
               }
-            }
-          ],
-          docs: [
-            {
-              id: '1110-doc-1',
-              title: '1110 – Güterrecht kompakt',
-              tags: ['1110', 'Güterrecht', 'Zusammenfassung'],
-              content: 'Ordentlicher Güterstand = Errungenschaftsbeteiligung. Vertragliche Güterstände = Gütergemeinschaft und Gütertrennung. Gesamtgut gibt es bei der Gütergemeinschaft.'
             },
             {
-              id: '1110-doc-2',
-              title: '1110 – Erbrecht Merkpunkte',
-              tags: ['1110', 'Erbrecht', 'Pflichtteil'],
-              content: 'Gesetzliche Erben, Parentelen, Pflichtteile und Nachlassplanung gehören zu den Kernpunkten. Für falsche Antworten kannst du später direkt die passende Skriptstelle ergänzen.'
+              id: '1110-005',
+              type: 'single',
+              question: 'Kann ein Ehevertrag bereits vor der Heirat abgeschlossen werden?',
+              answers: ['Ja', 'Nein'],
+              correct: [0],
+              explanation: 'Ja. Ein Ehevertrag kann bereits vor der Heirat abgeschlossen werden und muss öffentlich beurkundet werden.',
+              source: {
+                document: 'Thema 1110 – Zusammenfassung',
+                section: 'Der Ehevertrag',
+                note: 'Vor oder während der Ehe möglich, notariell / öffentlich beurkundet.'
+              }
+            },
+            {
+              id: '1110-006',
+              type: 'single',
+              question: 'In welchem Gesetz ist das Erbrecht geregelt?',
+              answers: ['Zivilgesetzbuch / ZGB', 'Obligationenrecht / OR'],
+              correct: [0],
+              explanation: 'Das Erbrecht ist im Zivilgesetzbuch geregelt.',
+              source: {
+                document: 'Thema 1110 – Zusammenfassung',
+                section: 'Erbrecht – das Wichtigste',
+                note: 'Erbrecht ist im ZGB geregelt.'
+              }
+            },
+            {
+              id: '1110-007',
+              type: 'single',
+              question: 'In welche Vermögensmasse gehört eine Schenkung beim Güterstand der Errungenschaftsbeteiligung?',
+              answers: ['Eigengut', 'Errungenschaft'],
+              correct: [0],
+              explanation: 'Schenkungen gehören zum Eigengut.',
+              source: {
+                document: 'Thema 1110 – Zusammenfassung',
+                section: 'Eigengut',
+                note: 'Prüfungsfalle: Schenkung während der Ehe = trotzdem Eigengut.'
+              }
+            },
+            {
+              id: '1110-008',
+              type: 'single',
+              question: 'Gehört der Arbeitserwerb bei der Errungenschaftsbeteiligung zum Eigengut?',
+              answers: ['Ja', 'Nein'],
+              correct: [1],
+              explanation: 'Arbeitserwerb bzw. Lohn gehört zur Errungenschaft, nicht zum Eigengut.',
+              source: {
+                document: 'Thema 1110 – Zusammenfassung',
+                section: 'Errungenschaft',
+                note: 'Lohn, Bonus und Renten sind typische Errungenschaft.'
+              }
+            },
+            {
+              id: '1110-009',
+              type: 'single',
+              question: 'Was gehört bei der Errungenschaftsbeteiligung zum Eigengut?',
+              answers: ['Lohn', 'Erbschaft', 'Altersrente der Pensionskasse', 'Altersrente der AHV'],
+              correct: [1],
+              explanation: 'Eine Erbschaft gehört zum Eigengut.',
+              source: {
+                document: 'Thema 1110 – Zusammenfassung',
+                section: 'Eigengut',
+                note: 'Erbschaften und Schenkungen = Eigengut.'
+              }
+            },
+            {
+              id: '1110-010',
+              type: 'single',
+              question: 'In welche Vermögensmasse gehört ein konjunktureller Mehrwert im Eigengut (reiner Kapitalgewinn)?',
+              answers: ['Eigengut', 'Errungenschaft'],
+              correct: [0],
+              explanation: 'Der reine Kapitalgewinn bzw. Mehrwert im Eigengut bleibt Eigengut.',
+              source: {
+                document: 'Thema 1110 – Zusammenfassung',
+                section: 'Ertrag aus Eigengut vs. Kapitalgewinn',
+                note: 'Wertsteigerung der Substanz = Eigengut.'
+              }
+            },
+            {
+              id: '1110-011',
+              type: 'single',
+              question: 'In welche Vermögensmasse gehört eine Bonuszahlung durch den Arbeitgeber?',
+              answers: ['Eigengut', 'Errungenschaft'],
+              correct: [1],
+              explanation: 'Eine Bonuszahlung gehört wie der Lohn zur Errungenschaft.',
+              source: {
+                document: 'Thema 1110 – Zusammenfassung',
+                section: 'Errungenschaft',
+                note: 'Bonus = Arbeitserwerb = Errungenschaft.'
+              }
+            },
+            {
+              id: '1110-012',
+              type: 'single',
+              question: 'Was kommt im Todesfall zuerst: güterrechtliche Auseinandersetzung oder erbrechtliche Teilung?',
+              answers: ['Zuerst Güterrecht, dann Erbrecht', 'Zuerst Erbrecht, dann Güterrecht'],
+              correct: [0],
+              explanation: 'Im Todesfall wird zuerst güterrechtlich auseinandergesetzt und danach der Nachlass erbrechtlich verteilt.',
+              source: {
+                document: 'Thema 1110 – Zusammenfassung',
+                section: 'Güterrechtliche Auseinandersetzung im Todesfall',
+                note: 'Merksatz: Zuerst Güterrecht, dann Erbrecht.'
+              }
+            },
+            {
+              id: '1110-013',
+              type: 'single',
+              question: 'Kann Errungenschaft mit Ehevertrag in bestimmten Fällen zu Eigengut erklärt werden?',
+              answers: ['Ja', 'Nein'],
+              correct: [0],
+              explanation: 'Ja, in bestimmten Konstellationen kann Errungenschaft per Ehevertrag zu Eigengut erklärt werden.',
+              source: {
+                document: 'Thema 1110 – Zusammenfassung',
+                section: 'Ehevertrag / Anpassungen',
+                note: 'Wichtig: Errungenschaft → Eigengut möglich, umgekehrt nicht.'
+              }
+            },
+            {
+              id: '1110-014',
+              type: 'single',
+              question: 'Kann Eigengut mit Ehevertrag zu Errungenschaft erklärt werden?',
+              answers: ['Ja', 'Nein'],
+              correct: [1],
+              explanation: 'Nein. Diese Richtung gilt als nicht zulässig.',
+              source: {
+                document: 'Thema 1110 – Zusammenfassung',
+                section: 'Ehevertrag / Anpassungen',
+                note: 'Typische Prüfungsfalle.'
+              }
+            },
+            {
+              id: '1110-015',
+              type: 'single',
+              question: 'Bei der Scheidung nimmt bei der Errungenschaftsbeteiligung jeder Ehegatte was zuerst mit?',
+              answers: ['Die Hälfte der Errungenschaft des anderen', 'Sein Eigengut', 'Das Gesamtgut'],
+              correct: [1],
+              explanation: 'Bei der Scheidung nimmt jeder Ehegatte zuerst sein Eigengut mit.',
+              source: {
+                document: 'Thema 1110 – Zusammenfassung',
+                section: 'Güterrechtliche Auseinandersetzung bei Scheidung',
+                note: 'Eigengut bleibt beim jeweiligen Ehegatten.'
+              }
             }
           ]
         },
 
         {
           id: '1120',
-          title: '1120 Erbrecht vertieft',
           short: '1120',
-          description: 'Nachlass, Pflichtteile, Testament, Erbvertrag.',
+          title: '1120 Erbrecht',
+          description: 'Parentelensystem, gesetzliche Erben, Pflichtteile, freie Quote, Testament, Erbvertrag und Nachlasszuordnung.',
+          docs: [
+            {
+              id: '1120-doc-1',
+              title: '1120 – Parentelen und gesetzliche Erben',
+              tags: ['1120', 'Parentelen', 'gesetzliche Erben'],
+              content: '1. Parentel = Nachkommen. 2. Parentel = Eltern und deren Nachkommen. 3. Parentel = Grosseltern und deren Nachkommen, also z. B. Onkel, Tanten, Cousins und Cousinen. Konkubinatspartner sind keine gesetzlichen Erben.'
+            },
+            {
+              id: '1120-doc-2',
+              title: '1120 – Pflichtteile und freie Quote',
+              tags: ['1120', 'Pflichtteil', 'freie Quote'],
+              content: 'Nachkommen und Ehegatten haben einen Pflichtteil von der Hälfte ihres gesetzlichen Erbanspruchs. Geschwister haben kein Pflichtteilsrecht. Die freie Quote ist der Teil des Nachlasses, über den der Erblasser frei bestimmen kann.'
+            },
+            {
+              id: '1120-doc-3',
+              title: '1120 – Was fällt in den Nachlass?',
+              tags: ['1120', 'Nachlass', 'Vorsorge'],
+              content: 'In den Nachlass fallen u. a. Privatkonto, Wertschriftendepot und Liegenschaft. Nicht in den Nachlass fallen insbesondere Pensionskasse und Freizügigkeitskonto. Bei Policen mit Rückkaufswert ist der Rückkaufswert für Pflichtteile relevant.'
+            },
+            {
+              id: '1120-doc-4',
+              title: '1120 – Testament und Erbvertrag',
+              tags: ['1120', 'Testament', 'Erbvertrag'],
+              content: 'Ein eigenhändiges Testament kann grundsätzlich jederzeit widerrufen werden. Ein Erbvertrag kann nicht einseitig jederzeit widerrufen werden und braucht öffentliche Beurkundung und Zeugen.'
+            },
+            {
+              id: '1120-doc-5',
+              title: '1120 – Konkubinat absichern',
+              tags: ['1120', 'Konkubinat', 'Testament'],
+              content: 'Konkubinatspartner sind keine gesetzlichen Erben. Die Absicherung erfolgt über Testament, Vorsorgebegünstigungen und weitere Gestaltungen ausserhalb des gesetzlichen Erbrechts.'
+            }
+          ],
           questions: [
             {
               id: '1120-001',
@@ -381,9 +911,9 @@
               question: 'Konkubinatspartner gehören ebenfalls zu den gesetzlichen Erben, sobald die Lebens- und Wohngemeinschaft mehr als 5 Jahre gedauert hat.',
               answers: ['Richtig', 'Falsch'],
               correct: [1],
-              explanation: 'Konkubinatspartner sind ohne besondere Verfügung keine gesetzlichen Erben.',
+              explanation: 'Konkubinatspartner sind keine gesetzlichen Erben, auch nicht nach langem Zusammenleben.',
               source: {
-                document: 'Skript 1120',
+                document: 'Thema 1120 – Zusammenfassung',
                 section: 'Gesetzliche Erben',
                 note: 'Konkubinat begründet kein gesetzliches Erbrecht.'
               }
@@ -394,42 +924,292 @@
               question: 'Geschwister und deren Nachkommen haben kein Pflichtteilsrecht.',
               answers: ['Richtig', 'Falsch'],
               correct: [0],
-              explanation: 'Geschwister und deren Nachkommen sind nicht pflichtteilsgeschützt.',
+              explanation: 'Geschwister sind nicht pflichtteilsgeschützt.',
               source: {
-                document: 'Skript 1120',
-                section: 'Pflichtteil',
-                note: 'Pflichtteilsrecht nur bei bestimmten gesetzlichen Erben.'
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Pflichtteile und freie Quote',
+                note: 'Andere gesetzliche Erben wie Geschwister haben kein Pflichtteilsrecht.'
               }
             },
             {
               id: '1120-003',
               type: 'single',
-              question: 'Ein eigenhändiges Testament kann jederzeit widerrufen werden.',
+              question: 'Ein Erbvertrag kann durch den Erblasser jederzeit einseitig widerrufen werden.',
+              answers: ['Richtig', 'Falsch'],
+              correct: [1],
+              explanation: 'Ein Erbvertrag kann nicht einfach einseitig jederzeit widerrufen werden. Änderungen brauchen grundsätzlich die Mitwirkung der Vertragsparteien.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Testament und Erbvertrag',
+                note: 'Klassische Prüfungsfalle.'
+              }
+            },
+            {
+              id: '1120-004',
+              type: 'single',
+              question: 'Entscheide: Leistung aus Lebensversicherung im Todesfall – fällt sie in den Nachlass?',
+              answers: ['Fällt in den Nachlass', 'Fällt nicht in den Nachlass'],
+              correct: [1],
+              explanation: 'Versicherungsleistungen fallen nicht einfach automatisch in den Nachlass. Relevant kann aber je nach Police der Rückkaufswert sein.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Was fällt in den Nachlass – und was nicht?',
+                note: 'Police und Rückkaufswert auseinanderhalten.'
+              }
+            },
+            {
+              id: '1120-005',
+              type: 'single',
+              question: 'Ein eigenhändiges Testament kann jederzeit widerrufen werden, ohne dass die allfälligen Erben davon in Kenntnis gesetzt werden müssen.',
               answers: ['Richtig', 'Falsch'],
               correct: [0],
-              explanation: 'Ein Testament kann grundsätzlich jederzeit widerrufen oder ersetzt werden.',
+              explanation: 'Ein eigenhändiges Testament kann grundsätzlich jederzeit widerrufen werden.',
               source: {
-                document: 'Skript 1120',
-                section: 'Testament',
-                note: 'Widerruf ist jederzeit möglich.'
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Handschriftliches Testament',
+                note: 'Widerruf ohne vorgängige Information der Erben möglich.'
               }
-            }
-          ],
-          docs: [
+            },
             {
-              id: '1120-doc-1',
-              title: '1120 – Pflichtteile und gesetzliche Erben',
-              tags: ['1120', 'Pflichtteil', 'Erbrecht'],
-              content: 'Konkubinatspartner sind keine gesetzlichen Erben. Geschwister sind nicht pflichtteilsgeschützt. Testament und Erbvertrag müssen sauber unterschieden werden.'
+              id: '1120-006',
+              type: 'single',
+              question: 'Ein Erblasser hinterlässt seine Frau sowie zwei erwachsene Kinder. Wie hoch ist die freie Quote?',
+              answers: ['1/2', '1/4', '1/3', '3/8', '5/8', '3/4'],
+              correct: [0],
+              explanation: 'Ehegatte und Kinder haben Pflichtteile, zusammen bleibt hier eine freie Quote von 1/2.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Pflichtteile und freie Quote',
+                note: 'In den Unterlagen: Frau + zwei Kinder → freie Quote 1/2.'
+              }
+            },
+            {
+              id: '1120-007',
+              type: 'single',
+              question: 'Zu welcher Parentel gehören Cousins und Cousinen eines Erblassers?',
+              answers: ['1. Parentel', '2. Parentel', '3. Parentel'],
+              correct: [2],
+              explanation: 'Cousins und Cousinen gehören zur 3. Parentel.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Grundlagen des Erbrechts',
+                note: '3. Parentel = Grosseltern und deren Nachkommen.'
+              }
+            },
+            {
+              id: '1120-008',
+              type: 'single',
+              question: 'Entscheide: Wertschriftendepot im Todesfall – fällt es in den Nachlass?',
+              answers: ['Fällt in den Nachlass', 'Fällt nicht in den Nachlass'],
+              correct: [0],
+              explanation: 'Ein Wertschriftendepot gehört zum Nachlassvermögen.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Was fällt in den Nachlass?',
+                note: 'Klassischer Nachlassbestandteil.'
+              }
+            },
+            {
+              id: '1120-009',
+              type: 'single',
+              question: 'Wie heisst der Teil des Nachlasses, über den der Erblasser frei bestimmen kann?',
+              answers: ['Freie Quote', 'Pflichtteil', 'Gesetzlicher Erbteil'],
+              correct: [0],
+              explanation: 'Die frei verfügbare Quote heisst freie Quote.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Pflichtteile und freie Quote',
+                note: 'Freie Quote = frei verfügbarer Teil des Nachlasses.'
+              }
+            },
+            {
+              id: '1120-010',
+              type: 'single',
+              question: 'Ein Konkubinatspaar hat eine gemeinsame Tochter. Wie gross kann der Partner die Konkubinatspartnerin maximal erbrechtlich begünstigen?',
+              answers: ['1/4', '1/2', '3/4', 'Alles'],
+              correct: [1],
+              explanation: 'Mit gemeinsamen Kindern bleibt nach den Unterlagen eine freie Quote von 1/2 für die Begünstigung der Konkubinatspartnerin.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Konkubinat',
+                note: 'Partner kann im Rahmen der freien Quote begünstigt werden.'
+              }
+            },
+            {
+              id: '1120-011',
+              type: 'single',
+              question: 'Ein Kunde lebt im Konkubinat, hat zwei minderjährige Kinder und möchte die Partnerin absichern. Welche Massnahme kommt gemäss Unterlagen in Frage?',
+              answers: [
+                'Erstellung eines Ehevertrags',
+                'Erbverzichtsvertrag mit den Kindern',
+                'Erstellung eines Testaments (Kinder auf Pflichtteil)',
+                'Eintragung der Partnerschaft gemäss PartG'
+              ],
+              correct: [2],
+              explanation: 'Bei Konkubinat und Kindern ist ein Testament mit Setzung der Kinder auf den Pflichtteil eine klassische Massnahme zur Partnerbegünstigung.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Konkubinat absichern',
+                note: 'Prüfungslösung gemäss Fragenkatalog.'
+              }
+            },
+            {
+              id: '1120-012',
+              type: 'single',
+              question: 'Eine Ehegattin erbt gemeinsam mit einer Tante des Erblassers. Wie gross ist ihr gesetzlicher Erbanteil?',
+              answers: ['1/4', '1/2', '3/4', 'Alles'],
+              correct: [3],
+              explanation: 'Die Tante gehört zur 3. Parentel. Gegenüber Erben der 3. Parentel erbt die Ehegattin alles.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Gesetzliche Erben',
+                note: 'Sind keine Nachkommen und keine Erben der 2. Parentel vorhanden, erbt der Ehegatte alles.'
+              }
+            },
+            {
+              id: '1120-013',
+              type: 'single',
+              question: 'In welchem Gesetz ist das Erbrecht geregelt?',
+              answers: ['Obligationenrecht', 'Zivilgesetzbuch', 'Strafgesetzbuch'],
+              correct: [1],
+              explanation: 'Das Erbrecht ist im Zivilgesetzbuch geregelt.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Grundlagen des Erbrechts',
+                note: 'ZGB ab Art. 457.'
+              }
+            },
+            {
+              id: '1120-014',
+              type: 'single',
+              question: 'Eine Ehegattin erbt gemeinsam mit einem Bruder des Erblassers. Wie gross ist ihr gesetzlicher Erbanteil?',
+              answers: ['1/4', '1/2', '3/4', 'Alles'],
+              correct: [2],
+              explanation: 'Mit Erben der 2. Parentel erbt die Ehegattin 3/4.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Gesetzliche Erben',
+                note: 'Ehegatte + 2. Parentel = 3/4 zu 1/4.'
+              }
+            },
+            {
+              id: '1120-015',
+              type: 'single',
+              question: 'Ein Erblasser hinterlässt als einzigen Erben seine Tochter. Der Nachlass beträgt netto CHF 200’000. Wie hoch ist der Pflichtteilsanspruch der Tochter?',
+              answers: ['CHF 75’000', 'CHF 100’000', 'CHF 150’000', 'CHF 200’000'],
+              correct: [1],
+              explanation: 'Die Tochter ist alleinige gesetzliche Erbin. Ihr Pflichtteil beträgt 1/2 des gesetzlichen Anspruchs, also CHF 100’000.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Pflichtteile und freie Quote',
+                note: 'Nur ein Kind vorhanden → Pflichtteil 50 %.'
+              }
+            },
+            {
+              id: '1120-016',
+              type: 'single',
+              question: 'Eine Ehegattin erbt gemeinsam mit Nachkommen des Erblassers. Wie gross ist ihr gesetzlicher Erbanteil?',
+              answers: ['1/4', '1/2', '3/4', 'Alles'],
+              correct: [1],
+              explanation: 'Bei Ehegatte plus Nachkommen erhält der Ehegatte 1/2.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Gesetzliche Erben',
+                note: 'Ehegatte 1/2, Nachkommen 1/2.'
+              }
+            },
+            {
+              id: '1120-017',
+              type: 'single',
+              question: 'Entscheide: Guthaben auf Privatkonto im Todesfall – fällt es in den Nachlass?',
+              answers: ['Fällt in den Nachlass', 'Fällt nicht in den Nachlass'],
+              correct: [0],
+              explanation: 'Das Privatkonto gehört zum Nachlass.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Was fällt in den Nachlass?',
+                note: 'Privatkonto = klassischer Nachlassbestandteil.'
+              }
+            },
+            {
+              id: '1120-018',
+              type: 'single',
+              question: 'Entscheide: Vorsorgekapital in der Pensionskasse im Todesfall – fällt es in den Nachlass?',
+              answers: ['Fällt in den Nachlass', 'Fällt nicht in den Nachlass'],
+              correct: [1],
+              explanation: 'Pensionskassenguthaben gehört nicht direkt in den zivilrechtlichen Nachlass.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Was fällt in den Nachlass?',
+                note: '2. Säule läuft über Vorsorgerecht.'
+              }
+            },
+            {
+              id: '1120-019',
+              type: 'single',
+              question: 'Entscheide: Freizügigkeitskonto im Todesfall – fällt es in den Nachlass?',
+              answers: ['Fällt in den Nachlass', 'Fällt nicht in den Nachlass'],
+              correct: [1],
+              explanation: 'Freizügigkeitskonten fallen nicht direkt in den Nachlass.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Was fällt in den Nachlass?',
+                note: 'Freizügigkeit gehört nicht zum klassischen Nachlassvermögen.'
+              }
+            },
+            {
+              id: '1120-020',
+              type: 'single',
+              question: 'Entscheide: Liegenschaft im Todesfall – fällt sie in den Nachlass?',
+              answers: ['Fällt in den Nachlass', 'Fällt nicht in den Nachlass'],
+              correct: [0],
+              explanation: 'Die Liegenschaft gehört grundsätzlich zum Nachlassvermögen.',
+              source: {
+                document: 'Thema 1120 – Zusammenfassung',
+                section: 'Was fällt in den Nachlass?',
+                note: 'Liegenschaft = Nachlassbestandteil.'
+              }
             }
           ]
         },
 
         {
           id: '1130',
-          title: '1130 Kindes- und Erwachsenenschutz / Vorsorgeauftrag',
           short: '1130',
-          description: 'Beistandschaft, Vorsorgeauftrag, Erwachsenenschutz.',
+          title: '1130 Erwachsenenschutz / Vorsorgeauftrag',
+          description: 'Beistandschaft, Vorsorgeauftrag, gesetzliche Vertretung und KESB-Prüfung.',
+          docs: [
+            {
+              id: '1130-doc-1',
+              title: '1130 – Beistandschaft und Erwachsenenschutz',
+              tags: ['1130', 'Beistandschaft', 'KESR'],
+              content: 'Die Beistandschaft ist eine behördliche Massnahme im Rahmen des Kindes- und Erwachsenenschutzrechts. Sie kommt insbesondere dann zum Tragen, wenn keine ausreichende private Vorsorge besteht.'
+            },
+            {
+              id: '1130-doc-2',
+              title: '1130 – Vorsorgeauftrag: Inhalte',
+              tags: ['1130', 'Vorsorgeauftrag', 'Personensorge', 'Vermögenssorge'],
+              content: 'Ein Vorsorgeauftrag kann Personensorge, Vermögenssorge und Vertretung im Rechtsverkehr regeln. Diese Bereiche können vollständig oder nur teilweise übertragen werden.'
+            },
+            {
+              id: '1130-doc-3',
+              title: '1130 – Formvorschriften des Vorsorgeauftrags',
+              tags: ['1130', 'Form', 'Notar', 'eigenhändig'],
+              content: 'Ein Vorsorgeauftrag ist nur gültig, wenn er entweder eigenhändig – also vollständig handschriftlich, datiert und unterschrieben – errichtet oder öffentlich beurkundet wird.'
+            },
+            {
+              id: '1130-doc-4',
+              title: '1130 – Wirksamkeit und KESB-Prüfung',
+              tags: ['1130', 'KESB', 'Wirksamkeit'],
+              content: 'Ein Vorsorgeauftrag tritt nicht automatisch mit der Urteilsunfähigkeit in Kraft. Die KESB prüft zuerst die Urteilsunfähigkeit, die Formgültigkeit und die Eignung der beauftragten Person.'
+            },
+            {
+              id: '1130-doc-5',
+              title: '1130 – Gesetzliche Vertretung',
+              tags: ['1130', 'gesetzliche Vertretung', 'Ehegatte', 'eingetragener Partner'],
+              content: 'Eine gesetzliche Vertretungsbefugnis ist insbesondere für Ehegatten und eingetragene Partner vorgesehen. Für alleinstehende Personen besteht ohne Vorsorgeauftrag grundsätzlich keine allgemeine Familienvertretung.'
+            }
+          ],
           questions: [
             {
               id: '1130-001',
@@ -437,11 +1217,11 @@
               question: 'Eine Beistandschaft gehört zu den behördlichen Massnahmen im Rahmen des Kindes- und Erwachsenenschutzrechts.',
               answers: ['Richtig', 'Falsch'],
               correct: [0],
-              explanation: 'Die Beistandschaft ist eine behördliche Massnahme des Kindes- und Erwachsenenschutzrechts.',
+              explanation: 'Ja. Die Beistandschaft ist eine behördliche Schutzmassnahme des Kindes- und Erwachsenenschutzrechts.',
               source: {
-                document: 'Skript 1130',
-                section: 'KESR Grundlagen',
-                note: 'Beistandschaft zählt zu den behördlichen Massnahmen.'
+                document: 'Thema 1130 – Prüfungs-Zusammenfassung',
+                section: 'Beistandschaft',
+                note: 'Behördliche Massnahme des KESR.'
               }
             },
             {
@@ -450,19 +1230,19 @@
               question: 'Im Falle einer Urteilsunfähigkeit einer Person muss die zuständige Erwachsenenschutzbehörde in jedem Fall eine Beistandschaft einrichten.',
               answers: ['Richtig', 'Falsch'],
               correct: [1],
-              explanation: 'Nicht in jedem Fall. Bestehen z. B. wirksame private Vorsorgeregelungen, ist nicht zwingend eine Beistandschaft nötig.',
+              explanation: 'Nein. Wenn ein gültiger Vorsorgeauftrag vorliegt und die beauftragte Person geeignet ist, braucht es nicht zwingend eine Beistandschaft.',
               source: {
-                document: 'Skript 1130',
-                section: 'Urteilsunfähigkeit / Beistandschaft',
-                note: 'Behörde prüft zuerst mildere bzw. vorhandene Lösungen.'
+                document: 'Thema 1130 – Prüfungs-Zusammenfassung',
+                section: 'Muss immer eine Beistandschaft eingerichtet werden?',
+                note: 'Vorsorgeauftrag kann behördliche Massnahme ersetzen.'
               }
             },
             {
               id: '1130-003',
               type: 'multi',
-              question: 'Welche Aussagen sind zum Vorsorgeauftrag richtig?',
+              question: 'Welche Aussagen zum Vorsorgeauftrag sind richtig?',
               answers: [
-                'Ein Vorsorgeauftrag muss zwingend in einem zentralen Register angemeldet werden.',
+                'Ein Vorsorgeauftrag muss für seine Formgültigkeit zwingend in einem zentralen Register angemeldet werden.',
                 'Ein Vorsorgeauftrag kann durch einen Notar oder eine Notarin verfasst werden.',
                 'Ein Vorsorgeauftrag kann nur durch die zuständige Erwachsenenschutzbehörde verfasst werden.',
                 'Ein Vorsorgeauftrag kann nur durch einen Notar oder eine Notarin verfasst werden.',
@@ -470,29 +1250,155 @@
                 'Für die Erstellung eines Vorsorgeauftrags existieren keine Formvorschriften.'
               ],
               correct: [1, 4],
-              explanation: 'Ein Vorsorgeauftrag kann öffentlich beurkundet oder eigenhändig errichtet werden. Es gibt Formvorschriften.',
+              explanation: 'Richtig sind: Notar/Notarin möglich und eigenhändig möglich. Der Vorsorgeauftrag ist formgebunden und muss nicht zwingend zentral registriert werden.',
               source: {
-                document: 'Skript 1130',
-                section: 'Vorsorgeauftrag',
-                note: 'Formen: eigenhändig oder öffentlich beurkundet.'
+                document: 'Thema 1130 – Prüfungs-Zusammenfassung',
+                section: 'Formvorschriften des Vorsorgeauftrags',
+                note: 'Gültig: eigenhändig oder öffentlich beurkundet.'
               }
-            }
-          ],
-          docs: [
+            },
             {
-              id: '1130-doc-1',
-              title: '1130 – Vorsorgeauftrag Basics',
-              tags: ['1130', 'Vorsorgeauftrag', 'KESR'],
-              content: 'Der Vorsorgeauftrag ist formgebunden. Er kann eigenhändig oder öffentlich beurkundet errichtet werden. Eine Registrierung ist hilfreich, aber nicht zwingend für die Gültigkeit.'
+              id: '1130-004',
+              type: 'multi',
+              question: 'Welche Aussagen sind im Falle einer Urteilsunfähigkeit einer alleinstehenden Person richtig?',
+              answers: [
+                'Ohne Vorsorgeauftrag richtet die Erwachsenenschutzbehörde eine Beistandschaft ein.',
+                'Eine alleinstehende Person darf keinen Vorsorgeauftrag verfassen.',
+                'Liegt ein Vorsorgeauftrag vor, kann ein Beauftragter oder eine Beauftragte die urteilsunfähige Person vertreten.',
+                'Gesetzliche Vertretung durch nahe Verwandte, z. B. die Eltern.'
+              ],
+              correct: [0, 2],
+              explanation: 'Ohne Vorsorgeauftrag ist bei Alleinstehenden grundsätzlich eine Beistandschaft vorgesehen. Mit Vorsorgeauftrag kann die beauftragte Person vertreten. Eine automatische Familienvertretung gibt es nicht.',
+              source: {
+                document: 'Thema 1130 – Prüfungs-Zusammenfassung',
+                section: 'Was passiert ohne Vorsorgeauftrag? / alleinstehende Personen',
+                note: 'Keine automatische Vertretung durch Eltern oder andere nahe Verwandte.'
+              }
+            },
+            {
+              id: '1130-005',
+              type: 'multi',
+              question: 'Im Erwachsenenschutzrecht ist in gewissen Fällen eine gesetzliche Vertretung vorgesehen. Wer kann gesetzliche*r Vertreter*in sein?',
+              answers: ['Nachkommen', 'Eingetragener Partner', 'Konkubinatspartner bei >5 Jahren', 'Ehegatte'],
+              correct: [1, 3],
+              explanation: 'Gesetzliche Vertretungsbefugnis besteht insbesondere für Ehegatten und eingetragene Partner.',
+              source: {
+                document: 'Thema 1130 – Prüfungs-Zusammenfassung',
+                section: 'Gesetzliche Vertretung',
+                note: 'Konkubinatspartner und Nachkommen sind in dieser Frage nicht die richtige Lösung.'
+              }
+            },
+            {
+              id: '1130-006',
+              type: 'single',
+              question: 'Mit einem Vorsorgeauftrag kann eine Person die Personensorge, die Vermögenssorge und die Vertretung im Rechtsverkehr regeln. Eine beauftragte Person kann für alle oder nur Teilbereiche eingesetzt werden.',
+              answers: ['Richtig', 'Falsch'],
+              correct: [0],
+              explanation: 'Das ist richtig. Der Vorsorgeauftrag kann umfassend oder nur teilweise ausgestaltet werden.',
+              source: {
+                document: 'Thema 1130 – Prüfungs-Zusammenfassung',
+                section: 'Vorsorgeauftrag – Grundidee',
+                note: 'Drei Bereiche: Personensorge, Vermögenssorge, Rechtsverkehr.'
+              }
+            },
+            {
+              id: '1130-007',
+              type: 'single',
+              question: 'Ein Vorsorgeauftrag tritt mit der Urteilsunfähigkeit einer Person automatisch in Kraft.',
+              answers: ['Richtig', 'Falsch'],
+              correct: [1],
+              explanation: 'Nein. Der Vorsorgeauftrag wird erst wirksam, nachdem die KESB u. a. Formgültigkeit und Eignung geprüft hat.',
+              source: {
+                document: 'Thema 1130 – Prüfungs-Zusammenfassung',
+                section: 'Wann tritt der Vorsorgeauftrag in Kraft?',
+                note: 'Nicht automatisch – zuerst KESB-Prüfung.'
+              }
+            },
+            {
+              id: '1130-008',
+              type: 'single',
+              question: 'Die zuständige Erwachsenenschutzbehörde prüft im Falle einer Urteilsunfähigkeit einer Person einen Vorsorgeauftrag, insbesondere Formgültigkeit und Eignung der beauftragten Person.',
+              answers: ['Richtig', 'Falsch'],
+              correct: [0],
+              explanation: 'Ja. Genau diese Prüfung gehört zur Aktivierung des Vorsorgeauftrags.',
+              source: {
+                document: 'Thema 1130 – Prüfungs-Zusammenfassung',
+                section: 'KESB-Prüfung',
+                note: 'KESB prüft Urteilsunfähigkeit, Form und Eignung.'
+              }
+            },
+            {
+              id: '1130-009',
+              type: 'single',
+              question: 'Welche drei Bereiche kann ein Vorsorgeauftrag regeln?',
+              answers: [
+                'Personensorge, Vermögenssorge, Vertretung im Rechtsverkehr',
+                'Erbrecht, Steuerrecht, Mietrecht',
+                'Pflege, Ferienplanung, Schenkungen',
+                'Nur medizinische Behandlungen'
+              ],
+              correct: [0],
+              explanation: 'Der Vorsorgeauftrag regelt Personensorge, Vermögenssorge und Vertretung im Rechtsverkehr.',
+              source: {
+                document: 'Thema 1130 – Prüfungs-Zusammenfassung',
+                section: 'Vorsorgeauftrag – Grundidee',
+                note: 'Das ist die zentrale Dreiteilung.'
+              }
+            },
+            {
+              id: '1130-010',
+              type: 'single',
+              question: 'Ist ein Vorsorgeauftrag formfrei gültig?',
+              answers: ['Ja', 'Nein'],
+              correct: [1],
+              explanation: 'Nein. Er muss entweder eigenhändig oder öffentlich beurkundet errichtet werden.',
+              source: {
+                document: 'Thema 1130 – Prüfungs-Zusammenfassung',
+                section: 'Formvorschriften des Vorsorgeauftrags',
+                note: 'Keine Formfreiheit.'
+              }
+            },
+            {
+              id: '1130-011',
+              type: 'single',
+              question: 'Wer prüft die Formgültigkeit eines Vorsorgeauftrags, wenn die auftraggebende Person urteilsunfähig wird?',
+              answers: ['Die Bank', 'Die KESB / Erwachsenenschutzbehörde', 'Die Krankenversicherung', 'Die Eltern'],
+              correct: [1],
+              explanation: 'Die KESB bzw. Erwachsenenschutzbehörde prüft den Vorsorgeauftrag.',
+              source: {
+                document: 'Thema 1130 – Prüfungs-Zusammenfassung',
+                section: 'Wann tritt der Vorsorgeauftrag in Kraft?',
+                note: 'Behörde prüft vor Wirksamkeit.'
+              }
+            },
+            {
+              id: '1130-012',
+              type: 'single',
+              question: 'Welche Aussage zur Patientenverfügung ist korrekt?',
+              answers: [
+                'Sie ersetzt immer automatisch jeden Vorsorgeauftrag.',
+                'Sie regelt vor allem medizinische Behandlungen im Fall der Urteilsunfähigkeit.',
+                'Sie kann nur von verheirateten Personen verfasst werden.',
+                'Sie ist nur gültig, wenn sie im Zentralregister eingetragen ist.'
+              ],
+              correct: [1],
+              explanation: 'Die Patientenverfügung betrifft vor allem medizinische Behandlungen im Fall der Urteilsunfähigkeit.',
+              source: {
+                document: 'Thema 1130 – Prüfungs-Zusammenfassung',
+                section: 'Patientenverfügung – Abgrenzung',
+                note: 'Separat abgefasste Patientenverfügungen gehen gemäss Unterlagen vor.'
+              }
             }
           ]
         }
       ]
     };
 
-    // =========================
+    // ======================================
     // STATE
-    // =========================
+    // ======================================
+    const STORAGE_KEY = 'finanzberater_lernplattform_v1';
+
     let appMode = 'learn';
     let currentThemeId = APP_DATA.themes[0].id;
     let currentQuestions = [];
@@ -504,9 +1410,6 @@
     let topicStats = {};
     let lastSummary = null;
 
-    // =========================
-    // HELPERS
-    // =========================
     const $ = (id) => document.getElementById(id);
     const byTheme = (id) => APP_DATA.themes.find(t => t.id === id);
 
@@ -529,9 +1432,34 @@
       return type === 'multi' ? 'Multiple Choice • mehrere Antworten möglich' : 'Single Choice • genau eine Antwort';
     }
 
-    // =========================
-    // INITIAL UI
-    // =========================
+    // ======================================
+    // SAVE / LOAD
+    // ======================================
+    function saveAppState() {
+      const payload = {
+        appMode,
+        currentThemeId,
+        lastSummary
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    }
+
+    function loadAppState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        if (parsed.appMode) appMode = parsed.appMode;
+        if (parsed.currentThemeId) currentThemeId = parsed.currentThemeId;
+        if (parsed.lastSummary) lastSummary = parsed.lastSummary;
+      } catch (e) {
+        console.warn('Konnte Zustand nicht laden', e);
+      }
+    }
+
+    // ======================================
+    // SIDEBAR / NAV
+    // ======================================
     function initSidebar() {
       const wrap = $('topicButtons');
       wrap.innerHTML = '';
@@ -547,6 +1475,7 @@
           fillDashboard();
           renderDocs();
           startQuiz();
+          saveAppState();
         };
         wrap.appendChild(btn);
       });
@@ -562,6 +1491,9 @@
       });
 
       document.querySelectorAll('.mode-btn').forEach(btn => {
+        if (btn.dataset.mode === appMode) btn.classList.add('active');
+        else btn.classList.remove('active');
+
         btn.onclick = () => {
           appMode = btn.dataset.mode;
           document.querySelectorAll('.mode-btn').forEach(x => x.classList.remove('active'));
@@ -569,6 +1501,7 @@
           $('modeLabel').textContent = appMode === 'learn' ? '📘 Lernmodus' : '📝 Prüfungsmodus';
           $('modeSummary').textContent = appMode === 'learn' ? 'Lernmodus mit Sofortkorrektur' : 'Prüfungsmodus ohne Sofortkorrektur';
           startQuiz();
+          saveAppState();
         };
       });
     }
@@ -582,43 +1515,43 @@
         </div>
         <div class="select-card">
           <h3>🧩 Fragenpool</h3>
-          <p>${theme.questions.length} Fragen hinterlegt. Neue Fragen kannst du im Array <code>APP_DATA</code> ergänzen.</p>
+          <p>${theme.questions.length} Fragen hinterlegt. Neue Fragen kannst du direkt im Array <code>APP_DATA</code> ergänzen.</p>
         </div>
         <div class="select-card">
-          <h3>🔎 Quellen</h3>
-          <p>${theme.docs.length} Lerneinträge vorhanden. Du kannst pro Frage Dokument, Kapitel und Erklärung speichern.</p>
+          <h3>🔎 Lerneinträge</h3>
+          <p>${theme.docs.length} Nachschlagekarten hinterlegt – ideal für den Bereich <strong>Lerne</strong>.</p>
         </div>
         <div class="select-card">
           <h3>⚡ GitHub-ready</h3>
-          <p>Diese Datei läuft ohne Framework direkt als <code>index.html</code> auf GitHub Pages.</p>
+          <p>Einfach als <code>index.html</code> speichern und via GitHub Pages veröffentlichen.</p>
         </div>
       `;
     }
 
-    // =========================
-    // DOCS / LEARN
-    // =========================
-    function initDocsFilter() {
-      const wrap = $('docFilterButtons');
+    // ======================================
+    // LEARN / DOCS
+    // ======================================
+    function initDocFilters() {
+      const wrap = $('docFilters');
       wrap.innerHTML = '';
 
       const allBtn = document.createElement('button');
-      allBtn.className = 'doc-btn active';
+      allBtn.className = 'filter-btn active';
       allBtn.textContent = 'Alle';
       allBtn.dataset.filter = 'all';
       wrap.appendChild(allBtn);
 
       APP_DATA.themes.forEach(theme => {
         const btn = document.createElement('button');
-        btn.className = 'doc-btn';
+        btn.className = 'filter-btn';
         btn.textContent = theme.short;
         btn.dataset.filter = theme.id;
         wrap.appendChild(btn);
       });
 
-      wrap.querySelectorAll('.doc-btn').forEach(btn => {
+      wrap.querySelectorAll('.filter-btn').forEach(btn => {
         btn.onclick = () => {
-          wrap.querySelectorAll('.doc-btn').forEach(x => x.classList.remove('active'));
+          wrap.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
           btn.classList.add('active');
           renderDocs();
         };
@@ -628,7 +1561,7 @@
     }
 
     function renderDocs() {
-      const activeFilter = document.querySelector('.doc-btn.active')?.dataset.filter || 'all';
+      const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
       const query = $('docSearch').value.trim().toLowerCase();
       const grid = $('docsGrid');
       grid.innerHTML = '';
@@ -636,7 +1569,7 @@
       let docs = [];
       APP_DATA.themes.forEach(theme => {
         if (activeFilter === 'all' || activeFilter === theme.id) {
-          theme.docs.forEach(doc => docs.push({ ...doc, themeTitle: theme.title, themeId: theme.id }));
+          theme.docs.forEach(doc => docs.push({ ...doc, themeId: theme.id, themeTitle: theme.title }));
         }
       });
 
@@ -654,19 +1587,20 @@
         const card = document.createElement('div');
         card.className = 'doc-card';
         card.innerHTML = `
-          <div style="font-weight:800; margin-bottom:6px;">${doc.title}</div>
-          <div class="tiny" style="margin-bottom:8px;">${doc.themeTitle} • ${(doc.tags || []).join(' • ')}</div>
-          <div class="muted">${doc.content}</div>
+          <h3>${doc.title}</h3>
+          <div class="tag-row">${(doc.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
+          <p>${doc.content}</p>
         `;
         grid.appendChild(card);
       });
     }
 
-    // =========================
-    // QUIZ
-    // =========================
+    // ======================================
+    // QUIZ PREP
+    // ======================================
     function prepareQuestions(themeId, sourceQuestions = null) {
-      const base = sourceQuestions || byTheme(themeId).questions;
+      const theme = byTheme(themeId);
+      const base = sourceQuestions || theme.questions;
       return shuffle(base).map(q => {
         const shuffledAnswers = shuffle(q.answers.map((text, index) => ({ text, originalIndex: index })));
         const shuffledCorrect = shuffledAnswers
@@ -676,7 +1610,7 @@
         return {
           ...q,
           themeId,
-          themeTitle: byTheme(themeId).title,
+          themeTitle: theme.title,
           shuffledAnswers,
           shuffledCorrect
         };
@@ -693,7 +1627,11 @@
       });
     }
 
-    function startQuiz(sourceQuestions = null) {
+    // ======================================
+    // QUIZ FLOW
+    // ======================================
+    function startQuiz(sourceQuestionsMaybe) {
+      const sourceQuestions = Array.isArray(sourceQuestionsMaybe) ? sourceQuestionsMaybe : null;
       currentQuestions = prepareQuestions(currentThemeId, sourceQuestions);
       currentIndex = 0;
       score = 0;
@@ -705,13 +1643,19 @@
       $('totalQuestions').textContent = currentQuestions.length;
       $('scoreNow').textContent = score;
       $('topicLabel').textContent = byTheme(currentThemeId).title;
-      $('questionBox').textContent = currentQuestions.length ? 'Quiz bereit – los geht\'s.' : 'Keine Fragen vorhanden.';
+      $('modeLabel').textContent = appMode === 'learn' ? '📘 Lernmodus' : '📝 Prüfungsmodus';
       $('feedbackBox').innerHTML = '';
       $('progressBar').style.width = '0%';
       $('checkBtn').style.display = 'none';
       $('nextBtn').style.display = 'none';
 
-      if (currentQuestions.length) renderQuestion();
+      if (!currentQuestions.length) {
+        $('questionBox').textContent = 'Keine Fragen vorhanden.';
+        $('answersBox').innerHTML = '';
+        return;
+      }
+
+      renderQuestion();
     }
 
     function renderQuestion() {
@@ -754,6 +1698,7 @@
         score++;
         topicStats[q.themeTitle].correct++;
       }
+
       userResults.push({
         id: q.id,
         themeTitle: q.themeTitle,
@@ -762,6 +1707,7 @@
         explanation: q.explanation,
         source: q.source
       });
+
       $('scoreNow').textContent = score;
     }
 
@@ -816,10 +1762,16 @@
 
     function nextQuestion() {
       currentIndex++;
-      if (currentIndex < currentQuestions.length) renderQuestion();
-      else showSummary();
+      if (currentIndex < currentQuestions.length) {
+        renderQuestion();
+      } else {
+        showSummary();
+      }
     }
 
+    // ======================================
+    // SUMMARY / STATS
+    // ======================================
     function showSummary() {
       document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
       $('stats').classList.add('active');
@@ -845,7 +1797,10 @@
         const p = Math.round((data.correct / data.total) * 100);
         const div = document.createElement('div');
         div.className = 'topic-stat';
-        div.innerHTML = `<strong>${topic}</strong><div>${data.correct} von ${data.total} richtig • ${p}%</div>`;
+        div.innerHTML = `
+          <h3>${topic}</h3>
+          <p>${data.correct} von ${data.total} richtig • ${p}%</p>
+        `;
         statWrap.appendChild(div);
       });
 
@@ -860,7 +1815,10 @@
           div.className = 'review-item';
           div.innerHTML = `
             <div style="font-weight:800; margin-bottom:6px;">${item.question}</div>
-            <div class="tiny" style="margin-bottom:8px;">${item.themeTitle}</div>
+            <div class="review-tags">
+              <span class="tag">${item.themeTitle}</span>
+              <span class="tag">falsch beantwortet</span>
+            </div>
             <div class="muted"><strong>Erklärung:</strong> ${item.explanation}</div>
             <div class="tiny" style="margin-top:8px;"><strong>Quelle:</strong> ${item.source?.document || '-'}${item.source?.section ? ' • ' + item.source.section : ''}</div>
           `;
@@ -869,6 +1827,7 @@
       }
 
       lastSummary = { wrongIds: wrong.map(w => w.id) };
+      saveAppState();
     }
 
     function repeatWrongQuestions() {
@@ -876,6 +1835,7 @@
       const theme = byTheme(currentThemeId);
       const subset = theme.questions.filter(q => lastSummary.wrongIds.includes(q.id));
       if (!subset.length) return;
+
       document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
       $('quiz').classList.add('active');
       document.querySelectorAll('.nav-btn').forEach(x => x.classList.remove('active'));
@@ -883,43 +1843,24 @@
       startQuiz(subset);
     }
 
-    // overload helper
-    function startQuiz(sourceQuestionsMaybe) {
-      const sourceQuestions = Array.isArray(sourceQuestionsMaybe) ? sourceQuestionsMaybe : null;
-      currentQuestions = prepareQuestions(currentThemeId, sourceQuestions);
-      currentIndex = 0;
-      score = 0;
-      selectedForMulti = [];
-      answeredCurrent = false;
-      userResults = [];
-      resetTopicStats();
-      $('totalQuestions').textContent = currentQuestions.length;
-      $('scoreNow').textContent = score;
-      $('topicLabel').textContent = byTheme(currentThemeId).title;
-      $('modeLabel').textContent = appMode === 'learn' ? '📘 Lernmodus' : '📝 Prüfungsmodus';
-      if (!currentQuestions.length) {
-        $('questionBox').textContent = 'Keine Fragen vorhanden.';
-        $('answersBox').innerHTML = '';
-        return;
-      }
-      renderQuestion();
-    }
-
-    // =========================
-    // BUTTONS
-    // =========================
+    // ======================================
+    // EVENTS
+    // ======================================
     $('checkBtn').addEventListener('click', checkCurrentQuestion);
     $('nextBtn').addEventListener('click', nextQuestion);
     $('restartBtn').addEventListener('click', () => startQuiz());
     $('repeatWrongBtn').addEventListener('click', repeatWrongQuestions);
 
-    // =========================
+    // ======================================
     // BOOT
-    // =========================
+    // ======================================
+    loadAppState();
     initSidebar();
-    initDocsFilter();
+    initDocFilters();
     fillDashboard();
     renderDocs();
+    $('modeLabel').textContent = appMode === 'learn' ? '📘 Lernmodus' : '📝 Prüfungsmodus';
+    $('modeSummary').textContent = appMode === 'learn' ? 'Lernmodus mit Sofortkorrektur' : 'Prüfungsmodus ohne Sofortkorrektur';
     startQuiz();
   </script>
 </body>
